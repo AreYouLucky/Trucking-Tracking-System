@@ -1,0 +1,81 @@
+<template>
+  <div>
+    <div id="map1" class="map-container"></div>
+    <div id="map2" class="map-container"></div>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue';
+import L from 'leaflet';
+import 'leaflet-routing-machine';
+
+export default {
+  mounted() {
+    this.initializeMap('map1');
+    this.initializeMap('map2');
+  },
+  methods: {
+    initializeMap(mapId) {
+      const map = L.map(mapId, {
+        minZoom: 15,
+        maxZoom: 19,
+        zoomSnap: 1
+      }).setView([8.0642048, 123.731968], 15);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+      }).addTo(map);
+
+      map.on('click', (e) => this.onMapClick(e, mapId));
+    },
+    onMapClick(e, mapId) {
+      const map = this.maps[mapId];
+      const lastAddedMarker = this.lastAddedMarkers[mapId];
+      const routingControl = this.routingControls[mapId];
+
+      if (lastAddedMarker && routingControl) {
+        map.removeControl(routingControl);
+        this.routingControls[mapId] = null;
+        map.removeLayer(lastAddedMarker);
+        this.lastAddedMarkers[mapId] = null;
+      }
+
+      if (!this.lastAddedMarkers[mapId]) {
+        this.lastAddedMarkers[mapId] = L.marker(e.latlng).addTo(map);
+      } else if (!this.routingControls[mapId]) {
+        this.toggleRouting(mapId);
+      }
+    },
+    toggleRouting(mapId) {
+      const map = this.maps[mapId];
+      const lastAddedMarker = this.lastAddedMarkers[mapId];
+
+      if (!this.routingControls[mapId] && lastAddedMarker) {
+        this.routingControls[mapId] = L.Routing.control({
+          waypoints: [
+            this.userMarker.getLatLng(),
+            lastAddedMarker.getLatLng()
+          ],
+          routeWhileDragging: true
+        }).addTo(map);
+      }
+    }
+  },
+  data() {
+    return {
+      maps: {},
+      lastAddedMarkers: {},
+      routingControls: {}
+    };
+  }
+};
+</script>
+
+<style scoped>
+.map-container {
+  height: 400px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+</style>
