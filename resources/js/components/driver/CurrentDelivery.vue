@@ -22,20 +22,19 @@
                <a v-if="location.time" class="heads">Pickup Time: {{ location.time }}</a>
               <a v-else class="heads">Pickup Time: no data</a>
           </v-col>
-          <v-btn color="fourth" block @click="start=true" v-if="start==false && location.is_delivered!=2">
+          <v-btn color="fourth" block @click="dialogStart=true" v-if="location.is_delivered==0">
             Start Pickup
           </v-btn>
-          <v-btn color="warning" block @click="end=true" v-if="start==true && end == false">
+          <v-btn color="warning" block @click="dialogMid=true" v-if="location.is_delivered==1">
             Arrived at Pickup Location!
           </v-btn>
-          <v-btn color="success" block @click="end=true" v-if="start==true && end == true">
+          <v-btn color="success" block @click="dialogFin=true" v-if="location.is_delivered==2">
             Items Delivered!
           </v-btn>
         </v-row>
         </v-card-text>
       </v-card>
       <div id="map1" class="map-container"></div>
-      <button @click="transferRoute">Transfer Route to Delivery Location</button>
     </div>
 
 
@@ -44,52 +43,61 @@
         width="auto"
         persistent
         >
-        <v-card color="secondary">
+        <v-card color="primary">
             <v-card-text>
                 Do you want to start the delivery?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" class="logout"  @click="dialogStart= false">Close</v-btn>
-                <v-btn color="secondary"  class="logout" @click="startDelivery">confirm</v-btn>
+                <v-btn color="seconday" variant="outlined" class="logout"  @click="dialogStart= false">Close</v-btn>
+                <v-btn color="fourth" variant="outlined" class="logout" @click="startDelivery">confirm</v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
     </v-dialog>
 
     <v-dialog
-        v-model="dialog"
+        v-model="dialogMid"
         width="auto"
+        persistent
         >
-        <v-card color="secondary">
+        <v-card color="warning">
             <v-card-text>
-                Are you you want to logout?
+                Done picking up all items to be delivered?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" class="logout"  @click="dialog = false">Close</v-btn>
-                <v-btn color="primary"  class="logout" href="/logout">confirm</v-btn>
+                <v-btn color="seconday" variant="outlined" class="logout"  @click="dialogMid= false">Close</v-btn>
+                <v-btn color="primary" variant="outlined" class="logout" @click="midDelivery">confirm</v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
     </v-dialog>
 
     <v-dialog
-        v-model="dialog"
-        width="auto"
+        v-model="dialogFin"
+        width="100vh"
+        persistent
         >
-        <v-card color="secondary">
+        <v-card color="warning">
             <v-card-text>
-                Start Delivery?
+                <v-file-input
+                  label="Add Proof of Delivery"
+                  variant="outlined"
+                  prepend-icon="mdi-camera"
+                  accept="image/*"
+                  v-on:change="onChange"
+                ></v-file-input>  
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" class="logout"  @click="dialog = false">Close</v-btn>
-                <v-btn color="primary"  class="logout" href="/logout">Yes</v-btn>
+                <v-btn color="seconday" variant="outlined" class="logout"  @click="dialogFin= false">Close</v-btn>
+                <v-btn color="primary" variant="outlined" class="logout" @click="uploadFile()">confirm</v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
     </v-dialog>
+
   </template>
   
   <script>
@@ -111,13 +119,68 @@
         start: false,
         end: false,
         dialogStart: false,
+        dialogMid: false,
+        dialogFin: false,
+        img: null,
+        driverLoc: {}
       };
     },
     methods: {
       startDelivery(){
-        axios.post('/start-delivery',this.location.delivery_id).then(
+        axios.post('/start-delivery/'+this.location.delivery_id).then(
           res=>{
             this.getLocation();
+            this.dialogStart = false;
+          }
+        )
+      },
+      midDelivery(){
+        axios.post('/mid-delivery/'+this.location.delivery_id).then(
+          res=>{
+            this.getLocation();
+            this.dialogMid = false;
+            this.transferRoute();
+          }
+        )
+      },
+      finishDelivery(){
+        axios.post('/fin-delivery/'+this.location.delivery_id).then(
+          res=>{
+            this.getLocation();
+            this.dialogFin = false;
+          }
+        )
+      },
+      onChange(e) {
+                this.img = e.target.files[0];
+            },
+
+      uploadFile() {
+
+          let formData = new FormData();
+          formData.append('image', this.img);
+          formData.append('id',this.location.delivery_id);
+          formData.append('driver_id',this.location.driver_id);
+          formData.append('vehicle_id',this.location.vehicle_id);
+
+
+          axios.post('/delivery-proof', formData,{
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then(response => {
+            console.log(response.data);
+            this.finishDelivery();
+          })
+          .catch(error => {
+            console.error(error);
+            // Handle error
+          });
+        },
+      updateDriverLocation(){
+        axios.post('/driver-location',this.driverLoc).then(
+          res=>{
           }
         )
       },
@@ -161,6 +224,10 @@
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
         const accuracy = pos.coords.accuracy;
+        this.driverLoc.latitude = lat;
+        this.driverLoc.longitude = lng;
+        this.driverLoc.id= this.location.delivery_id;
+        this.updateDriverLocation();
   
         if (this.marker) {
           this.map.removeLayer(this.marker);

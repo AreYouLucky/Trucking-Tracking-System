@@ -54,7 +54,7 @@
   
                     <td class="py-2">
                       <v-btn variant="tonal" color="success" prepend-icon="mdi-check-circle" v-if="item.raw.is_available === 1">Available</v-btn>
-                      <v-btn variant="tonal" color="yellow" prepend-icon="mdi-eye-circle-outline" v-if="item.raw.is_available === 0">Delivering</v-btn>
+                      <v-btn variant="tonal" color="yellow" prepend-icon="mdi-eye-circle-outline" v-if="item.raw.is_available === 0" :href="`/driver-delivery-location/${item.raw.driver_id}`" target="_blank">Delivering</v-btn>
                     </td>
                   </tr>
 

@@ -22,6 +22,7 @@ class Delivery extends Model
         'reciever_name',
         'reciever_no',
         'date',
-        'time'
+        'time',
+        'proof_path'
     ];
 }

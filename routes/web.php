@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +80,24 @@ Route::middleware(['auth','role:ADMIN'])->group(function(){
 
     Route::get('/view-delivery/{id}',[App\Http\Controllers\getLocation::class,'showID']);
     Route::get('/delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getLocation']);
+    Route::get('/driver-delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocation']);
+    Route::get('/driver-location-data/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocationData']);
+    Route::get('/proof/{id}',[App\Http\Controllers\getLocation::class,'proof']);
+    Route::get('/get-proof/{id}',[App\Http\Controllers\getLocation::class,'getProof']);
+
+    Route::get('/images/{filename}', function ($filename) {
+        $path = storage_path('app/public/proofs/' . $filename);
+        
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
+    
+        $file = Storage::get($path);
+        $type = Storage::mimeType($path);
+    
+        return (new Response($file, 200))->header('Content-Type', $type);
+    });
+    
 
 });
 
@@ -96,7 +116,12 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
     });
     Route::get('/load-driver-profile',[App\Http\Controllers\DriverDashboardController::class,'getDriver']);
     Route::get('/driver-delivery',[App\Http\Controllers\DriverDashboardController::class,'getLocation']);
-    Route::get('/start-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'startDelivery']);
+    Route::post('/start-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'startDelivery']);
+    Route::post('/mid-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'midDelivery']);
+    Route::post('/delivery-proof',[App\Http\Controllers\DriverDashboardController::class,'storeProof']);
+    Route::post('/driver-location',[App\Http\Controllers\DriverDashboardController::class,'updateDriverloc']);
+    Route::post('/fin-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'finDelivery']);
+
 
 
 

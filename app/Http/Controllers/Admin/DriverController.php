@@ -86,7 +86,9 @@ class DriverController extends Controller
     public function show()
     {
         return DB::select('
-        SELECT d.`user_id`,
+        SELECT 
+        d.`driver_id`,
+        d.`user_id`,
         d.`lname`,
         d.`fname`,
         d.`mname`,

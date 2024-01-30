@@ -16,11 +16,13 @@
   </template>
   <template v-slot:item.actions="{ item }">
     <v-btn icon="mdi-eye-arrow-right" variant="text" color="primary" :href="`/view-delivery/${item.delivery_id}`" target="_blank"></v-btn>
+    <v-btn icon="mdi-file-chart-check" variant="text" color="yellow" :href="`/proof/${item.delivery_id}`" target="_blank" v-if="item.is_delivered ===3"></v-btn>
   </template>
 
   <template v-slot:item.status="{ item }">
     <v-btn variant="tonal" color="success" prepend-icon="mdi-check-circle" v-if="item.is_delivered === 0">Pending</v-btn>
-    <v-btn variant="tonal" color="yellow" prepend-icon="mdi-eye-circle-outline" v-if="item.is_delivered === 1">Delivered</v-btn>
+    <v-btn variant="tonal" color="yellow" prepend-icon="mdi-truct-fast" v-if="item.is_delivered === 1 || item.is_delivered === 2">Delivering</v-btn>
+    <v-btn variant="tonal" color="secondary" prepend-icon="mdi-truck-check" v-if="item.is_delivered === 3">Delivered</v-btn>
   </template>
   </v-data-table>
 

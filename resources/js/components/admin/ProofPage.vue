@@ -1,0 +1,41 @@
+<template>
+      <img :src="`/storage/proofs/${proof.proof_path}`" alt="profile">
+  </template>
+  
+<script>
+
+  export default {
+    data() {
+      return {
+        data_id: null,
+        proof: [],
+        map: null,
+      };
+    },
+    methods: {
+        getProof(){
+            axios.get('/get-proof/'+this.data_id).then(
+                res=>{
+                    this.proof = res.data
+                    console.log(this.proof)
+                }
+            )
+        }
+      
+    },
+    mounted() {
+      const urlParts = window.location.href.split("/");
+      this.data_id = urlParts[urlParts.length - 1];
+      this.getProof();
+      
+     
+    }
+  };
+  </script>
+  
+  <style scoped>
+ .image{
+  width: 100vw;
+ }
+  </style>
+  
