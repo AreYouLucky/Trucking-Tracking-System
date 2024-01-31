@@ -15,9 +15,9 @@ use Illuminate\Http\Response;
 |
 */
 
-Route::get('/', function () {
+Route::get('/',[ 'as' => '/', function () {
     return view('auth.login');
-});
+}]);
 
 //Auth
 Route::post('/login',[App\Http\Controllers\Auth\LoginController::class,'login']);
@@ -37,21 +37,6 @@ Route::middleware(['auth','role:ADMIN'])->group(function(){
         return view('Admin.AdminDashboard');
     });
 
-    Route::get('/customers-dashboard', function () {
-        return view('Admin.customers');
-    });
-    Route::get('/drivers-dashboard', function () {
-        return view('Admin.drivers');
-    });
-    Route::get('/vehicles-dashboard', function () {
-        return view('Admin.vehicles');
-    });
-    Route::get('/pickups-dashboard', function () {
-        return view('Admin.pickup');
-    });
-    Route::get('/deliveries-dashboard', function () {
-        return view('Admin.deliveries');
-    });
     Route::post('/add-customer',[App\Http\Controllers\CustomerController::class,'store']);
     Route::get('/show-customers',[App\Http\Controllers\CustomerController::class,'show']);
     Route::post('/delete-customer/{id}',[App\Http\Controllers\CustomerController::class,'destroy']);
@@ -77,27 +62,7 @@ Route::middleware(['auth','role:ADMIN'])->group(function(){
     Route::get('/load-vehicles',[App\Http\Controllers\DeliveryController::class,'loadVehicles']);
     Route::get('/load-customers',[App\Http\Controllers\DeliveryController::class,'loadCustomers']);
     Route::get('/load-drivers',[App\Http\Controllers\DeliveryController::class,'loadDrivers']);
-
-    Route::get('/view-delivery/{id}',[App\Http\Controllers\getLocation::class,'showID']);
-    Route::get('/delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getLocation']);
-    Route::get('/driver-delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocation']);
-    Route::get('/driver-location-data/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocationData']);
-    Route::get('/proof/{id}',[App\Http\Controllers\getLocation::class,'proof']);
-    Route::get('/get-proof/{id}',[App\Http\Controllers\getLocation::class,'getProof']);
-
-    Route::get('/images/{filename}', function ($filename) {
-        $path = storage_path('app/public/proofs/' . $filename);
-        
-        if (!Storage::exists($path)) {
-            abort(404);
-        }
-    
-        $file = Storage::get($path);
-        $type = Storage::mimeType($path);
-    
-        return (new Response($file, 200))->header('Content-Type', $type);
-    });
-    
+    Route::get('/load-dashboard',[App\Http\Controllers\DashboardController::class,'getDashboard']);
 
 });
 
@@ -107,6 +72,8 @@ Route::middleware(['auth','role:CUSTOMER'])->group(function(){
     Route::get('/customer-dashboard', function () {
         return view('Customer.CustomerDashboard');
     });
+    Route::get('/load-customer-profile',[App\Http\Controllers\CustomerDashboardController::class,'getCustomer']);
+    Route::get('/customer-deliveries',[App\Http\Controllers\CustomerDashboardController::class,'customerDeliveries']);
 
 });
 //Driver
@@ -121,9 +88,13 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
     Route::post('/delivery-proof',[App\Http\Controllers\DriverDashboardController::class,'storeProof']);
     Route::post('/driver-location',[App\Http\Controllers\DriverDashboardController::class,'updateDriverloc']);
     Route::post('/fin-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'finDelivery']);
-
-
-
+    Route::get('/deliveries',[App\Http\Controllers\DriverDashboardController::class,'driverDeliveries']);
 
 });
 
+Route::get('/delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getLocation']);
+Route::get('/view-delivery/{id}',[App\Http\Controllers\getLocation::class,'showID']);
+Route::get('/driver-delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocation']);
+Route::get('/driver-location-data/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocationData']);
+Route::get('/proof/{id}',[App\Http\Controllers\getLocation::class,'proof']);
+Route::get('/get-proof/{id}',[App\Http\Controllers\getLocation::class,'getProof']);

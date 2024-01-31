@@ -37,7 +37,7 @@
 
     <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <h3 class="title">Admin</h3>
+      <h3 class="title">Driver</h3>
                 <v-spacer></v-spacer>         
                 <v-btn
                 class="logout"  
@@ -52,13 +52,13 @@
             <v-window v-model="tab">
                 <v-window-item value="ONE">
                     <v-card class="pa-4" color="blue" min-height="90vh">
-                        <current-delivery></current-delivery>
+                        <current-delivery v-if="tab === 'ONE'" ref="CurrentDelivery"></current-delivery>
                     </v-card>                      
                 </v-window-item>
 
                 <v-window-item value="TWO">
                     <v-card color="blue" class="pa-4" min-height="90vh">
-                        <driver-fields></driver-fields>
+                        <delivery-history v-if="tab === 'TWO'" ref="DeliveryHistory"></delivery-history>
                     </v-card>
                 </v-window-item>
             </v-window>
@@ -104,11 +104,27 @@ export default{
               this.user = res.data;
             })
         },
+        initializeComponent(tab) {
+            switch (tab) {
+                case 'TWO':
+                this.$nextTick(() => {
+                this.$refs.DeliveryHistory.initData();
+                });
+                break;
+                default:
+                break;
+            }
+            }
       
     },
     mounted(){
         this.getUser();
-    }
+    },
+    watch: {
+        tab(newTab, oldTab) {
+            this.initializeComponent(newTab);
+        }
+    },
 }
 </script>
 <style scoped>

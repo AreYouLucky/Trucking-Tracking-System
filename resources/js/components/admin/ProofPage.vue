@@ -1,5 +1,5 @@
 <template>
-      <img :src="`/storage/proofs/${proof.proof_path}`" alt="profile">
+      <v-img :src="`/storage/proofs/${proof.proof_path}`" alt="profile"  contain/>
   </template>
   
 <script>
@@ -35,7 +35,7 @@
   
   <style scoped>
  .image{
-  width: 100vw;
+  height: 100vh;
  }
   </style>
   

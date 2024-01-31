@@ -454,7 +454,7 @@
           this.loadProvinces();
           this.showDrivers();
         },
-        refresh: function(){
+        refreshDrivers: function(){
           this.drivers = [];
           this.loadProvinces();
           this.showDrivers();

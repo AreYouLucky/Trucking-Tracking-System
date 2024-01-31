@@ -315,12 +315,6 @@
                 key: 'fname',
               },
               {
-                title: ' Middle Name',
-                align: 'start',
-                sortable: true,
-                key: 'mname',
-              },
-              {
                 title: 'Last Name',
                 align: 'start',
                 sortable: true,

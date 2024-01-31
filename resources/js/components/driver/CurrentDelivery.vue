@@ -211,11 +211,9 @@
         });
 
 
-        L.marker([this.location.from_lat, this.location.from_long], { icon: customIcon }).addTo(this.map)
-          .bindPopup('Pickup Location Here!').openPopup();
+        L.marker([this.location.from_lat, this.location.from_long], { icon: customIcon }).addTo(this.map);
   
-        L.marker([this.location.to_lat, this.location.to_long]).addTo(this.map)
-          .bindPopup('Delivery Location Here!').openPopup();
+        L.marker([this.location.to_lat, this.location.to_long]).addTo(this.map);
       },
       watchGeolocation() {
         navigator.geolocation.watchPosition(this.success, this.error);
@@ -257,18 +255,21 @@
           waypoints[1].latLng = L.latLng(this.location.to_lat, this.location.to_long); // Set delivery location
           this.routingControl.setWaypoints(waypoints);
         }
-      }
+      },
+      initData(){
+        const urlParts = window.location.href.split("/");
+        this.data_id = urlParts[urlParts.length - 1];
+    
+        this.getLocation().then(() => {
+          this.initializeMap();
+        }).catch(error => {
+          console.error('Error fetching location:', error);
+        });
+        this.watchGeolocation();
+        }
     },
     mounted() {
-      const urlParts = window.location.href.split("/");
-      this.data_id = urlParts[urlParts.length - 1];
-  
-      this.getLocation().then(() => {
-        this.initializeMap();
-      }).catch(error => {
-        console.error('Error fetching location:', error);
-      });
-      this.watchGeolocation();
+      this.initData();
     }
   };
   </script>

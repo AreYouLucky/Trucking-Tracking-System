@@ -2,5 +2,5 @@
 
 
 @section('contents')
-    Hello I'm Customer!
+    <customer-dashboard></customer-dashboard>
 @endsection

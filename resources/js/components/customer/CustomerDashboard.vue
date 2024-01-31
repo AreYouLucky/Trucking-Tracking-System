@@ -2,25 +2,36 @@
     <v-app>
         <v-navigation-drawer v-model="drawer" color="black">
             <v-card class="align-center justify center" height="100vh">
-                <v-row class="justify-center my-2"> 
+                <v-row class="justify-center"> 
                     <img src="../../../img/logo.png" width="200px">
-
                 </v-row>
                 <v-row class="justify-center">
-                    <v-btn color="black"  prepend-icon="mdi-view-dashboard" block class="logout" href="/admin-dashboard">Dashboard</v-btn>
-                    <v-btn color="grey-darken-3"  prepend-icon="mdi-face-man-shimmer" block class="logout" href="/customers-dashboard">Customers</v-btn>
-                    <v-btn color="black"  prepend-icon="mdi-steering" block class="logout" href="/drivers-dashboard">Drivers</v-btn>    
-                    <v-btn color="black"  prepend-icon="mdi-truck-fast" block class="logout" href="/vehicles-dashboard">Vehicles</v-btn>    
-                    <v-btn color="black"  prepend-icon="mdi-map-marker-plus" block class="logout" href="/pickups-dashboard">Setup Location</v-btn> 
-                    <v-btn color="black"  prepend-icon="mdi-archive-marker" block class="logout" href="/deliveries-dashboard">Deliveries</v-btn>            
+                    <h3>{{ user.fname }} {{ user.mname }} {{ user.lname }}</h3>
                 </v-row>
+                <v-row class="justify-center text-small">
+                    {{ user.email }} | {{ user.contact_no }}
+                </v-row>
+                <v-row>
+                    <v-tabs v-model="tab" direction="vertical" color="primary" class="tabs"
+            >
+                    <v-tab value="ONE" class="tab justify-center">
+                    <v-icon start>
+                        mdi-hand-coin
+                    </v-icon>
+                        Dashboard
+                    </v-tab>
+                </v-tabs>
+                    
+                </v-row>
+                 
+           
             </v-card>
             
         </v-navigation-drawer>
 
     <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <h3 class="title">Admin</h3>
+      <h3 class="title">Customer</h3>
                 <v-spacer></v-spacer>         
                 <v-btn
                 class="logout"  
@@ -31,9 +42,14 @@
     </v-app-bar>
 
     <v-main>
-        <v-card class="pa-4" color="blue" min-height="90vh">
-            <customer-fields></customer-fields>
-        </v-card>                                   
+            
+            <v-window v-model="tab">
+                <v-window-item value="ONE">
+                    <v-card class="pa-4" color="blue" min-height="90vh">
+                        <customer-deliveries></customer-deliveries>
+                    </v-card>                      
+                </v-window-item>
+            </v-window>
     </v-main>
             
 
@@ -63,14 +79,22 @@
 export default{
    data(){
        return {
-           tab: null,
-           dialog: false,
+        tab: null,
+        dialog: false,
         drawer :'',
-           
+        user: []   
        };
    },
    methods: {
-      
+    getUser(){
+        axios.get('/load-customer-profile').then(
+            res => {
+              this.user = res.data;
+            })
+        },
+    },
+    mounted(){
+        this.getUser();
     },
 }
 </script>
@@ -83,6 +107,13 @@ export default{
     }
     .tab{
         background-color: #1a1a1a;
+    }
+    .tabs{
+        width: 100%;
+        margin-top: 2vh;
+    }
+    .text-small{
+        font-size: 11px;
     }
 
 

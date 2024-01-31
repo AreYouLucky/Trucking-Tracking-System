@@ -6,6 +6,7 @@ use App\Models\Driver;
 use Illuminate\Http\Request;
 use App\Models\Delivery;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\DB;
 
 class DriverDashboardController extends Controller
 {
@@ -95,6 +96,27 @@ class DriverDashboardController extends Controller
         return response()->json([
             'status' => 'driver location updated!'
         ], 200);
+    }
+
+    public function driverDeliveries(){
+        $driver_id = Auth::user()->driver()->first();
+        return DB::select("
+        SELECT 
+            d.delivery_id,
+            d.is_delivered,
+            c.lname,
+            c.fname,
+            d.reciever_name,
+            d.reciever_no,
+            d.time,
+            d.date
+        FROM 
+            deliveries d
+        LEFT JOIN 
+            customers c ON c.customer_id = d.customer_id
+        WHERE
+            d.driver_id = $driver_id->driver_id
+        ");
     }
 
 }

@@ -285,7 +285,6 @@
             this.loadCustomers();
             this.loadDrivers();
             this.loadVehicles();
-            this.initializeMaps();
         },
         refreshData(){
           this.loadCustomers();
@@ -293,6 +292,9 @@
           this.loadVehicles();
           this.fields ={};
         },
+
+          
+
         submitDelivery(){
             axios.post('/add-delivery',this.fields).then(
                 res=>{
@@ -312,6 +314,7 @@
     },
     mounted() {
         this.initData();
+        this.initializeMaps();
     },
   };
   </script>
