@@ -91,10 +91,14 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
     Route::get('/deliveries',[App\Http\Controllers\DriverDashboardController::class,'driverDeliveries']);
 
 });
-
+//public
 Route::get('/delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getLocation']);
 Route::get('/view-delivery/{id}',[App\Http\Controllers\getLocation::class,'showID']);
 Route::get('/driver-delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocation']);
 Route::get('/driver-location-data/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocationData']);
 Route::get('/proof/{id}',[App\Http\Controllers\getLocation::class,'proof']);
 Route::get('/get-proof/{id}',[App\Http\Controllers\getLocation::class,'getProof']);
+
+//Sms
+Route::post('/sms-customer/{id}',[App\Http\Controllers\SmsController::class,'smsCustomer']);
+Route::post('/sms-reciever/{id}',[App\Http\Controllers\SmsController::class,'smsReciever']);

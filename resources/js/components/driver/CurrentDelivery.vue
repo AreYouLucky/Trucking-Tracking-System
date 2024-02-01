@@ -50,7 +50,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="seconday" variant="outlined" class="logout"  @click="dialogStart= false">Close</v-btn>
-                <v-btn color="fourth" variant="outlined" class="logout" @click="startDelivery">confirm</v-btn>
+                <v-btn color="fourth" variant="outlined" class="logout" @click="sendSmsCustomer">confirm</v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
@@ -68,7 +68,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="seconday" variant="outlined" class="logout"  @click="dialogMid= false">Close</v-btn>
-                <v-btn color="primary" variant="outlined" class="logout" @click="midDelivery">confirm</v-btn>
+                <v-btn color="primary" variant="outlined" class="logout" @click="sendSmsReciever">confirm</v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
@@ -126,6 +126,22 @@
       };
     },
     methods: {
+      sendSmsCustomer(){
+        axios.post('/sms-customer/'+this.location.delivery_id).then(
+          res=>{
+            console.log('sms sent to reciever!');
+            this.startDelivery();
+          }
+        )
+      },
+      sendSmsReciever(){
+        axios.post('/sms-reciever/'+this.location.delivery_id).then(
+          res=>{
+            console.log('sms sent to customer!');
+            this.midDelivery();
+          }
+        )
+      },
       startDelivery(){
         axios.post('/start-delivery/'+this.location.delivery_id).then(
           res=>{
@@ -212,7 +228,6 @@
 
 
         L.marker([this.location.from_lat, this.location.from_long], { icon: customIcon }).addTo(this.map);
-  
         L.marker([this.location.to_lat, this.location.to_long]).addTo(this.map);
       },
       watchGeolocation() {
@@ -259,13 +274,13 @@
       initData(){
         const urlParts = window.location.href.split("/");
         this.data_id = urlParts[urlParts.length - 1];
-    
+        this.watchGeolocation();
         this.getLocation().then(() => {
           this.initializeMap();
         }).catch(error => {
           console.error('Error fetching location:', error);
         });
-        this.watchGeolocation();
+   
         }
     },
     mounted() {
