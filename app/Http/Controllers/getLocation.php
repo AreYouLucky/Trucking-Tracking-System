@@ -9,7 +9,7 @@ class getLocation extends Controller
 {
     public function showID($id){
 
-            return view('admin.delivery');
+            return view('Admin.delivery');
     }
 
     public function getLocation($id){
@@ -18,7 +18,7 @@ class getLocation extends Controller
 
     public function getDriverLocation($id){
 
-        return view('admin.driverlocation');
+        return view('Admin.driverlocation');
     }
     public function getDriverLocationData($id){
         return Delivery::where('driver_id',$id)
@@ -27,7 +27,7 @@ class getLocation extends Controller
     }
     public function proof($id){
 
-        return view('admin.proof');
+        return view('Admin.proof');
     }
     public function getProof($id){
         return Delivery::where('delivery_id',$id)

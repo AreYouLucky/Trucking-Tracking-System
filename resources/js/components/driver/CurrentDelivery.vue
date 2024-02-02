@@ -106,6 +106,8 @@
   import 'leaflet-routing-machine';
   import axios from 'axios';
   import boxImage from './../../../img/box.png'
+  import homeImage from './../../../img/home.png'
+  import markImage from './../../../img/mark.png'
   
   export default {
     data() {
@@ -225,10 +227,17 @@
           iconAnchor: [26, 25],
           popupAnchor: [5, -38]
         });
+        var customIcon1 = L.icon({
+          iconUrl: homeImage,
+          iconSize: [50, 50],
+          iconAnchor: [26, 25],
+          popupAnchor: [5, -38]
+        });
+
 
 
         L.marker([this.location.from_lat, this.location.from_long], { icon: customIcon }).addTo(this.map);
-        L.marker([this.location.to_lat, this.location.to_long]).addTo(this.map);
+        L.marker([this.location.to_lat, this.location.to_long], { icon: customIcon1 }).addTo(this.map);
       },
       watchGeolocation() {
         navigator.geolocation.watchPosition(this.success, this.error);
@@ -237,6 +246,12 @@
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
         const accuracy = pos.coords.accuracy;
+        var customIcon3 = L.icon({
+          iconUrl: markImage,
+          iconSize: [30, 50],
+          iconAnchor: [15, 54],
+          popupAnchor: [5, -38]
+        });
         this.driverLoc.latitude = lat;
         this.driverLoc.longitude = lng;
         this.driverLoc.id= this.location.delivery_id;
@@ -247,13 +262,14 @@
           this.map.removeLayer(this.routingControl);
         }
   
-        this.marker = L.marker([lat, lng]).addTo(this.map).bindPopup('Driver Location Here!').openPopup();;
+        this.marker = L.marker([lat, lng],{ icon: customIcon3 }).addTo(this.map).bindPopup('Driver Location Here!').openPopup();;
         this.routingControl = L.Routing.control({
           waypoints: [
             L.latLng(lat, lng),
             L.latLng(this.location.from_lat, this.location.from_long)
           ],
-          routeWhileDragging: true
+          routeWhileDragging: false,
+          icon: customIcon3
         }).addTo(this.map);
       },
       error(err) {

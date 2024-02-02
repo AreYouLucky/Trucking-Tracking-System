@@ -11,6 +11,8 @@
   import axios from 'axios';
   import boxImage from './../../../img/box.png'
   import homeImage from './../../../img/home.png'
+  import markImage from './../../../img/mark.png'
+  
   
   export default {
     data() {
@@ -52,6 +54,12 @@
           iconAnchor: [20, 40],
           popupAnchor: [5, -40]
         });
+        var customIcon3 = L.icon({
+          iconUrl: markImage,
+          iconSize: [30, 50],
+          iconAnchor: [15, 54],
+          popupAnchor: [5, -38]
+        });
   
         var mark1 = L.marker([this.location.from_lat, this.location.from_long], { icon: customIcon }).addTo(this.map)
           .bindPopup('Pickup Location Here!').openPopup(); 
@@ -59,7 +67,7 @@
         var mark2 = L.marker([this.location.to_lat, this.location.to_long],{ icon: customIcon1 }).addTo(this.map)
           .bindPopup('Delivery Location Here!').openPopup(); 
 
-          var mark2 = L.marker([this.location.driver_lat, this.location.driver_long]).addTo(this.map)
+          var mark2 = L.marker([this.location.driver_lat, this.location.driver_long],{ icon: customIcon3 }).addTo(this.map)
           .bindPopup('Driver Location Here!').openPopup(); 
 
       },

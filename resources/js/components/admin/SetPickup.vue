@@ -192,6 +192,9 @@
   <script>
   import { onMounted } from 'vue';
   import L from 'leaflet';
+  import markImage from './../../../img/mark.png'
+
+  
   
   export default {
     data() {
@@ -260,6 +263,12 @@
       },
       onMapClick(e, map, clickType) {
         const { lat, lng } = e.latlng;
+        var customIcon3 = L.icon({
+          iconUrl: markImage,
+          iconSize: [30, 50],
+          iconAnchor: [15, 54],
+          popupAnchor: [5, -38]
+        });
 
         // Remove the previous marker if it exists
         if (this[clickType + 'Marker']) {
@@ -267,7 +276,7 @@
         }
 
         // Create and add the new marker to the map
-        this[clickType + 'Marker'] = L.marker([lat, lng]).addTo(map);
+        this[clickType + 'Marker'] = L.marker([lat, lng], { icon: customIcon3 }).addTo(map);
 
         // Update latitude and longitude values
         this[clickType + 'Lat'] = lat;

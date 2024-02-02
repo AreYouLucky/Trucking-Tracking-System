@@ -15,9 +15,9 @@ use Illuminate\Http\Response;
 |
 */
 
-Route::get('/',[ 'as' => '/', function () {
-    return view('auth.login');
-}]);
+Route::get('/', function () {
+    return view('Auth.login');
+});
 
 //Auth
 Route::post('/login',[App\Http\Controllers\Auth\LoginController::class,'login']);
