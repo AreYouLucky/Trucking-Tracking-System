@@ -47,6 +47,15 @@ class DriverDashboardController extends Controller
             'status' => 'updated'
         ], 200);
     }
+    public function confirmDelivery($id){
+        Delivery::where('delivery_id',$id)
+        ->update([
+            'is_delivered' => 4
+        ]);
+        return response()->json([
+            'status' => 'updated'
+        ], 200);
+    }
 
     public function storeProof(Request $req){
         $req->validate([

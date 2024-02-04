@@ -22,39 +22,42 @@
   <template v-slot:item.status="{ item }">
     <v-btn variant="tonal" color="success" prepend-icon="mdi-check-circle" v-if="item.is_delivered === 0">Pending</v-btn>
     <v-btn variant="tonal" color="yellow" prepend-icon="mdi-truct-fast" v-if="item.is_delivered === 1 || item.is_delivered === 2">Delivering</v-btn>
-    <v-btn variant="tonal" color="secondary" prepend-icon="mdi-truck-check" v-if="item.is_delivered === 3">Delivered</v-btn>
+    <v-btn variant="tonal" color="orange" prepend-icon="mdi-ticket-confirmation" v-if="item.is_delivered === 3" @click="popConfirm(item.delivery_id)">Waiting Confirmation</v-btn>
+    <v-btn variant="tonal" color="secondary" prepend-icon="mdi-truck-check" v-if="item.is_delivered === 4">Delivered</v-btn>
   </template>
   </v-data-table>
 
 <!-- Dialogs -->
 
 <v-dialog
-    v-model="confirmDelete"
+    v-model="confirmDialog"
     width="auto"
     persistent
   >
     <v-card>
       <v-card-text>
-        Are you sure?
+        Is the item successfully delivered?
       </v-card-text>
       <v-card-actions>
-        <v-btn color="info" variant="outlined" @click="confirmDelete = false">Close</v-btn>
-        <v-btn color="red"  variant="outlined" @click="deleteCustomer">Yes</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="info" variant="outlined" @click="confirmDialog = false">Close</v-btn>
+        <v-btn color="red"  variant="outlined" @click="confirmDelivery">Yes</v-btn>
+        <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
   </v-dialog>
 
 <v-snackbar
-  v-model="deleteSnack"
+  v-model="confirmSnack"
   timeout="3000"
   color="red"
 >
-  Customer Successfully Deleted!
+  item Successfully Delivered!
     <template v-slot:actions>
       <v-btn
         color="info"
         variant="text"
-        @click="deleteSnack = false"
+        @click="confirmSnack = false"
       ></v-btn>
     </template>
 </v-snackbar>
@@ -119,9 +122,9 @@
         visible: false,
         itemsPerPage: 4,       
         search: '',       
-        confirmDelete: false,
+        confirmDialog: false,
         row: '',
-        deleteSnack: false,
+        confirmSnack: false,
         deliveries: [],
       }
     },
@@ -141,14 +144,15 @@
       initData(){
         this.showDeliveries();
       },
-      popDelete(row){
+      popConfirm(row){
         this.row = row;
-        this.confirmDelete = true;
+        this.confirmDialog = true;
       },
-      deleteCustomer(){
-        axios.post('/delete-customer/'+this.row).then(res=>{
+      confirmDelivery(){
+        axios.post('/confirm-delivery/'+this.row).then(res=>{
             this.showDeliveries();
-            this.confirmDelete = false;
+            this.confirmDialog = false;
+            this.confirmSnack = true
             this.row = ''
         })
       },

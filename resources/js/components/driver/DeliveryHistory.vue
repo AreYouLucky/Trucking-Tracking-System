@@ -23,7 +23,8 @@
     <template v-slot:item.status="{ item }">
       <v-btn variant="tonal" color="success" prepend-icon="mdi-check-circle" v-if="item.is_delivered === 0">Pending</v-btn>
       <v-btn variant="tonal" color="yellow" prepend-icon="mdi-truct-fast" v-if="item.is_delivered === 1 || item.is_delivered === 2">Delivering</v-btn>
-      <v-btn variant="tonal" color="secondary" prepend-icon="mdi-truck-check" v-if="item.is_delivered === 3">Delivered</v-btn>
+      <v-btn variant="tonal" color="orange" prepend-icon="mdi-ticket-confirmation" v-if="item.is_delivered === 3">Waiting Confirmation</v-btn>
+      <v-btn variant="tonal" color="secondary" prepend-icon="mdi-truck-check" v-if="item.is_delivered === 4">Delivered</v-btn>
     </template>
     </v-data-table>
   

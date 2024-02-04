@@ -23,7 +23,7 @@ class SmsController extends Controller
             'message' => 'Hello Mr/Mrs. '.$customer->lname.'! A '.$vehicle->name.' is coming to pickup your package. Driver: '.$driver->lname.' '.$driver->contact_no,
             'sendername' => 'SEMAPHORE'
         );
-        curl_setopt( $ch, CURLOPT_URL,'https://semaphore.co/api/v4/messages' );
+        curl_setopt( $ch, CURLOPT_URL,'https://semaphore.co/api/v4/priority' );
         curl_setopt( $ch, CURLOPT_POST, 1 );
 
         //Send the parameters set above with the request
@@ -50,7 +50,7 @@ class SmsController extends Controller
             'message' => 'Hello Mr/Mrs. '.$fetch_data->reciever_name.'! A '.$vehicle->name.' is coming to deliver a package from '.'Mr/Mrs. '.$customer->lname.'. Driver: '.$driver->lname.' '.$driver->contact_no,
             'sendername' => 'SEMAPHORE'
         );
-        curl_setopt( $ch, CURLOPT_URL,'https://semaphore.co/api/v4/messages' );
+        curl_setopt( $ch, CURLOPT_URL,'https://semaphore.co/api/v4/priority' );
         curl_setopt( $ch, CURLOPT_POST, 1 );
 
         //Send the parameters set above with the request

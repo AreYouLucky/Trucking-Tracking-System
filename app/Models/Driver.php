@@ -24,4 +24,9 @@ class Driver extends Model
         'street',
         'is_available'
     ];
+
+    public function schedule(){
+        return $this->hasMany(Schedule::class,'driver_id','driver_id');
+    }
+
 }
