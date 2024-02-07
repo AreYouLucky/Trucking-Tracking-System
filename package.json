@@ -19,9 +19,11 @@
     "dependencies": {
         "@maptiler/geocoding-control": "^1.2.1",
         "@maptiler/sdk": "^1.2.1",
+        "@sjaakp/leaflet-search": "^1.0.2",
         "@vitejs/plugin-vue": "^5.0.3",
         "babel-plugin-import-glob": "^2.0.0",
         "leaflet": "^1.9.4",
+        "leaflet-geosearch": "^3.11.0",
         "leaflet-routing-machine": "^3.2.12",
         "leaflet-search": "^4.0.0",
         "vue": "^3.4.13",

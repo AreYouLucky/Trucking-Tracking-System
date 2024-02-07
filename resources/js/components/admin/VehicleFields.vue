@@ -7,7 +7,7 @@
     >
     <template v-slot:header>
         <v-toolbar class="px-3 pt-2" color="third">
-        <v-btn prepend-icon="mdi-plus-circle" @click="addVehicle = true"  elevation="3" color="fourth">
+        <v-btn prepend-icon="mdi-plus-circle" @click="addVehicle = true"  elevation="3" color="danger">
             <b>Add Vehicle</b>
         </v-btn>
         <v-spacer></v-spacer>
@@ -115,7 +115,7 @@
       persistent
       width="400"
     >
-      <v-card color="primary">
+      <v-card>
         <v-card-text>
           <v-container>
             <v-row>

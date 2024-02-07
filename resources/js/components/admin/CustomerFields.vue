@@ -8,7 +8,7 @@
   >
     <template v-slot:top>
       <v-toolbar color="third">
-      <v-btn prepend-icon="mdi-plus-circle" @click="addCustomer = true"  elevation="3" color="info">
+      <v-btn prepend-icon="mdi-plus-circle" @click="addCustomer = true"  elevation="3" color="danger">
             <b>Add Customer</b>
       </v-btn>
         <v-divider class="mx-4" inset vertical></v-divider>
@@ -30,7 +30,7 @@
       persistent
       width="1024"
     >
-      <v-card color="third">
+      <v-card>
         <v-card-text>
           <v-container>
             <v-row>

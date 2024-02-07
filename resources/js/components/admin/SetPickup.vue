@@ -122,7 +122,16 @@
                         <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="blue-darken-4" height="70%" @click="setPickup">Set Pickup</v-btn>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
-                        <div id="map1" style="height: 60vh;"></div>
+                        <div id="map1" style="height: 60vh;">
+                          <l-map
+                            :zoom="zoom"
+                            :center="center"
+                            style="height: 400px; width: 100%;"
+                          >
+                            <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+                            <l-search :searchprovider="searchProvider"></l-search>
+                          </l-map>
+                        </div>
                     </v-col>
                 </v-row>
             </v-col>
@@ -173,7 +182,6 @@
             <v-alert
                 density="compact"
                 type="warning"
-                color="primary"
                 title="Are you certain that all the information provided is accurate?"
                 text="(Once the delivery information is saved, it is considered unchangeable to avoid any confusion with deliveries.)"
             ></v-alert>

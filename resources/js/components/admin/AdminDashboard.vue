@@ -108,14 +108,14 @@
             v-model="dialog"
             width="auto"
             >
-            <v-card color="secondary">
+            <v-card>
                 <v-card-text>
                     Are you you want to logout?
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" class="logout"  @click="dialog = false">Close</v-btn>
-                    <v-btn color="primary"  class="logout" href="/logout">confirm</v-btn>
+                    <v-btn color="primary" variant="outlined" class="logout"  @click="dialog = false">Close</v-btn>
+                    <v-btn color="primary"  variant="outlined" class="logout" href="/logout">confirm</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>

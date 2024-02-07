@@ -12,6 +12,9 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
         <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
         <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+        <script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="//unpkg.com/@sjaakp/leaflet-search/dist/leaflet-search.js"></script>
         
 
         <!-- Styles -->
