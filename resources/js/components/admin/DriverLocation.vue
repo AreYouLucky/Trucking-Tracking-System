@@ -11,7 +11,7 @@
   import axios from 'axios';
   import boxImage from './../../../img/box.png'
   import homeImage from './../../../img/home.png'
-  import markImage from './../../../img/mark.png'
+  import markImage from './../../../img/truck.png'
   
   
   export default {
@@ -38,9 +38,27 @@
       initializeMap() {
         this.map = L.map('map1').setView([this.location.from_lat, this.location.from_long], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          minZoom: 13,
+          attribution: '© OpenStreetMap,<a href="https://www.graphhopper.com/">GraphHopper API</a> ',
+          maxZoom: 18,
+          minZoom: 5,
         }).addTo(this.map);
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap, Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a>',
+            maxZoom: 18,
+            minZoom: 5,
+          });
+
+          var eri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community, Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a>',
+            maxZoom: 18,
+          minZoom: 5,
+        });
+        var baseMaps = {
+          "OpenStreetMap": osm,
+          "WorldImagery": eri
+        };
+
+        var layerControl = L.control.layers(baseMaps).addTo(this.map);
 
         var customIcon = L.icon({
           iconUrl: boxImage,
@@ -51,14 +69,14 @@
         var customIcon1 = L.icon({
           iconUrl: homeImage,
           iconSize: [50, 50],
-          iconAnchor: [20, 40],
-          popupAnchor: [5, -40]
+          iconAnchor: [60, 40],
+          popupAnchor: [-10, -20]
         });
         var customIcon3 = L.icon({
           iconUrl: markImage,
-          iconSize: [30, 50],
+          iconSize: [70, 40],
           iconAnchor: [15, 54],
-          popupAnchor: [5, -38]
+          popupAnchor: [5, -58]
         });
   
         var mark1 = L.marker([this.location.from_lat, this.location.from_long], { icon: customIcon }).addTo(this.map)

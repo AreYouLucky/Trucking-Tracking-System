@@ -12,13 +12,13 @@
                     {{ user.license_id }} | {{ user.contact_no }}
                 </v-row>
                 <v-row>  >
-                    <v-btn value="ONE" class="tabselected justify-center">
+                    <v-btn value="ONE" class="tab  justify-center" href="/driver-dashboard">
                     <v-icon start>
                         mdi-map-marker-plus
                     </v-icon>
                         CURRENT DELIVERY
                     </v-btn>
-                    <v-btn value="TWO" class="tab justify-center" href="/driver-history">
+                    <v-btn value="TWO" class="tabselected justify-center">
                     <v-icon start>
                         mdi-credit-card-marker
                     </v-icon>
@@ -45,7 +45,7 @@
 
     <v-main>      
                     <v-card class="pa-4" color="blue" min-height="90vh">
-                        <current-delivery></current-delivery>
+                        <history-dashboard></history-dashboard>
                     </v-card>                      
     </v-main>
             

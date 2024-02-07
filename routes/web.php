@@ -93,6 +93,9 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
     Route::get('/driver-dashboard', function () {
         return view('Driver.DriverDashboard');
     });
+    Route::get('/driver-history', function () {
+        return view('Driver.history');
+    });
     Route::get('/load-driver-profile',[App\Http\Controllers\DriverDashboardController::class,'getDriver']);
     Route::get('/driver-delivery',[App\Http\Controllers\DriverDashboardController::class,'getLocation']);
     Route::post('/start-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'startDelivery']);
@@ -102,4 +105,8 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
     Route::post('/fin-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'finDelivery']);
     Route::get('/deliveries',[App\Http\Controllers\DriverDashboardController::class,'driverDeliveries']);
 
+});
+//testing
+Route::get('/sample', function () {
+    return view('sample');
 });

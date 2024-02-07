@@ -6,12 +6,10 @@
   
   <script>
   import { ref } from 'vue';
-  import L from 'leaflet';
-  import 'leaflet-routing-machine';
-  import axios from 'axios';
   import boxImage from './../../../img/box.png'
   import homeImage from './../../../img/home.png'
   import markImage from './../../../img/mark.png'
+  
   export default {
     data() {
       return {
@@ -36,10 +34,27 @@
       initializeMap() {
         this.map = L.map('map1').setView([this.location[0].from_lat, this.location[0].from_long], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors, Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a>',
           maxZoom: 19,
           minZoom: 13,
         }).addTo(this.map);
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap, Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a>',
+            maxZoom: 18,
+            minZoom: 5,
+          });
 
+          var eri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community, Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a>',
+            maxZoom: 18,
+          minZoom: 5,
+        });
+        var baseMaps = {
+          "OpenStreetMap": osm,
+          "WorldImagery": eri
+        };
+
+  var layerControl = L.control.layers(baseMaps).addTo(this.map);
         var customIcon = L.icon({
           iconUrl: boxImage,
           iconSize: [50, 50],
@@ -72,10 +87,12 @@
             L.latLng(this.location[0].from_lat, this.location[0].from_long), 
             L.latLng(this.location[0].to_lat, this.location[0].to_long)  
           ],
+          router: L.Routing.graphHopper('7652a8a1-3fa4-4e32-be0d-82c191c3538a',{
+          vehicle: 'car'
+          }),
           waypointIcons: {
             start: customIcon, // Use custom icon for start waypoint
-            end: customIcon1,   // Use custom icon for end waypoint
-            via: customIcon    // Use custom icon for via waypoint
+            end: customIcon1,   // Use custom icon for end waypoint   // Use custom icon for via waypoint
         }
         }).addTo(this.map);
       },

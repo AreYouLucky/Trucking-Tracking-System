@@ -2,7 +2,9 @@ import "./bootstrap";
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import vuetify from "./vuetify";
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import 'leaflet-routing-machine'; // Adds L.Routing onto L
+import 'lrm-graphhopper';
+import axios from 'axios';
 
 
 
