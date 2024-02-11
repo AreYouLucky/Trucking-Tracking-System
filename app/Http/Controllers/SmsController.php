@@ -21,7 +21,7 @@ class SmsController extends Controller
             'apikey' => $apiKey,
             'number' => $customer->contact_no,
             'message' => 'Hello Mr/Mrs. '.$customer->lname.'! A '.$vehicle->name.' is coming to pickup your package. Driver: '.$driver->lname.' '.$driver->contact_no,
-            'sendername' => 'SEMAPHORE'
+            'sendername' => 'LARATSYS'
         );
         curl_setopt( $ch, CURLOPT_URL,'https://semaphore.co/api/v4/priority' );
         curl_setopt( $ch, CURLOPT_POST, 1 );
@@ -48,7 +48,7 @@ class SmsController extends Controller
             'apikey' => $apiKey,
             'number' => $fetch_data->reciever_no,
             'message' => 'Hello Mr/Mrs. '.$fetch_data->reciever_name.'! A '.$vehicle->name.' is coming to deliver a package from '.'Mr/Mrs. '.$customer->lname.'. Driver: '.$driver->lname.' '.$driver->contact_no,
-            'sendername' => 'SEMAPHORE'
+            'sendername' => 'LARATSYS'
         );
         curl_setopt( $ch, CURLOPT_URL,'https://semaphore.co/api/v4/priority' );
         curl_setopt( $ch, CURLOPT_POST, 1 );
