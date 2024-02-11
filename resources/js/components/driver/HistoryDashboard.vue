@@ -45,7 +45,7 @@
 
     <v-main>      
                     <v-card class="pa-4" color="blue" min-height="90vh">
-                        <history-dashboard></history-dashboard>
+                        <delivery-history></delivery-history>
                     </v-card>                      
     </v-main>
             

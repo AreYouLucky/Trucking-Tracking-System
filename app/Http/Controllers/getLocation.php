@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Delivery;
-
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class getLocation extends Controller
@@ -33,6 +33,15 @@ class getLocation extends Controller
         return Delivery::where('delivery_id',$id)
         ->first();
     }
+
+    public function route($id){
+
+        return view('Admin.route');
+    }
+    public function getRoute($id){
+        return Location::where('delivery_id',$id)->get();
+    }
+
 
 
 

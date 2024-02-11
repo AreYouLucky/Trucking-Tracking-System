@@ -32,8 +32,7 @@ return new class extends Migration
             $table->decimal('from_lat',10,7)->nullable();
             $table->decimal('from_long',10,7)->nullable();
 
-            $table->decimal('to_lat',10,7)->nullable();
-            $table->decimal('to_long',10,7)->nullable();
+
 
             $table->decimal('driver_lat',10,7)->nullable();
             $table->decimal('driver_long',10,7)->nullable();

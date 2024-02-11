@@ -37,6 +37,8 @@ Route::get('/driver-location-data/{id}',[App\Http\Controllers\getLocation::class
 Route::get('/proof/{id}',[App\Http\Controllers\getLocation::class,'proof']);
 Route::get('/get-proof/{id}',[App\Http\Controllers\getLocation::class,'getProof']);
 Route::post('/confirm-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'confirmDelivery']);
+Route::get('/route/{id}',[App\Http\Controllers\getLocation::class,'route']);
+Route::get('/get-route/{id}',[App\Http\Controllers\getLocation::class,'getRoute']);
 
 //Sms
 Route::post('/sms-customer/{id}',[App\Http\Controllers\SmsController::class,'smsCustomer']);
@@ -104,6 +106,8 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
     Route::post('/driver-location',[App\Http\Controllers\DriverDashboardController::class,'updateDriverloc']);
     Route::post('/fin-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'finDelivery']);
     Route::get('/deliveries',[App\Http\Controllers\DriverDashboardController::class,'driverDeliveries']);
+    Route::post('/cache-location',[App\Http\Controllers\DriverDashboardController::class,'cacheDelivery']);
+    Route::post('/save-route/{id}',[App\Http\Controllers\DriverDashboardController::class,'saveRoute']);
 
 });
 //testing
