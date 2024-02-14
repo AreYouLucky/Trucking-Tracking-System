@@ -26,8 +26,11 @@ class getLocation extends Controller
         ->first();
     }
     public function proof($id){
+        $proof = Delivery::where('delivery_id',$id)
+        ->first();
 
-        return view('Admin.proof');
+        return view('Admin.proof')
+        ->with('proof',$proof);
     }
     public function getProof($id){
         return Delivery::where('delivery_id',$id)
