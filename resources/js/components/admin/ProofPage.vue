@@ -1,5 +1,7 @@
 <template>
-      <v-img :src="`/storage/proofs/${proof.proof_path}`" alt="profile"  contain/>
+      <!-- <v-img :src="`/storage/proofs/${proof.proof_path}`" alt="profile"  contain/> -->
+      <img :src="`/storage/proofs/${proof.proof_path}`" alt="" title=""/>
+
   </template>
   
 <script>
