@@ -249,9 +249,7 @@ export default {
 
     },
     watchGeolocation() {
-      setTimeout(() => {
         navigator.geolocation.watchPosition(this.success, this.error);
-      }, 10000);
     },
 
     success(pos) {
