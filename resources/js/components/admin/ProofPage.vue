@@ -1,6 +1,7 @@
 <template>
       <!-- <v-img :src="`/storage/proofs/${proof.proof_path}`" alt="profile"  contain/> -->
-      <img :src="`/storage/proofs/${proof.proof_path}`" alt="" title=""/>
+      <v-img :src="'{{ asset(`/storage/proofs/${proof.proof_path}`) }}'" alt="" contain/>
+
 
   </template>
   
