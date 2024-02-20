@@ -6,7 +6,7 @@
                     <img src="../../../img/logo.png" width="200px">
                 </v-row>
                 <v-row class="justify-center">
-                    <h1>{{ user.lname }},{{ user.fname }} {{ user.mname }} </h1>
+                    <h1>{{ user.lname }},{{ user.fname }} <br> {{ user.mname }} </h1>
                 </v-row>
                 <v-row class="justify-center text-small">
                     {{ user.license_id }} | {{ user.contact_no }}
