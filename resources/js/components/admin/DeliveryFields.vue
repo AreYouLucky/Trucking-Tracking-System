@@ -72,32 +72,20 @@
           loading: false,
           headers: [
             {
-              title: 'View Location',
-              align: 'center',
-              sortable: false,
-              key: 'actions',
-            },
-            {
-              title: 'Status',
-              align: 'center',
-              sortable: true,
-              key: 'status',
-            },
-            {
               title: ' Driver Last Name',
-              align: 'start',
+              align: 'center',
               sortable: true,
               key: 'lname',
             },
             {
               title: 'Customer Username',
-              align: 'start',
+              align: 'center',
               sortable: true,
               key: 'username',
             },
             {
               title: 'Reciever Name',
-              align: 'start',
+              align: 'center',
               sortable: false,
               key: 'reciever_name',
             },
@@ -119,6 +107,18 @@
               sortable: false,
               key: 'time',
             },
+            {
+              title: 'Status',
+              align: 'center',
+              sortable: true,
+              key: 'status',
+            },
+            {
+              title: 'Actions',
+              align: 'center',
+              sortable: false,
+              key: 'actions',
+            }
           ],
         visible: false,
         itemsPerPage: 4,       

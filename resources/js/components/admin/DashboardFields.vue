@@ -138,18 +138,7 @@ export default {
             sortBy: [{ key: 'delivery_id', order: 'desc' }],
             loading: false,
             headers: [
-                {
-                    title: 'View Location',
-                    align: 'center',
-                    sortable: false,
-                    key: 'actions',
-                },
-                {
-                    title: 'Status',
-                    align: 'center',
-                    sortable: false,
-                    key: 'status',
-                },
+
                 {
                     title: ' Driver Last Name',
                     align: 'start',
@@ -185,6 +174,12 @@ export default {
                     align: 'center',
                     sortable: false,
                     key: 'time',
+                },
+                {
+                    title: 'Status',
+                    align: 'center',
+                    sortable: false,
+                    key: 'status',
                 },
             ],
             visible: false,
