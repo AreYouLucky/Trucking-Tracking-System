@@ -94,7 +94,7 @@ export default {
             if (this.marker) {
               this.map.removeLayer(this.marker);
             }
-            var mark2 = L.marker([this.location.driver_lat, this.location.driver_long], { icon: customIcon3 }).addTo(this.map)
+            this.marker = L.marker([this.location.driver_lat, this.location.driver_long], { icon: customIcon3 }).addTo(this.map)
               .bindPopup('Driver Location Here!').openPopup();
 
             if (this.location.is_delivered < 3) {
@@ -103,10 +103,9 @@ export default {
           })
           .catch(error => {
             console.error('Error fetching driver location:', error);
-            // Handle error as needed
           });
       };
-      updateDriverLocation(); // Initial call
+      updateDriverLocation(); 
     }
   },
   mounted() {
