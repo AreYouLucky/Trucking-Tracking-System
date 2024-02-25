@@ -6,55 +6,54 @@ use App\Models\Customer;
 use App\Models\Delivery;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Http\Request;
 use App\Models\Driver;
 
 class DeliveryController extends Controller
 {
-    public function store(Request $req){
+    public function store(Request $req)
+    {
         $req->validate([
-            'customer_id'=>['required'],
-            'vehicle_id'=>['required'],
-            'driver_id'=>['required'],
-            'fromLat'=>['required','numeric'],
-            'fromLng'=>['required','numeric'],
-            'toLat'=>['required','numeric'],
-            'toLng'=>['required','numeric'],
-            'reciever'=>['required'],
-            'date'=>['required'],
-            'time'=>['required'],
-            'reciever_no'=>['required','regex:/^(09|\+639)\d{9}$/']
+            'customer_id' => ['required'],
+            'vehicle_id' => ['required'],
+            'driver_id' => ['required'],
+            'fromLat' => ['required', 'numeric'],
+            'fromLng' => ['required', 'numeric'],
+            'toLat' => ['required', 'numeric'],
+            'toLng' => ['required', 'numeric'],
+            'reciever' => ['required'],
+            'date' => ['required'],
+            'time' => ['required'],
+            'reciever_no' => ['required', 'regex:/^(09|\+639)\d{9}$/']
         ]);
 
         Delivery::create([
-            'customer_id'=> $req->customer_id,
-            'vehicle_id'=> $req->vehicle_id,
-            'driver_id'=> $req->driver_id,
-            'from_lat'=> $req->fromLat,
-            'from_long'=> $req->fromLng,
-            'to_lat'=> $req->toLat,
-            'to_long'=> $req->toLng,
-            'reciever_name'=>$req->reciever,
-            'reciever_no'=>$req->reciever_no,
-            'date'=>$req->date,
-            'time'=>$req->time
+            'customer_id' => $req->customer_id,
+            'vehicle_id' => $req->vehicle_id,
+            'driver_id' => $req->driver_id,
+            'from_lat' => $req->fromLat,
+            'from_long' => $req->fromLng,
+            'to_lat' => $req->toLat,
+            'to_long' => $req->toLng,
+            'reciever_name' => $req->reciever,
+            'reciever_no' => $req->reciever_no,
+            'date' => $req->date,
+            'time' => $req->time
         ]);
 
-        Driver::where('driver_id',$req->driver_id)
-        ->update([
-            'is_available'=>0
-        ]);
+        Driver::where('driver_id', $req->driver_id)
+            ->update([
+                'is_available' => 0
+            ]);
 
-        Vehicle::where('vehicle_id',$req->vehicle_id)
-        ->update([
-            'is_available'=>0,
-        ]);
+        Vehicle::where('vehicle_id', $req->vehicle_id)
+            ->update([
+                'is_available' => 0,
+            ]);
 
         return response()->json([
             'status' => 'saved'
-        ],200);
-        
+        ], 200);
     }
 
     public function loadDrivers()
@@ -73,7 +72,8 @@ class DeliveryController extends Controller
     }
 
 
-    public function loadCustomers(){
+    public function loadCustomers()
+    {
         return DB::select("
             SELECT 
                 u.username,
@@ -87,10 +87,12 @@ class DeliveryController extends Controller
         ");
     }
 
-    public function loadVehicles(){
-        return Vehicle::where('is_available',1)->get();
+    public function loadVehicles()
+    {
+        return Vehicle::where('is_available', 1)->get();
     }
-    public function loadDeliveries(){
+    public function loadDeliveries()
+    {
         return DB::select("
         SELECT 
             d.delivery_id,
@@ -113,5 +115,85 @@ class DeliveryController extends Controller
         ");
     }
 
+    public function editDelivery($id)
+    {
+        $delivery = Delivery::where('delivery_id', $id)->first();
+        $driver_id = Delivery::where('delivery_id', $id)->pluck('driver_id');
+        $vehicle_id = Delivery::where('delivery_id', $id)->pluck('vehicle_id');
 
+        Driver::where('driver_id', $driver_id)->update([
+            'is_available' => 1,
+        ]);
+        Vehicle::where('vehicle_id', $vehicle_id)->update([
+            'is_available' => 1,
+        ]);
+        return view('Admin.editDelivery')
+            ->with('delivery', $delivery);
+    }
+    public function getDelivery($id)
+    {
+        return Delivery::where('delivery_id', $id)->first();
+    }
+
+    public function updateDelivery(Request $req)
+    {
+        $req->validate([
+            'customer_id' => ['required'],
+            'vehicle_id' => ['required'],
+            'driver_id' => ['required'],
+            'fromLat' => ['required', 'numeric'],
+            'fromLng' => ['required', 'numeric'],
+            'toLat' => ['required', 'numeric'],
+            'toLng' => ['required', 'numeric'],
+            'reciever' => ['required'],
+            'date' => ['required'],
+            'time' => ['required'],
+            'reciever_no' => ['required', 'regex:/^(09|\+639)\d{9}$/']
+        ]);
+
+        Delivery::where('delivery_id',$req->delivery_id)
+        ->update([
+            'customer_id' => $req->customer_id,
+            'vehicle_id' => $req->vehicle_id,
+            'driver_id' => $req->driver_id,
+            'from_lat' => $req->fromLat,
+            'from_long' => $req->fromLng,
+            'to_lat' => $req->toLat,
+            'to_long' => $req->toLng,
+            'reciever_name' => $req->reciever,
+            'reciever_no' => $req->reciever_no,
+            'date' => $req->date,
+            'time' => $req->time
+        ]);
+
+        Driver::where('driver_id', $req->driver_id)
+            ->update([
+                'is_available' => 0
+            ]);
+
+        Vehicle::where('vehicle_id', $req->vehicle_id)
+            ->update([
+                'is_available' => 0,
+            ]);
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+    public function deleteDelivery($id)
+    {
+        $driver_id = Delivery::where('delivery_id', $id)->pluck('driver_id');
+        $vehicle_id = Delivery::where('delivery_id', $id)->pluck('vehicle_id');
+
+        Driver::where('driver_id', $driver_id)->update([
+            'is_available' => 1,
+        ]);
+        Vehicle::where('vehicle_id', $vehicle_id)->update([
+            'is_available' => 1,
+        ]);
+        Delivery::destroy($id);
+        return response()->json([
+            'status' => 'deleted'
+        ], 200);
+    }
 }

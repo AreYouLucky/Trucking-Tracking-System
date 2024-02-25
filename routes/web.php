@@ -72,6 +72,10 @@ Route::middleware(['auth','role:ADMIN'])->group(function(){
 
     Route::post('/add-delivery',[App\Http\Controllers\DeliveryController::class,'store']);
     Route::get('/load-deliveries',[App\Http\Controllers\DeliveryController::class,'loadDeliveries']);
+    Route::post('/delete-delivery/{id}',[App\Http\Controllers\DeliveryController::class,'deleteDelivery']);
+    Route::get('/edit-delivery/{id}',[App\Http\Controllers\DeliveryController::class,'editDelivery']);
+    Route::get('/get-delivery/{id}',[App\Http\Controllers\DeliveryController::class,'getDelivery']);
+    Route::post('/update-delivery',[App\Http\Controllers\DeliveryController::class,'updateDelivery']);
 
     Route::get('/load-vehicles',[App\Http\Controllers\DeliveryController::class,'loadVehicles']);
     Route::get('/load-customers',[App\Http\Controllers\DeliveryController::class,'loadCustomers']);

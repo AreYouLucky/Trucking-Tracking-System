@@ -9,7 +9,7 @@ class Delivery extends Model
 {
     use HasFactory;
     protected $table = 'deliveries';
-    protected $primarykey = 'delivery_id';
+    protected $primaryKey = 'delivery_id';
     protected $fillable = [
         'customer_id',
         'vehicle_id',
@@ -25,4 +25,11 @@ class Delivery extends Model
         'time',
         'proof_path'
     ];
+
+    public function driver(){
+        return $this->hasOne(Driver::class,'driver_id','driver_id');
+    }
+    public function vehicle(){
+        return $this->hasOne(Vehicle::class,'driver_id','driver_id');
+    }
 }

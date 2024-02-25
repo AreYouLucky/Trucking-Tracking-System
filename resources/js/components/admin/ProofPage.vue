@@ -29,9 +29,7 @@
     mounted() {
       const urlParts = window.location.href.split("/");
       this.data_id = urlParts[urlParts.length - 1];
-      this.getProof();
-      
-     
+      this.getProof(); 
     }
   };
   </script>

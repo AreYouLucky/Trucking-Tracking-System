@@ -74,7 +74,7 @@
         <v-row class="mt-5">
             <v-data-table :headers="headers" :items="deliveries" :search="search" :loading="loading"
                 v-model:sort-by="sortBy" items-per-page="5" class="data-table">
-                <template #bottom v-if="!showFooter"></template>
+
                 <template v-slot:top>
                     <v-toolbar color="cyan-darken-2">
                         <v-spacer></v-spacer>

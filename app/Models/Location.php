@@ -9,7 +9,7 @@ class Location extends Model
 {
     use HasFactory;
     protected $table = 'location';
-    protected $primarykey = 'location_id';
+    protected $primaryKey = 'location_id';
     protected $fillable = [
         'delivery_id',
         'latitude',
