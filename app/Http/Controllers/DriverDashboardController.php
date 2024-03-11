@@ -20,10 +20,44 @@ class DriverDashboardController extends Controller
     public function getLocation()
     {
         $driver_id = Auth::user()->driver()->first();
-        return Delivery::where('driver_id', $driver_id->driver_id)
+        $delivery = Delivery::where('driver_id', $driver_id->driver_id)
             ->where('is_delivered', '!=', '3')
             ->latest()
             ->first();
+
+        $to = DB::select('
+        SELECT 
+        d.`to_street`,
+        p.`provDesc`,
+        b.`brgyDesc`,
+        cit.`citymunDesc`
+
+        FROM deliveries d
+        INNER JOIN provinces p ON d.to_province = p.provCode
+        LEFT JOIN barangays b ON d.to_barangay = b.brgyCode
+        LEFT JOIN cities cit ON d.to_city = cit.citymunCode
+        where d.delivery_id = '.$delivery->delivery_id.'
+       ;');
+
+        $from = DB::select('
+        SELECT 
+        d.`from_street`,
+        p.`provDesc`,
+        b.`brgyDesc`,
+        cit.`citymunDesc`
+
+        FROM deliveries d
+        INNER JOIN provinces p ON d.from_province = p.provCode
+        LEFT JOIN barangays b ON d.from_barangay = b.brgyCode
+        LEFT JOIN cities cit ON d.from_city = cit.citymunCode
+        where d.delivery_id = '.$delivery->delivery_id.'
+       ;');
+
+       return [
+        'delivery' => $delivery,
+        'to' => $to,
+        'from' => $from
+       ];
     }
     public function startDelivery($id)
     {

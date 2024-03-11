@@ -1,7 +1,10 @@
 <template>
 
   <v-data-table
+  v-model="selected"
+  show-select
   :headers="headers"
+  item-value="delivery_id"
   :items="deliveries"
   :search="search"
   :loading="loading"
@@ -9,6 +12,7 @@
 >
   <template v-slot:top>
     <v-toolbar color="third">
+      <v-btn color="red" prepend-icon="mdi-trash-can" v-if="selected.length > 0" @click="deleteDialog = true" variant="outlined"> Delete</v-btn>
       <v-spacer></v-spacer>
       <v-text-field v-model="search" clearable density="comfortable" hide-details placeholder="Search" prepend-inner-icon="mdi-magnify" style="max-width: 400px;" variant="solo" class="mr-2"
         ></v-text-field>
@@ -18,7 +22,6 @@
     <v-btn icon="mdi-eye-arrow-right" variant="text" color="primary" :href="`/view-delivery/${item.delivery_id}`" target="_blank"></v-btn>
     <v-btn icon="mdi-file-chart-check" variant="text" color="yellow" :href="`/proof/${item.delivery_id}`" target="_blank" v-if="item.is_delivered >=3"></v-btn>
     <v-btn icon="mdi-sign-direction" variant="text" color="red" :href="`/route/${item.delivery_id}`" target="_blank" v-if="item.is_delivered >=3"></v-btn>
-    <v-btn icon="mdi-trash-can" variant="text" color="red" @click="popDelete(item.delivery_id)" v-if="item.is_delivered ==0"></v-btn>
     <v-btn icon="mdi-pen" variant="text" color="green" :href="`/edit-delivery/${item.delivery_id}`" v-if="item.is_delivered ==0"></v-btn>
   </template>
 
@@ -57,7 +60,7 @@
   >
     <v-card>
       <v-card-text>
-        Are You sure you want to delete this delivery?
+        Are You sure you want to delete these deliveries?
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -148,6 +151,7 @@
         row: '',
         confirmSnack: false,
         deliveries: [],
+        selected: [],
       }
     },
     methods: {
@@ -170,10 +174,6 @@
         this.row = row;
         this.confirmDialog = true;
       },
-      popDelete(row){
-        this.row = row;
-        this.deleteDialog = true;
-      },
       confirmDelivery(){
         axios.post('/confirm-delivery/'+this.row).then(res=>{
             this.showDeliveries();
@@ -183,7 +183,7 @@
         })
       },
       deleteDelivery(){
-        axios.post('/delete-delivery/'+this.row).then(res=>{
+        axios.post('/delete-delivery',this.selected).then(res=>{
             this.showDeliveries();
             this.deleteDialog = false;
             this.row = ''

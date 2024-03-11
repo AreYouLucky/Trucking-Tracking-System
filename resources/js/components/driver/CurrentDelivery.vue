@@ -22,6 +22,17 @@
             <a v-if="location.time" class="heads">Pickup Time: {{ location.time }}</a>
             <a v-else class="heads">Pickup Time: no data</a>
           </v-col>
+
+          <v-col cols="12" sm="12" md="12" class="heads">
+            <a v-if="from" class="heads">Pickup Location: {{ from.provDesc }},{{ from.brgyDesc }},{{ from.citymunDesc }},{{ from.from_street }},</a>
+            <a v-else class="heads">Pickup Location: no data</a>
+          </v-col>
+
+          <v-col cols="12" sm="12" md="12" class="heads">
+            <a v-if="from" class="heads">Delivery Location: {{ to.provDesc }},{{ to.brgyDesc }},{{ to.citymunDesc }},{{ to.to_street }},</a>
+            <a v-else class="heads">Delivery Location: no data</a>
+          </v-col>
+
           <v-btn color="fourth" block @click="dialogStart = true" v-if="location.is_delivered == 0">
             Start Pickup
           </v-btn>
@@ -103,7 +114,9 @@ export default {
       dialogMid: false,
       dialogFin: false,
       img: null,
-      driverLoc: {}
+      driverLoc: {},
+      to: [],
+      from: []
     };
   },
   methods: {
@@ -143,6 +156,9 @@ export default {
     finishDelivery() {
       axios.post('/fin-delivery/' + this.location.delivery_id).then(
         res => {
+          this.location = [];
+          this.to = [];
+          this.from = [];
         }
       )
     },
@@ -199,7 +215,9 @@ export default {
       return new Promise((resolve, reject) => {
         axios.get('/driver-delivery').then(
           res => {
-            this.location = res.data;
+            this.location = res.data.delivery;
+            this.from = res.data.from[0];
+            this.to = res.data.to[0];
             resolve();
           }
         ).catch(error => {

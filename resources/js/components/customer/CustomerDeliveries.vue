@@ -80,12 +80,6 @@
             loading: false,
             headers: [
               {
-                title: 'View Location',
-                align: 'center',
-                sortable: false,
-                key: 'actions',
-              },
-              {
                 title: 'Status',
                 align: 'center',
                 sortable: true,
@@ -134,10 +128,10 @@
                 key: 'time',
               },
               {
-                title: 'Date and Time Delivered',
+                title: 'Actions',
                 align: 'center',
                 sortable: false,
-                key: 'datetime',
+                key: 'actions',
               },
             ],
           visible: false,

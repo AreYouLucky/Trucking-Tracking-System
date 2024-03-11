@@ -50,6 +50,9 @@ Route::middleware(['auth','role:ADMIN'])->group(function(){
     Route::get('/admin-dashboard', function () {
         return view('Admin.AdminDashboard');
     });
+    Route::get('/set-pickup', function () {
+        return view('Admin.setpickup');
+    });
 
     Route::post('/add-customer',[App\Http\Controllers\CustomerController::class,'store']);
     Route::get('/show-customers',[App\Http\Controllers\CustomerController::class,'show']);
@@ -72,7 +75,7 @@ Route::middleware(['auth','role:ADMIN'])->group(function(){
 
     Route::post('/add-delivery',[App\Http\Controllers\DeliveryController::class,'store']);
     Route::get('/load-deliveries',[App\Http\Controllers\DeliveryController::class,'loadDeliveries']);
-    Route::post('/delete-delivery/{id}',[App\Http\Controllers\DeliveryController::class,'deleteDelivery']);
+    Route::post('/delete-delivery',[App\Http\Controllers\DeliveryController::class,'deleteDelivery']);
     Route::get('/edit-delivery/{id}',[App\Http\Controllers\DeliveryController::class,'editDelivery']);
     Route::get('/get-delivery/{id}',[App\Http\Controllers\DeliveryController::class,'getDelivery']);
     Route::post('/update-delivery',[App\Http\Controllers\DeliveryController::class,'updateDelivery']);
@@ -102,6 +105,7 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
     Route::get('/driver-history', function () {
         return view('Driver.history');
     });
+
     Route::get('/load-driver-profile',[App\Http\Controllers\DriverDashboardController::class,'getDriver']);
     Route::get('/driver-delivery',[App\Http\Controllers\DriverDashboardController::class,'getLocation']);
     Route::post('/start-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'startDelivery']);

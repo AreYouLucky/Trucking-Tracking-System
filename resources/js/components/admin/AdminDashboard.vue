@@ -32,12 +32,12 @@
                     </v-icon>
                         Vehicles
                     </v-tab>
-                    <v-tab value="FIVE" class="tab justify-center">
+                    <v-btn href="/set-pickup" class="tab justify-center">
                     <v-icon start>
                         mdi-map-marker-plus
                     </v-icon>
                         Add Delivery
-                    </v-tab>
+                    </v-btn>
                     <v-tab value="SIX" class="tab justify-center">
                     <v-icon start>
                         mdi-archive-marker
@@ -87,11 +87,6 @@
                 <v-window-item value="FOUR">
                     <v-card color="blue" class="pa-4" min-height="90vh">
                         <vehicle-fields v-if="tab === 'FOUR'" ref="VehicleFields"></vehicle-fields>
-                    </v-card>
-                </v-window-item>
-                <v-window-item value="FIVE">
-                    <v-card color="blue" class="pa-4" min-height="90vh">
-                        <set-pickup v-if="tab === 'FIVE'" ref="SetPickup"></set-pickup>
                     </v-card>
                 </v-window-item>
                 <v-window-item value="SIX">
@@ -165,10 +160,10 @@ export default{
                 this.$refs.VehicleFields.initData();
                 }); // Assuming initData is the initialization method
                 break;
-                case 'FIVE':
-                this.$nextTick(() => {
-                this.$refs.SetPickup.initData();
-                }); // Assuming initData is the initialization method
+                // case 'FIVE':
+                // this.$nextTick(() => {
+                // this.$refs.SetPickup.initData();
+                // }); // Assuming initData is the initialization method
                 break;
                 case 'SIX':
                 this.$nextTick(() => {

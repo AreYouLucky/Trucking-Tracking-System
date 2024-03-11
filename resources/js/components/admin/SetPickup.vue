@@ -1,113 +1,177 @@
 <template>
-  <v-card color="primary" class="my-5">
-    <v-card-title>
-      <v-btn prepend-icon="mdi-refresh" @click="refreshData" elevation="3" color="white"
-        class="button-refresh ma-2 float-right">
-        <b>Refresh Data</b>
-      </v-btn>
-    </v-card-title>
-    <v-card-text>
-      <v-row>
-        <v-col cols="12" sm="6" md="4">
-          <v-select item-value="customer_id" item-title="username" :items="customers" v-model="fields.customer_id"
-            variant="solo" color="third" label="Select Customer" :rules="[rules.required]"
-            :error-messages="errors.customer_id ? errors.customer_id[0] : ''"></v-select>
-        </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <v-select item-value="driver_id" item-title="username" :items="drivers" v-model="fields.driver_id"
-            variant="solo" color="third" label="Select Driver" :rules="[rules.required]"
-            :error-messages="errors.driver_id ? errors.driver_id[0] : ''"></v-select>
-        </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <v-select item-value="vehicle_id" item-title="name" :items="vehicles" v-model="fields.vehicle_id" variant="solo"
-            color="third" label="Select Vehicle" :rules="[rules.required]"
-            :error-messages="errors.vehicle_id ? errors.vehicle_id[0] : ''"></v-select>
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-text-field v-model="fields.reciever" variant="solo" color="primary" label="Reciever's Full Name" required
-            :rules="[rules.required]" :error-messages="errors.reciever ? errors.reciever[0] : ''"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-text-field v-model="fields.reciever_no" variant="solo" color="primary" label="Reciever's Contact" required
-            :rules="[rules.required, rules.phone]"
-            :error-messages="errors.reciever_no ? errors.reciever_no[0] : ''"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-text-field type="date" v-model="fields.date" variant="solo" color="primary" label="Pickup Date" required
-            :rules="[rules.required]" :error-messages="errors.date ? errors.date[0] : ''">
+  <v-layout class="rounded rounded-md">
+    <v-app-bar color="primary" class="pa-4" density="compact">
+      <img src="../../../img/logo.png" width="90px">
+      <h3 class="title">LARA's TRUCKING SERVICES</h3>
+    </v-app-bar>
+    <v-main class="mt-5 color">
+      <v-card color="primary">
+        <v-card-title>
+          <v-btn prepend-icon="mdi-refresh" @click="refreshData" elevation="3" color="white"
+            class="button-refresh ma-2 float-right">
+            <b>Refresh Data</b>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" sm="6" md="4">
+              <v-select item-value="customer_id" item-title="username" :items="customers" v-model="fields.customer_id"
+                variant="solo" color="third" label="Select Customer" :rules="[rules.required]"
+                :error-messages="errors.customer_id ? errors.customer_id[0] : ''"></v-select>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+              <v-select item-value="driver_id" item-title="username" :items="drivers" v-model="fields.driver_id"
+                variant="solo" color="third" label="Select Driver" :rules="[rules.required]"
+                :error-messages="errors.driver_id ? errors.driver_id[0] : ''"></v-select>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+              <v-select item-value="vehicle_id" item-title="name" :items="vehicles" v-model="fields.vehicle_id"
+                variant="solo" color="third" label="Select Vehicle" :rules="[rules.required]"
+                :error-messages="errors.vehicle_id ? errors.vehicle_id[0] : ''"></v-select>
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field v-model="fields.reciever" variant="solo" color="primary" label="Reciever's Full Name"
+                required :rules="[rules.required]"
+                :error-messages="errors.reciever ? errors.reciever[0] : ''"></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field v-model="fields.reciever_no" variant="solo" color="primary" label="Reciever's Contact"
+                required :rules="[rules.required, rules.phone]"
+                :error-messages="errors.reciever_no ? errors.reciever_no[0] : ''"></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field type="date" v-model="fields.date" variant="solo" color="primary" label="Pickup Date"
+                required :rules="[rules.required]" :error-messages="errors.date ? errors.date[0] : ''">
 
-          </v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-text-field v-model="fields.time" label="Pickup Time" variant="solo" color="primary" type="time" suffix="PST"
-            :rules="[rules.required]" :error-messages="errors.time ? errors.time[0] : ''"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" sm="12" md="6">
-          <v-row class="row1">
-            <v-col cols="12" sm="4" md="4">
-              <v-text-field v-model="fields.fromLat" variant="solo" color="third" label="Latitude"
-                :rules="[rules.required]" :error-messages="errors.fromLat ? errors.fromLat[0] : ''"></v-text-field>
+              </v-text-field>
             </v-col>
-            <v-col cols="12" sm="4" md="4">
-              <v-text-field v-model="fields.fromLng" variant="solo" color="third" label="Longitude"
-                :rules="[rules.required]" :error-messages="errors.fromLng ? errors.fromLng[0] : ''"></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="4" md="4">
-              <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="blue-darken-4" height="70%"
-                @click="setPickup">Set Pickup</v-btn>
-            </v-col>
-            <v-col cols="12" sm="12" md="12">
-              <v-card theme="light">
-                <div id="map1" style="height: 60vh;"></div>
-              </v-card>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field v-model="fields.time" label="Pickup Time" variant="solo" color="primary" type="time"
+                suffix="PST" :rules="[rules.required]"
+                :error-messages="errors.time ? errors.time[0] : ''"></v-text-field>
             </v-col>
           </v-row>
-        </v-col>
-        <v-col cols="12" sm="12" md="6">
-          <v-row class="row2">
-            <v-col cols="12" sm="4" md="4">
-              <v-text-field v-model="fields.toLat" variant="solo" color="third" label="Latitude" :rules="[rules.required]"
-                :error-messages="errors.toLat ? errors.toLat[0] : ''"></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="4" md="4">
-              <v-text-field v-model="fields.toLng" variant="solo" color="third" label="Longitude"
-                :rules="[rules.required]" :error-messages="errors.toLng ? errors.toLng[0] : ''"></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="4" md="4">
-              <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="success" height="70%"
-                @click="setDestination">Destination</v-btn>
-            </v-col>
-            <v-col cols="12" sm="12" md="12">
-              <v-card theme="light">
-                <div id="map2" style="height: 60vh;"></div>
-              </v-card>
 
+
+
+          <v-row>
+            <v-col cols="12" sm="12" md="6">
+              <v-row class="row1">
+                <v-col cols="12" sm="6" md="3">
+                  <v-select item-value="provCode" item-title="provDesc" :items="from_provinces"
+                    v-model="fields.from_province" @update:modelValue="loadFromCities" variant="solo" color="primary"
+                    label="Province" required :error-messages="errors.from_province ? errors.from_province[0] : ''"
+                    :rules="[rules.required]"></v-select>
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                  <v-select item-value="citymunCode" item-title="citymunDesc" :items="from_cities"
+                    v-model="fields.from_city" @update:modelValue="loadFromBarangays" variant="solo" color="primary"
+                    label="City" :error-messages="errors.from_city ? errors.from_city[0] : ''"
+                    :rules="[rules.required]"></v-select>
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                  <v-select item-value="brgyCode" item-title="brgyDesc" :items="from_barangays"
+                    v-model="fields.from_barangay" variant="solo" color="primary" label="Barangay"
+                    :rules="[rules.required]"
+                    :error-messages="errors.from_barangay ? errors.from_barangay[0] : ''"></v-select>
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                  <v-text-field v-model="fields.from_street" variant="solo" color="primary" label="Street"
+                    :rules="[rules.required]"
+                    :error-messages="errors.from_street ? errors.from_street[0] : ''"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-text-field v-model="fields.fromLat" variant="solo" color="third" label="Latitude"
+                    :rules="[rules.required]" :error-messages="errors.fromLat ? errors.fromLat[0] : ''"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-text-field v-model="fields.fromLng" variant="solo" color="third" label="Longitude"
+                    :rules="[rules.required]" :error-messages="errors.fromLng ? errors.fromLng[0] : ''"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="blue-darken-4" height="70%"
+                    @click="setPickup">Set Pickup</v-btn>
+                </v-col>
+                <v-col cols="12" sm="12" md="12">
+                  <v-card theme="light">
+                    <div id="map1" style="height: 60vh;"></div>
+                  </v-card>
+                </v-col>
+              </v-row>
             </v-col>
+
+
+            <v-col cols="12" sm="12" md="6">
+              <v-row class="row2">
+                <v-col cols="12" sm="6" md="3">
+                  <v-select item-value="provCode" item-title="provDesc" :items="to_provinces"
+                    v-model="fields.to_province" @update:modelValue="loadToCities" variant="solo" color="primary"
+                    label="Province" required :error-messages="errors.to_province ? errors.to_province[0] : ''"
+                    :rules="[rules.required]"></v-select>
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                  <v-select item-value="citymunCode" item-title="citymunDesc" :items="to_cities"
+                    v-model="fields.to_city" @update:modelValue="loadToBarangays" variant="solo" color="primary"
+                    label="City" :error-messages="errors.to_city ? errors.to_city[0] : ''"
+                    :rules="[rules.required]"></v-select>
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                  <v-select item-value="brgyCode" item-title="brgyDesc" :items="to_barangays"
+                    v-model="fields.to_barangay" variant="solo" color="primary" label="Barangay"
+                    :rules="[rules.required]"
+                    :error-messages="errors.to_barangay ? errors.to_barangay[0] : ''"></v-select>
+                </v-col>
+                <v-col cols="12" sm="6" md="3">
+                  <v-text-field v-model="fields.to_street" variant="solo" color="primary" label="Street"
+                    :rules="[rules.required]"
+                    :error-messages="errors.to_street ? errors.to_street[0] : ''"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-text-field v-model="fields.toLat" variant="solo" color="third" label="Latitude"
+                    :rules="[rules.required]" :error-messages="errors.toLat ? errors.toLat[0] : ''"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-text-field v-model="fields.toLng" variant="solo" color="third" label="Longitude"
+                    :rules="[rules.required]" :error-messages="errors.toLng ? errors.toLng[0] : ''"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="success" height="70%"
+                    @click="setDestination">Destination</v-btn>
+                </v-col>
+                <v-col cols="12" sm="12" md="12">
+                  <v-card theme="light">
+                    <div id="map2" style="height: 60vh;"></div>
+                  </v-card>
+
+                </v-col>
+              </v-row>
+            </v-col>
+
           </v-row>
-        </v-col>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click="confirmSave = true" variant="tonal" size="large" prepend-icon="mdi-check-circle" color="green">Save</v-btn>
+          <v-btn href="/admin-dashboard" variant="tonal" size="large" prepend-icon="mdi-check-circle" color="yellow">Go Back</v-btn>
+        </v-card-actions>
+      </v-card>
 
-      </v-row>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn @click="confirmSave = true" variant="tonal" size="large" prepend-icon="mdi-check-circle">Save</v-btn>
-    </v-card-actions>
-  </v-card>
+      <v-dialog v-model="confirmSave" width="auto" persistent>
+        <v-card>
+          <v-alert density="compact" type="warning" color="primary"
+            title="Are you certain that all the information provided is accurate?"
+            text="(Once the delivery information is saved, it is considered unchangeable to avoid any confusion with deliveries.)"></v-alert>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="info" variant="outlined" @click="confirmSave = false">Close</v-btn>
+            <v-btn color="red" variant="outlined" @click="submitDelivery">Yes</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-main>
 
-  <v-dialog v-model="confirmSave" width="auto" persistent>
-    <v-card>
-      <v-alert density="compact" type="warning" color="primary"
-        title="Are you certain that all the information provided is accurate?"
-        text="(Once the delivery information is saved, it is considered unchangeable to avoid any confusion with deliveries.)"></v-alert>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="info" variant="outlined" @click="confirmSave = false">Close</v-btn>
-        <v-btn color="red" variant="outlined" @click="submitDelivery">Yes</v-btn>
-        <v-spacer></v-spacer>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  </v-layout>
+
 </template>
 
 <script>
@@ -142,10 +206,48 @@ export default {
       click2Lat: null,
       click2Lng: null,
       confirmSave: false,
-      theme: null
+      theme: null,
+      to_provinces: [],
+      to_cities: [],
+      to_barangays: [],
+      from_provinces: [],
+      from_cities: [],
+      from_barangays: [],
     };
   },
   methods: {
+    loadToProvinces: function () {
+      axios.get('/load-provinces').then(res => {
+        this.to_provinces = res.data;
+      })
+    },
+    loadToCities: function () {
+      axios.get('/load-cities?prov=' + this.fields.to_province).then(res => {
+        this.to_cities = res.data;
+      })
+    },
+
+    loadToBarangays: function () {
+      axios.get('/load-barangays?prov=' + this.fields.to_province + '&city_code=' + this.fields.to_city).then(res => {
+        this.to_barangays = res.data;
+      })
+    },
+    loadFromProvinces: function () {
+      axios.get('/load-provinces').then(res => {
+        this.from_provinces = res.data;
+      })
+    },
+    loadFromCities: function () {
+      axios.get('/load-cities?prov=' + this.fields.from_province).then(res => {
+        this.from_cities = res.data;
+      })
+    },
+
+    loadFromBarangays: function () {
+      axios.get('/load-barangays?prov=' + this.fields.from_province + '&city_code=' + this.fields.from_city).then(res => {
+        this.from_barangays = res.data;
+      })
+    },
     loadCustomers() {
       axios.get('/load-customers').then(
         res => {
@@ -271,6 +373,8 @@ export default {
       this.loadCustomers();
       this.loadDrivers();
       this.loadVehicles();
+      this.loadToProvinces();
+      this.loadFromProvinces();
     },
     refreshData() {
       this.loadCustomers();
@@ -321,6 +425,10 @@ export default {
 
 * {
   color: black !important;
+}
+
+h2 {
+  color: rgb(255, 255, 255) !important;
 }
 
 /* Customize the background color of the search field */

@@ -24,7 +24,16 @@ class DeliveryController extends Controller
             'reciever' => ['required'],
             'date' => ['required'],
             'time' => ['required'],
-            'reciever_no' => ['required', 'regex:/^(09|\+639)\d{9}$/']
+            'reciever_no' => ['required', 'regex:/^(09|\+639)\d{9}$/'],
+            'to_province' => ['required'],
+            'to_city' => ['required'],
+            'to_barangay' => ['required'],
+            'to_street' => ['required'],
+            'from_province' => ['required'],
+            'from_city' => ['required'],
+            'from_barangay' => ['required'],
+            'from_street' => ['required'],
+
         ]);
 
         Delivery::create([
@@ -38,7 +47,17 @@ class DeliveryController extends Controller
             'reciever_name' => $req->reciever,
             'reciever_no' => $req->reciever_no,
             'date' => $req->date,
-            'time' => $req->time
+            'time' => $req->time,
+
+            'to_province' => $req->to_province,
+            'to_city' => $req->to_city,
+            'to_barangay' => $req->to_barangay,
+            'to_street' => $req->to_street,  
+            
+            'from_province' => $req->from_province,
+            'from_city' => $req->from_city,
+            'from_barangay' => $req->from_barangay,
+            'from_street' => $req->from_street,        
         ]);
 
         Driver::where('driver_id', $req->driver_id)
@@ -180,20 +199,23 @@ class DeliveryController extends Controller
             'status' => 'saved'
         ], 200);
     }
-    public function deleteDelivery($id)
+    public function deleteDelivery(Request $req)
     {
-        $driver_id = Delivery::where('delivery_id', $id)->pluck('driver_id');
-        $vehicle_id = Delivery::where('delivery_id', $id)->pluck('vehicle_id');
+        foreach ($req->all() as $key => $id) {
+            $driver_id = Delivery::where('delivery_id', $id)->pluck('driver_id');
+            $vehicle_id = Delivery::where('delivery_id', $id)->pluck('vehicle_id');
 
-        Driver::where('driver_id', $driver_id)->update([
-            'is_available' => 1,
-        ]);
-        Vehicle::where('vehicle_id', $vehicle_id)->update([
-            'is_available' => 1,
-        ]);
-        Delivery::destroy($id);
+            Driver::where('driver_id', $driver_id)->update([
+                'is_available' => 1,
+            ]);
+            Vehicle::where('vehicle_id', $vehicle_id)->update([
+                'is_available' => 1,
+            ]);
+            Delivery::destroy($id);
+        }
         return response()->json([
             'status' => 'deleted'
         ], 200);
+        
     }
 }

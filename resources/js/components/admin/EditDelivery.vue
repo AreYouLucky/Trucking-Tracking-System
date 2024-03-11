@@ -6,99 +6,148 @@
         <h3 class="title">LARA's TRUCKING SERVICES</h3>
       </v-app-bar>
       <v-main class="mt-5 color">
-          <v-card color="secondary" class="pa-5">
-            <v-card-text>
-              <v-row>
-                <v-col cols="12" sm="6" md="4">
-                  <v-select item-value="customer_id" item-title="username" :items="customers" v-model="fields.customer_id"
-                    variant="solo" color="third" label="Select Customer" :rules="[rules.required]"
-                    :error-messages="errors.customer_id ? errors.customer_id[0] : ''"></v-select>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-select item-value="driver_id" item-title="username" :items="drivers" v-model="fields.driver_id"
-                    variant="solo" color="third" label="Select Driver" :rules="[rules.required]"
-                    :error-messages="errors.driver_id ? errors.driver_id[0] : ''"></v-select>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-select item-value="vehicle_id" item-title="name" :items="vehicles" v-model="fields.vehicle_id"
-                    variant="solo" color="third" label="Select Vehicle" :rules="[rules.required]"
-                    :error-messages="errors.vehicle_id ? errors.vehicle_id[0] : ''"></v-select>
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                  <v-text-field v-model="fields.reciever" variant="solo" color="primary" label="Reciever's Full Name"
-                    required :rules="[rules.required]"
-                    :error-messages="errors.reciever ? errors.reciever[0] : ''"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                  <v-text-field v-model="fields.reciever_no" variant="solo" color="primary" label="Reciever's Contact"
-                    required :rules="[rules.required, rules.phone]"
-                    :error-messages="errors.reciever_no ? errors.reciever_no[0] : ''"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                  <v-text-field type="date" v-model="fields.date" variant="solo" color="primary" label="Pickup Date"
-                    required :rules="[rules.required]" :error-messages="errors.date ? errors.date[0] : ''">
+        <v-card color="secondary" class="pa-5">
+          <v-card-text>
+            <v-row>
+              <v-col cols="12" sm="6" md="4">
+                <v-select item-value="customer_id" item-title="username" :items="customers" v-model="fields.customer_id"
+                  variant="solo" color="third" label="Select Customer" :rules="[rules.required]"
+                  :error-messages="errors.customer_id ? errors.customer_id[0] : ''"></v-select>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-select item-value="driver_id" item-title="username" :items="drivers" v-model="fields.driver_id"
+                  variant="solo" color="third" label="Select Driver" :rules="[rules.required]"
+                  :error-messages="errors.driver_id ? errors.driver_id[0] : ''"></v-select>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-select item-value="vehicle_id" item-title="name" :items="vehicles" v-model="fields.vehicle_id"
+                  variant="solo" color="third" label="Select Vehicle" :rules="[rules.required]"
+                  :error-messages="errors.vehicle_id ? errors.vehicle_id[0] : ''"></v-select>
+              </v-col>
+              <v-col cols="12" sm="6" md="3">
+                <v-text-field v-model="fields.reciever" variant="solo" color="primary" label="Reciever's Full Name"
+                  required :rules="[rules.required]"
+                  :error-messages="errors.reciever ? errors.reciever[0] : ''"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="3">
+                <v-text-field v-model="fields.reciever_no" variant="solo" color="primary" label="Reciever's Contact"
+                  required :rules="[rules.required, rules.phone]"
+                  :error-messages="errors.reciever_no ? errors.reciever_no[0] : ''"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="3">
+                <v-text-field type="date" v-model="fields.date" variant="solo" color="primary" label="Pickup Date"
+                  required :rules="[rules.required]" :error-messages="errors.date ? errors.date[0] : ''">
 
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                  <v-text-field v-model="fields.time" label="Pickup Time" variant="solo" color="primary" type="time"
-                    suffix="PST" :rules="[rules.required]"
-                    :error-messages="errors.time ? errors.time[0] : ''"></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="12" md="6">
-                  <v-row class="row1">
-                    <v-col cols="12" sm="4" md="4">
-                      <v-text-field v-model="fields.fromLat" variant="solo" color="third" label="Latitude"
-                        :rules="[rules.required]"
-                        :error-messages="errors.fromLat ? errors.fromLat[0] : ''"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-text-field v-model="fields.fromLng" variant="solo" color="third" label="Longitude"
-                        :rules="[rules.required]"
-                        :error-messages="errors.fromLng ? errors.fromLng[0] : ''"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="blue-darken-4" height="70%"
-                        @click="setPickup">Update Pickup</v-btn>
-                    </v-col>
-                    <v-col cols="12" sm="12" md="12">
-                      <v-card theme="light">
-                        <div id="map1" style="height: 60vh;"></div>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-col>
-                <v-col cols="12" sm="12" md="6">
-                  <v-row class="row2">
-                    <v-col cols="12" sm="4" md="4">
-                      <v-text-field v-model="fields.toLat" variant="solo" color="third" label="Latitude"
-                        :rules="[rules.required]" :error-messages="errors.toLat ? errors.toLat[0] : ''"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-text-field v-model="fields.toLng" variant="solo" color="third" label="Longitude"
-                        :rules="[rules.required]" :error-messages="errors.toLng ? errors.toLng[0] : ''"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="4" md="4">
-                      <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="success" height="70%"
-                        @click="setDestination">Update Destination</v-btn>
-                    </v-col>
-                    <v-col cols="12" sm="12" md="12">
-                      <v-card theme="light">
-                        <div id="map2" style="height: 60vh;"></div>
-                      </v-card>
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="3">
+                <v-text-field v-model="fields.time" label="Pickup Time" variant="solo" color="primary" type="time"
+                  suffix="PST" :rules="[rules.required]"
+                  :error-messages="errors.time ? errors.time[0] : ''"></v-text-field>
+              </v-col>
+            </v-row>
 
-                    </v-col>
-                  </v-row>
-                </v-col>
+            <v-row>
+              <v-col cols="12" sm="12" md="6">
+                <v-row class="row1">
+                  <v-col cols="12" sm="6" md="3">
+                    <v-select item-value="provCode" item-title="provDesc" :items="from_provinces"
+                      v-model="fields.from_province" @update:modelValue="loadFromCities" variant="solo" color="primary"
+                      label="Province" required :error-messages="errors.from_province ? errors.from_province[0] : ''"
+                      :rules="[rules.required]"></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="3">
+                    <v-select item-value="citymunCode" item-title="citymunDesc" :items="from_cities"
+                      v-model="fields.from_city" @update:modelValue="loadFromBarangays" variant="solo" color="primary"
+                      label="City" :error-messages="errors.from_city ? errors.from_city[0] : ''"
+                      :rules="[rules.required]"></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="3">
+                    <v-select item-value="brgyCode" item-title="brgyDesc" :items="from_barangays"
+                      v-model="fields.from_barangay" variant="solo" color="primary" label="Barangay"
+                      :rules="[rules.required]"
+                      :error-messages="errors.from_barangay ? errors.from_barangay[0] : ''"></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="3">
+                    <v-text-field v-model="fields.from_street" variant="solo" color="primary" label="Street"
+                      :rules="[rules.required]"
+                      :error-messages="errors.from_street ? errors.from_street[0] : ''"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4">
+                    <v-text-field v-model="fields.fromLat" variant="solo" color="third" label="Latitude"
+                      :rules="[rules.required]"
+                      :error-messages="errors.fromLat ? errors.fromLat[0] : ''"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4">
+                    <v-text-field v-model="fields.fromLng" variant="solo" color="third" label="Longitude"
+                      :rules="[rules.required]"
+                      :error-messages="errors.fromLng ? errors.fromLng[0] : ''"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4">
+                    <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="blue-darken-4" height="70%"
+                      @click="setPickup">Update Pickup</v-btn>
+                  </v-col>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-card theme="light">
+                      <div id="map1" style="height: 60vh;"></div>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-col>
 
-              </v-row>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn @click="update" variant="outlined" size="large" prepend-icon="mdi-check-circle" color="black">Update</v-btn>
-            </v-card-actions>
-          </v-card>
+              <v-col cols="12" sm="12" md="6">
+                <v-row class="row2">
+                  <v-col cols="12" sm="6" md="3">
+                    <v-select item-value="provCode" item-title="provDesc" :items="to_provinces"
+                      v-model="fields.to_province" @update:modelValue="loadToCities" variant="solo" color="primary"
+                      label="Province" required :error-messages="errors.to_province ? errors.to_province[0] : ''"
+                      :rules="[rules.required]"></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="3">
+                    <v-select item-value="citymunCode" item-title="citymunDesc" :items="to_cities"
+                      v-model="fields.to_city" @update:modelValue="loadToBarangays" variant="solo" color="primary"
+                      label="City" :error-messages="errors.to_city ? errors.to_city[0] : ''"
+                      :rules="[rules.required]"></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="3">
+                    <v-select item-value="brgyCode" item-title="brgyDesc" :items="to_barangays"
+                      v-model="fields.to_barangay" variant="solo" color="primary" label="Barangay"
+                      :rules="[rules.required]"
+                      :error-messages="errors.to_barangay ? errors.to_barangay[0] : ''"></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="3">
+                    <v-text-field v-model="fields.to_street" variant="solo" color="primary" label="Street"
+                      :rules="[rules.required]"
+                      :error-messages="errors.to_street ? errors.to_street[0] : ''"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4">
+                    <v-text-field v-model="fields.toLat" variant="solo" color="third" label="Latitude"
+                      :rules="[rules.required]" :error-messages="errors.toLat ? errors.toLat[0] : ''"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4">
+                    <v-text-field v-model="fields.toLng" variant="solo" color="third" label="Longitude"
+                      :rules="[rules.required]" :error-messages="errors.toLng ? errors.toLng[0] : ''"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4">
+                    <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="success" height="70%"
+                      @click="setDestination">Update Destination</v-btn>
+                  </v-col>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-card theme="light">
+                      <div id="map2" style="height: 60vh;"></div>
+                    </v-card>
+
+                  </v-col>
+                </v-row>
+              </v-col>
+
+            </v-row>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn @click="update" variant="outlined" size="large" prepend-icon="mdi-check-circle"
+              color="black">Update</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-main>
 
       <v-dialog v-model="errorDialog" width="auto">
@@ -115,6 +164,7 @@
     </v-layout>
   </v-app>
 </template>
+
 <script>
 import { onMounted } from 'vue';
 import markImage from './../../../img/mark.png'
@@ -155,7 +205,7 @@ export default {
   },
   methods: {
     loadDelivery() {
-      axios.get('/get-delivery/'+ this.data_id).then(
+      axios.get('/get-delivery/' + this.data_id).then(
         res => {
           this.fields = res.data;
           this.fields.reciever = res.data.reciever_name;
@@ -301,7 +351,7 @@ export default {
     update() {
       axios.post('/update-delivery', this.fields).then(
         res => {
-          window.location ='/admin-dashboard';
+          window.location = '/admin-dashboard';
         }
       ).catch(err => {
         this.errors = err.response.data.errors
@@ -343,4 +393,3 @@ export default {
 
 /* Customize the background color of the search field */
 </style>
-  
