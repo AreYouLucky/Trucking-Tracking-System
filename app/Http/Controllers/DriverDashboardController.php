@@ -26,7 +26,7 @@ class DriverDashboardController extends Controller
             ->first();
 
         $to = DB::select('
-        SELECT 
+        SELECT
         d.`to_street`,
         p.`provDesc`,
         b.`brgyDesc`,
@@ -40,7 +40,7 @@ class DriverDashboardController extends Controller
        ;');
 
         $from = DB::select('
-        SELECT 
+        SELECT
         d.`from_street`,
         p.`provDesc`,
         b.`brgyDesc`,
@@ -185,13 +185,13 @@ class DriverDashboardController extends Controller
             // If $longitude is null, initialize it as an empty array
             $longitude = [];
         }
-        
+
         // Append the new longitude value to $longitude
         $longitude[] = $req->longitude;
-        
+
         // Cache the updated $longitude array
         Cache::forever('longitude', $longitude);
-        
+
 
         return response()->json([
             'status' => 'Location cached successfully'
@@ -219,7 +219,7 @@ class DriverDashboardController extends Controller
     {
         $driver_id = Auth::user()->driver()->first();
         return DB::select("
-        SELECT 
+        SELECT
             d.delivery_id,
             d.is_delivered,
             c.lname,
@@ -227,10 +227,12 @@ class DriverDashboardController extends Controller
             d.reciever_name,
             d.reciever_no,
             d.time,
-            d.date
-        FROM 
+            d.date,
+            d.delivery_weight,
+            d.delivery_info
+        FROM
             deliveries d
-        LEFT JOIN 
+        LEFT JOIN
             customers c ON c.customer_id = d.customer_id
         WHERE
             d.driver_id = $driver_id->driver_id

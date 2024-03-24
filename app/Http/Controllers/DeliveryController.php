@@ -33,6 +33,8 @@ class DeliveryController extends Controller
             'from_city' => ['required'],
             'from_barangay' => ['required'],
             'from_street' => ['required'],
+            'delivery_info'=> ['required'],
+            'delivery_weight'=> ['required','numeric']
 
         ]);
 
@@ -48,16 +50,18 @@ class DeliveryController extends Controller
             'reciever_no' => $req->reciever_no,
             'date' => $req->date,
             'time' => $req->time,
+            'delivery_info' => $req->delivery_info,
+            'delivery_weight' => $req->delivery_weight,
 
             'to_province' => $req->to_province,
             'to_city' => $req->to_city,
             'to_barangay' => $req->to_barangay,
-            'to_street' => $req->to_street,  
-            
+            'to_street' => $req->to_street,
+
             'from_province' => $req->from_province,
             'from_city' => $req->from_city,
             'from_barangay' => $req->from_barangay,
-            'from_street' => $req->from_street,        
+            'from_street' => $req->from_street,
         ]);
 
         Driver::where('driver_id', $req->driver_id)
@@ -78,14 +82,14 @@ class DeliveryController extends Controller
     public function loadDrivers()
     {
         return DB::select("
-            SELECT 
+            SELECT
                 u.username,
                 d.driver_id
-            FROM 
+            FROM
                 users u
-            INNER JOIN 
+            INNER JOIN
                 drivers d ON u.user_id = d.user_id
-            WHERE 
+            WHERE
                 d.is_available = 1 AND u.role = 'DRIVER'
         ");
     }
@@ -94,14 +98,14 @@ class DeliveryController extends Controller
     public function loadCustomers()
     {
         return DB::select("
-            SELECT 
+            SELECT
                 u.username,
                 c.customer_id
-            FROM 
+            FROM
                 users u
-            INNER JOIN 
+            INNER JOIN
                 customers c ON u.user_id = c.user_id
-            WHERE 
+            WHERE
                 u.role = 'CUSTOMER'
         ");
     }
@@ -113,7 +117,7 @@ class DeliveryController extends Controller
     public function loadDeliveries()
     {
         return DB::select("
-        SELECT 
+        SELECT
             d.delivery_id,
             d.is_delivered,
             dr.lname,
@@ -122,11 +126,11 @@ class DeliveryController extends Controller
             d.reciever_no,
             d.time,
             d.date
-        FROM 
+        FROM
             deliveries d
-        LEFT JOIN 
+        LEFT JOIN
             drivers dr ON dr.driver_id = d.driver_id
-        LEFT JOIN 
+        LEFT JOIN
             customers c ON c.customer_id = d.customer_id
         LEFT JOIN
             users u ON u.user_id = c.user_id;
@@ -167,7 +171,9 @@ class DeliveryController extends Controller
             'reciever' => ['required'],
             'date' => ['required'],
             'time' => ['required'],
-            'reciever_no' => ['required', 'regex:/^(09|\+639)\d{9}$/']
+            'reciever_no' => ['required', 'regex:/^(09|\+639)\d{9}$/'],
+            'delivery_info'=> ['required'],
+            'delivery_weight'=> ['required', 'numeric']
         ]);
 
         Delivery::where('delivery_id',$req->delivery_id)
@@ -182,7 +188,9 @@ class DeliveryController extends Controller
             'reciever_name' => $req->reciever,
             'reciever_no' => $req->reciever_no,
             'date' => $req->date,
-            'time' => $req->time
+            'time' => $req->time,
+            'delivery_info' => $req->delivery_info,
+            'delivery_weight' => $req->delivery_weight,
         ]);
 
         Driver::where('driver_id', $req->driver_id)
@@ -216,6 +224,6 @@ class DeliveryController extends Controller
         return response()->json([
             'status' => 'deleted'
         ], 200);
-        
+
     }
 }

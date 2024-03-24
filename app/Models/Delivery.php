@@ -31,7 +31,9 @@ class Delivery extends Model
         'reciever_no',
         'date',
         'time',
-        'proof_path'
+        'proof_path',
+        'delivery_weight',
+        'delivery_info'
     ];
 
     public function driver(){

@@ -22,6 +22,14 @@
             <a v-if="location.time" class="heads">Pickup Time: {{ location.time }}</a>
             <a v-else class="heads">Pickup Time: no data</a>
           </v-col>
+          <v-col cols="12" sm="4" md="4" class="heads">
+            <a v-if="location.reciever_no" class="heads">Delivery Weight: {{ location.delivery_weight }}</a>
+            <a v-else class="heads">Delivery Weight: no data</a>
+          </v-col>
+          <v-col cols="12" sm="8" md="8" class="heads">
+            <a v-if="location.reciever_no" class="heads">Delivery Information: {{ location.delivery_info }}</a>
+            <a v-else class="heads">Delivery Information: no data</a>
+          </v-col>
 
           <v-col cols="12" sm="12" md="12" class="heads">
             <a v-if="from" class="heads">Pickup Location: {{ from.provDesc }},{{ from.brgyDesc }},{{ from.citymunDesc }},{{ from.from_street }},</a>
@@ -92,7 +100,7 @@
     </v-card>
   </v-dialog>
 </template>
-  
+
 <script>
 import { ref } from 'vue';
 import boxImage from './../../../img/box.png'
@@ -343,7 +351,7 @@ export default {
   }
 };
 </script>
-  
+
 <style scoped>
 .map-container {
   height: 80vh;
@@ -359,4 +367,3 @@ export default {
   color: beige;
 }
 </style>
-  

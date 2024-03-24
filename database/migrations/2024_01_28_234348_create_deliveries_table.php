@@ -49,6 +49,8 @@ return new class extends Migration
             $table->string('date')->nullable();
             $table->string('time')->nullable();
             $table->string('proof_path')->nullable();
+            $table->double('delivery_weight')->nullable();
+            $table->string('delivery_info')->nullable();
         });
     }
 
