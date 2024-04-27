@@ -1,9 +1,107 @@
 <template>
-  <div>
-    <div id="map1" class="map-container"></div>
-  </div>
+  <v-row class="pa-5" style="background-color: black;">
+    <v-col cols="12" md="12">
+      <v-row class="d-flex justify-center">
+        <v-col cols="12" md="6">
+          <v-card>
+            <v-card-title>
+              <v-sheet class="d-flex justify-center" color="primary">
+                <b class="text-white">Driver's Information</b>
+              </v-sheet>
+            </v-card-title>
+            <v-card-text>
+              <v-sheet color="secondary">
+                <v-table theme="light">
+                  <thead>
+                    <tr>
+                      <th>
+                        Driver's Name:
+                      </th>
+                      <th>
+                        {{ driver.fname }} {{ driver.lname }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>
+                        Contact No:
+                      </th>
+                      <td>
+                        {{ driver.contact_no }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        License ID:
+                      </th>
+                      <td>
+                        {{ driver.license_id }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-table>
+
+              </v-sheet>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="5">
+          <v-card>
+            <v-card-title>
+              <v-sheet class="d-flex justify-center" color="fourth">
+                <b class="text-white">Vehicle Information</b>
+              </v-sheet>
+            </v-card-title>
+            <v-card-text>
+              <v-sheet color="secondary">
+                <v-table theme="light">
+                  <thead>
+                    <tr>
+                      <th>
+                        Vehicle Model:
+                      </th>
+                      <th>
+                        {{ vehicle.name }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>
+                        Vehicle Body:
+                      </th>
+                      <td>
+                        {{ vehicle.vehicle_type }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        Plate No:
+                      </th>
+                      <td>
+                        {{ vehicle.plate_no }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-table>
+
+              </v-sheet>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-col>
+    <v-col cols="12" md="12">
+      <div>
+        <div id="map1" class="map-container"></div>
+      </div>
+    </v-col>
+
+  </v-row>
+
 </template>
-  
+
 <script>
 import { ref } from 'vue';
 import L from 'leaflet';
@@ -20,14 +118,33 @@ export default {
       driver_id: null,
       location: [],
       map: null,
+      routingControl: null,
+      driver: {},
+      vehicle: {}
     };
   },
   methods: {
+    getDriver() {
+      axios.get('/driver/' + this.location.driver_id).then(
+        res => {
+          this.driver = res.data
+        }
+      )
+    },
+    getVehicle() {
+      axios.get('/vehicle/' + this.location.vehicle_id).then(
+        res => {
+          this.vehicle = res.data
+        }
+      )
+    },
     getLocation() {
       return new Promise((resolve, reject) => {
         axios.get('/driver-location-data/' + this.driver_id).then(
           res => {
             this.location = res.data;
+            this.getDriver()
+            this.getVehicle()
             resolve();
           }
         ).catch(error => {
@@ -79,6 +196,26 @@ export default {
       var mark2 = L.marker([this.location.to_lat, this.location.to_long], { icon: customIcon1 }).addTo(this.map)
         .bindPopup('Delivery Location Here!').openPopup();
 
+      if (this.routingControl == null) {
+        this.routingControl = L.Routing.control({
+          waypoints: [
+            L.latLng(this.location.to_lat, this.location.to_long),
+            L.latLng(this.location.from_lat, this.location.from_long)
+          ],
+          router: L.Routing.graphHopper('7652a8a1-3fa4-4e32-be0d-82c191c3538a', {
+            vehicle: 'car'
+          }),
+          numberOfRoutes: 3, // Set to the desired number of alternative routes
+          lineOptions: {
+            styles: [
+              { color: 'blue', opacity: 0.5, weight: 9 },
+              { color: 'white', opacity: 0.8, weight: 6 },
+              { color: 'red', opacity: 1, weight: 2 }
+            ]
+          }
+        }).addTo(this.map);
+      }
+
     },
     updateLocation() {
       const updateDriverLocation = () => {
@@ -105,7 +242,7 @@ export default {
             console.error('Error fetching driver location:', error);
           });
       };
-      updateDriverLocation(); 
+      updateDriverLocation();
     }
   },
   mounted() {
@@ -121,7 +258,7 @@ export default {
   }
 };
 </script>
-  
+
 <style scoped>
 .map-container {
   height: 100vh;
@@ -133,4 +270,3 @@ export default {
   color: black;
 }
 </style>
-  

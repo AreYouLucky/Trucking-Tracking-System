@@ -12,7 +12,7 @@
                             <v-row >
                                 <v-col class="d-flex justify-center align-center mb-5">
                                     <v-avatar color="third" size="80" icon="mdi-account-circle">
-                                        
+
                                     </v-avatar>
                                 </v-col>
                             </v-row>
@@ -27,7 +27,7 @@
                                 variant="outlined"
                                 :error-messages="err.username ? err.username[0] : ''"
                                 required
-                                
+
                             ></v-text-field>
 
                                 <v-text-field
@@ -57,7 +57,7 @@
                         </v-card>
                     </v-form>
 
-                </v-container>       
+                </v-container>
             </v-main>
 
             <v-dialog
@@ -89,7 +89,7 @@ export default{
             fields:{},
             errorDialog: false,
             err: {}
-           
+
        };
    },
    methods: {
@@ -132,4 +132,3 @@ export default{
     }
 
 </style>
-  

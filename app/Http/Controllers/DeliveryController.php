@@ -226,4 +226,10 @@ class DeliveryController extends Controller
         ], 200);
 
     }
+    public function getDriver($id){
+        return Driver::where('driver_id',$id)->first();
+    }
+    public function getVehicle($id){
+        return Vehicle::where('vehicle_id',$id)->first();
+    }
 }

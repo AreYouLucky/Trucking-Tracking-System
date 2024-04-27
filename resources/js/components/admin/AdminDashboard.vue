@@ -2,7 +2,7 @@
     <v-app>
         <v-navigation-drawer v-model="drawer" color="black">
             <v-card class="align-center justify center" height="100vh">
-                <v-row class="justify-center"> 
+                <v-row class="justify-center">
                     <img src="../../../img/logo.png" width="200px">
                 </v-row>
                 <v-row>
@@ -45,33 +45,33 @@
                         Deliveries
                     </v-tab>
                 </v-tabs>
-                    
+
                 </v-row>
-                 
-           
+
+
             </v-card>
-            
+
         </v-navigation-drawer>
 
     <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <h3 class="title">Admin</h3>
-                <v-spacer></v-spacer>         
+                <v-spacer></v-spacer>
                 <v-btn
-                class="logout"  
-                @click="dialog=true" 
+                class="logout"
+                @click="dialog=true"
                 prepend-icon="mdi-logout"
                 elevation = "2"
                 > Sign Out</v-btn>
     </v-app-bar>
 
     <v-main>
-            
+
             <v-window v-model="tab">
                 <v-window-item value="ONE">
                     <v-card class="pa-4" color="blue" min-height="90vh">
                         <dashboard-fields v-if="tab === 'ONE'" ref="DashboardFields"></dashboard-fields>
-                    </v-card>                      
+                    </v-card>
                 </v-window-item>
 
                 <v-window-item value="TWO">
@@ -96,7 +96,7 @@
                 </v-window-item>
             </v-window>
     </v-main>
-            
+
 
 
         <v-dialog
@@ -127,7 +127,7 @@ export default{
         tab: null,
         dialog: false,
         drawer :'',
-        user: []   
+        user: []
        };
    },
    methods: {
@@ -152,7 +152,7 @@ export default{
                 break;
                 case 'THREE':
                 this.$nextTick(() => {
-                this.$refs.DriverFields.initData(); 
+                this.$refs.DriverFields.initData();
                 });// Assuming initData is the initialization method
                 break;
                 case 'FOUR':
@@ -174,7 +174,7 @@ export default{
                 break;
             }
             }
-      
+
     },
     watch: {
         tab(newTab, oldTab) {

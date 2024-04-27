@@ -2,7 +2,7 @@
     <v-app>
         <v-navigation-drawer v-model="drawer" color="black">
             <v-card class="align-center justify center" height="100vh">
-                <v-row class="justify-center"> 
+                <v-row class="justify-center">
                     <img src="../../../img/logo.png" width="200px">
                 </v-row>
                 <v-row class="justify-center">
@@ -21,37 +21,37 @@
                         Dashboard
                     </v-tab>
                 </v-tabs>
-                    
+
                 </v-row>
-                 
-           
+
+
             </v-card>
-            
+
         </v-navigation-drawer>
 
     <v-app-bar color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <h3 class="title">Customer</h3>
-                <v-spacer></v-spacer>         
+                <v-spacer></v-spacer>
                 <v-btn
-                class="logout"  
-                @click="dialog=true" 
+                class="logout"
+                @click="dialog=true"
                 prepend-icon="mdi-logout"
                 elevation = "2"
                 > Sign Out</v-btn>
     </v-app-bar>
 
     <v-main>
-            
+
             <v-window v-model="tab">
                 <v-window-item value="ONE">
                     <v-card class="pa-4" color="blue" min-height="90vh">
                         <customer-deliveries></customer-deliveries>
-                    </v-card>                      
+                    </v-card>
                 </v-window-item>
             </v-window>
     </v-main>
-            
+
 
 
         <v-dialog
@@ -82,7 +82,7 @@ export default{
         tab: null,
         dialog: false,
         drawer :'',
-        user: []   
+        user: []
        };
    },
    methods: {

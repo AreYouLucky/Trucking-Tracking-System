@@ -122,3 +122,6 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
 Route::get('/sample', function () {
     return view('sample');
 });
+Route::get('/driver/{id}',[App\Http\Controllers\DeliveryController::class,'getDriver']);
+Route::get('/vehicle/{id}',[App\Http\Controllers\DeliveryController::class,'getVehicle']);
+
