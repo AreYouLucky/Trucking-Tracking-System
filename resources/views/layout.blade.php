@@ -8,7 +8,21 @@
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-        
+        <!-- Leaflet CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+        <!-- Leaflet Routing Machine CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+
+        <!-- Vue.js -->
+        <script src="https://unpkg.com/vue@3"></script>
+
+        <!-- Leaflet JS -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+        <!-- Leaflet Routing Machine JS -->
+        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
 
         <!-- Styles -->
     </head>

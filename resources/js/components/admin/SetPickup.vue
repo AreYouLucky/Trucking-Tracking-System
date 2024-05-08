@@ -208,7 +208,7 @@
                         text="(Once the delivery information is saved, it is considered unchangeable to avoid any confusion with deliveries.)"></v-alert>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="info" variant="outlined" @click="confirmSave = false">Close</v-btn>
+                        <v-btn color="info" variant="flat" @click="confirmSave = false">Close</v-btn>
                         <v-btn color="red" variant="outlined" @click="submitDelivery">Yes</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>

@@ -104,8 +104,8 @@
 
 <script>
 import { ref } from 'vue';
-import L from 'leaflet';
-import 'leaflet-routing-machine';
+// import L from 'leaflet';
+// import 'leaflet-routing-machine';
 import axios from 'axios';
 import boxImage from './../../../img/box.png'
 import homeImage from './../../../img/home.png'
