@@ -45,7 +45,7 @@ Route::post('/sms-customer/{id}',[App\Http\Controllers\SmsController::class,'sms
 Route::post('/sms-reciever/{id}',[App\Http\Controllers\SmsController::class,'smsReciever']);
 
 
-//Administrator
+//Administrator 
 Route::middleware(['auth','role:ADMIN'])->group(function(){
     Route::get('/admin-dashboard', function () {
         return view('Admin.AdminDashboard');
@@ -97,7 +97,7 @@ Route::middleware(['auth','role:CUSTOMER'])->group(function(){
     Route::get('/customer-deliveries',[App\Http\Controllers\CustomerDashboardController::class,'customerDeliveries']);
 
 });
-//Driver
+//Drivers
 Route::middleware(['auth','role:DRIVER'])->group(function(){
     Route::get('/driver-dashboard', function () {
         return view('Driver.DriverDashboard');
@@ -118,10 +118,7 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
     Route::post('/save-route/{id}',[App\Http\Controllers\DriverDashboardController::class,'saveRoute']);
 
 });
-//testing
-Route::get('/sample', function () {
-    return view('sample');
-});
+//testings
 Route::get('/driver/{id}',[App\Http\Controllers\DeliveryController::class,'getDriver']);
 Route::get('/vehicle/{id}',[App\Http\Controllers\DeliveryController::class,'getVehicle']);
 
