@@ -18,36 +18,36 @@
                             <v-select item-value="customer_id" item-title="username" :items="customers"
                                 v-model="fields.customer_id" variant="solo" color="third" label="Select Customer"
                                 :rules="[rules.required]" :error-messages="errors.customer_id
-                        ? errors.customer_id[0]
-                        : ''
-                        "></v-select>
+                                    ? errors.customer_id[0]
+                                    : ''
+                                    "></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                             <v-select item-value="driver_id" item-title="username" :items="drivers"
                                 v-model="fields.driver_id" variant="solo" color="third" label="Select Driver"
                                 :rules="[rules.required]" :error-messages="errors.driver_id ? errors.driver_id[0] : ''
-                        "></v-select>
+                                    "></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                             <v-select item-value="vehicle_id" item-title="name" :items="vehicles"
                                 v-model="fields.vehicle_id" variant="solo" color="third" label="Select Vehicle"
                                 :rules="[rules.required]" :error-messages="errors.vehicle_id
-                        ? errors.vehicle_id[0]
-                        : ''
-                        "></v-select>
+                                    ? errors.vehicle_id[0]
+                                    : ''
+                                    "></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="3">
                             <v-text-field v-model="fields.reciever" variant="solo" color="primary"
                                 label="Reciever's Full Name" required :rules="[rules.required]" :error-messages="errors.reciever ? errors.reciever[0] : ''
-                        "></v-text-field>
+                                    "></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="3">
                             <v-text-field v-model="fields.reciever_no" variant="solo" color="primary"
                                 label="Reciever's Contact" required :rules="[rules.required, rules.phone]"
                                 :error-messages="errors.reciever_no
-                        ? errors.reciever_no[0]
-                        : ''
-                        "></v-text-field>
+                                    ? errors.reciever_no[0]
+                                    : ''
+                                    "></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="3">
                             <v-text-field type="date" v-model="fields.date" variant="solo" color="primary"
@@ -58,7 +58,7 @@
                         <v-col cols="12" sm="6" md="3">
                             <v-text-field v-model="fields.time" label="Pickup Time" variant="solo" color="primary"
                                 type="time" suffix="PST" :rules="[rules.required]" :error-messages="errors.time ? errors.time[0] : ''
-                        "></v-text-field>
+                                    "></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -84,55 +84,50 @@
                                     <v-select item-value="provCode" item-title="provDesc" :items="from_provinces"
                                         v-model="fields.from_province" @update:modelValue="loadFromCities"
                                         variant="solo" color="primary" label="Province" required :error-messages="errors.from_province
-                        ? errors.from_province[0]
-                        : ''
-                        " :rules="[rules.required]"></v-select>
+                                            ? errors.from_province[0]
+                                            : ''
+                                            " :rules="[rules.required]"></v-select>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
                                     <v-select item-value="citymunCode" item-title="citymunDesc" :items="from_cities"
                                         v-model="fields.from_city" @update:modelValue="loadFromBarangays" variant="solo"
                                         color="primary" label="City" :error-messages="errors.from_city
-                        ? errors.from_city[0]
-                        : ''
-                        " :rules="[rules.required]"></v-select>
+                                            ? errors.from_city[0]
+                                            : ''
+                                            " :rules="[rules.required]"></v-select>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
                                     <v-select item-value="brgyCode" item-title="brgyDesc" :items="from_barangays"
                                         v-model="fields.from_barangay" variant="solo" color="primary" label="Barangay"
                                         :rules="[rules.required]" :error-messages="errors.from_barangay
-                        ? errors.from_barangay[0]
-                        : ''
-                        "></v-select>
+                                            ? errors.from_barangay[0]
+                                            : ''
+                                            "></v-select>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
                                     <v-text-field v-model="fields.from_street" variant="solo" color="primary"
                                         label="Street" :rules="[rules.required]" :error-messages="errors.from_street
-                        ? errors.from_street[0]
-                        : ''
-                        "></v-text-field>
+                                            ? errors.from_street[0]
+                                            : ''
+                                            "></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-text-field v-model="fields.fromLat" variant="solo" color="third" label="Latitude"
                                         :rules="[rules.required]" :error-messages="errors.fromLat
-                        ? errors.fromLat[0]
-                        : ''
-                        "></v-text-field>
+                                            ? errors.fromLat[0]
+                                            : ''
+                                            "></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-text-field v-model="fields.fromLng" variant="solo" color="third"
                                         label="Longitude" :rules="[rules.required]" :error-messages="errors.fromLng
-                        ? errors.fromLng[0]
-                        : ''
-                        "></v-text-field>
+                                            ? errors.fromLng[0]
+                                            : ''
+                                            "></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="blue-darken-4"
                                         height="70%" @click="setPickup">Set Pickup</v-btn>
-                                </v-col>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-card theme="light">
-                                        <div id="map1" style="height: 60vh"></div>
-                                    </v-card>
                                 </v-col>
                             </v-row>
                         </v-col>
@@ -143,53 +138,55 @@
                                     <v-select item-value="provCode" item-title="provDesc" :items="to_provinces"
                                         v-model="fields.to_province" @update:modelValue="loadToCities" variant="solo"
                                         color="primary" label="Province" required :error-messages="errors.to_province
-                        ? errors.to_province[0]
-                        : ''
-                        " :rules="[rules.required]"></v-select>
+                                            ? errors.to_province[0]
+                                            : ''
+                                            " :rules="[rules.required]"></v-select>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
                                     <v-select item-value="citymunCode" item-title="citymunDesc" :items="to_cities"
                                         v-model="fields.to_city" @update:modelValue="loadToBarangays" variant="solo"
                                         color="primary" label="City" :error-messages="errors.to_city
-                        ? errors.to_city[0]
-                        : ''
-                        " :rules="[rules.required]"></v-select>
+                                            ? errors.to_city[0]
+                                            : ''
+                                            " :rules="[rules.required]"></v-select>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
                                     <v-select item-value="brgyCode" item-title="brgyDesc" :items="to_barangays"
                                         v-model="fields.to_barangay" variant="solo" color="primary" label="Barangay"
                                         :rules="[rules.required]" :error-messages="errors.to_barangay
-                        ? errors.to_barangay[0]
-                        : ''
-                        "></v-select>
+                                            ? errors.to_barangay[0]
+                                            : ''
+                                            "></v-select>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
                                     <v-text-field v-model="fields.to_street" variant="solo" color="primary"
                                         label="Street" :rules="[rules.required]" :error-messages="errors.to_street
-                        ? errors.to_street[0]
-                        : ''
-                        "></v-text-field>
+                                            ? errors.to_street[0]
+                                            : ''
+                                            "></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-text-field v-model="fields.toLat" variant="solo" color="third" label="Latitude"
                                         :rules="[rules.required]" :error-messages="errors.toLat ? errors.toLat[0] : ''
-                        "></v-text-field>
+                                            "></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-text-field v-model="fields.toLng" variant="solo" color="third" label="Longitude"
                                         :rules="[rules.required]" :error-messages="errors.toLng ? errors.toLng[0] : ''
-                        "></v-text-field>
+                                            "></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-btn prepend-icon="mdi-map-marker-plus" elevation="3" color="success" height="70%"
                                         @click="setDestination">Destination</v-btn>
                                 </v-col>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-card theme="light">
-                                        <div id="map2" style="height: 60vh"></div>
-                                    </v-card>
-                                </v-col>
                             </v-row>
+                        </v-col>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-card theme="light">
+                                <input type="text" v-model="search" @keypress.enter="searchLocation"
+                                    placeholder="Search location">
+                                <div id="map" style="height: 80vh; width: 100%;"></div>
+                            </v-card>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -220,9 +217,6 @@
 
 <script>
 import { onMounted } from "vue";
-import markImage from "./../../../img/mark.png";
-import "leaflet-geosearch/dist/geosearch.css";
-import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import { useTheme } from "vuetify";
 
 export default {
@@ -236,8 +230,6 @@ export default {
                     return "Must be a valid phone number.";
                 },
             },
-            map1: null,
-            map2: null,
             fields: {},
             errors: {},
             customers: [],
@@ -255,6 +247,7 @@ export default {
             from_provinces: [],
             from_cities: [],
             from_barangays: [],
+            search: ''
         };
     },
     methods: {
@@ -323,120 +316,51 @@ export default {
                 this.drivers = res.data;
             });
         },
-        setupGeoSearch(map) {
-            const provider = new OpenStreetMapProvider();
-            const searchControl = new GeoSearchControl({
-                provider,
-                style: "button",
-                showMarker: true,
-                showPopup: false,
-                marker: {
-                    icon: new L.Icon.Default(),
-                    draggable: false,
-                },
+        initMap() {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBd-kQ7xyVmRuUL3Dk-UiByLAny4HVE46I&libraries=places`;
+            script.async = true;
+            script.defer = true;
+            script.onload = this.loadMap;
+            document.head.appendChild(script);
+        },
+        loadMap() {
+            this.map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8,
             });
 
-            map.addControl(searchControl);
-        },
-        initializeMaps() {
-            this.map1 = L.map("map1").setView([8.0642048, 123.731968], 12);
-            this.map2 = L.map("map2").setView([8.0642048, 123.731968], 12);
-
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: "© OpenStreetMap",
-                maxZoom: 18,
-                minZoom: 5,
-            }).addTo(this.map1);
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: "© OpenStreetMap",
-                maxZoom: 18,
-                minZoom: 5,
-            }).addTo(this.map2);
-
-            var osm = L.tileLayer(
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                {
-                    attribution: "© OpenStreetMap",
-                    maxZoom: 18,
-                    minZoom: 5,
-                }
-            );
-
-            var eri = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                {
-                    attribution:
-                        "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
-                    maxZoom: 18,
-                    minZoom: 5,
-                }
-            );
-            var osm1 = L.tileLayer(
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                {
-                    attribution: "© OpenStreetMap",
-                    maxZoom: 18,
-                    minZoom: 5,
-                }
-            );
-
-            var eri1 = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                {
-                    attribution:
-                        "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
-                    maxZoom: 18,
-                    minZoom: 5,
-                }
-            );
-            var baseMaps = {
-                OpenStreetMap: osm,
-                WorldImagery: eri,
-            };
-            var baseMaps1 = {
-                OpenStreetMap: osm1,
-                WorldImagery: eri1,
-            };
-            var layerControl = L.control.layers(baseMaps).addTo(this.map1);
-            var layerControl1 = L.control.layers(baseMaps1).addTo(this.map2);
-
-            // Initialize GeoSearch for each map
-            this.setupGeoSearch(this.map1);
-            this.setupGeoSearch(this.map2);
-
-            this.map1.on("click", (e) =>
-                this.onMapClick(e, this.map1, "click1")
-            );
-            this.map2.on("click", (e) =>
-                this.onMapClick(e, this.map2, "click2")
-            );
-        },
-        onMapClick(e, map, clickType) {
-            const { lat, lng } = e.latlng;
-            var customIcon3 = L.icon({
-                iconUrl: markImage,
-                iconSize: [30, 50],
-                iconAnchor: [15, 54],
-                popupAnchor: [5, -38],
+            this.map.addListener('click', (event) => {
+                this.addMarker(event.latLng);
+                this.logCoordinates(event.latLng);
             });
-
-            // Remove the previous marker if it exists
-            if (this[clickType + "Marker"]) {
-                this[clickType + "Marker"].remove();
+        },
+        addMarker(location) {
+            if (this.marker) {
+                this.marker.setMap(null);
             }
-
-            // Create and add the new marker to the map
-            this[clickType + "Marker"] = L.marker([lat, lng], {
-                icon: customIcon3,
-            }).addTo(map);
-
-            // Update latitude and longitude values
-            this[clickType + "Lat"] = lat;
-            this[clickType + "Lng"] = lng;
+            this.marker = new google.maps.Marker({
+                position: location,
+                map: this.map,
+            });
         },
-        setPickup() {
-            this.fields.fromLat = this.click1Lat;
-            this.fields.fromLng = this.click1Lng;
+        searchLocation() {
+            const service = new google.maps.places.PlacesService(this.map);
+            service.textSearch({ query: this.search }, (results, status) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    const location = results[0].geometry.location;
+                    this.map.setCenter(location);
+                    this.addMarker(location);
+                }
+            });
+        },
+        logCoordinates(location) {
+            this.click2Lat = location.lat();
+            this.click2Lng = location.lng()
+        },
+        setPickup(){
+            this.fields.fromLat = this.click2Lat;
+            this.fields.fromLng = this.click2Lng;
         },
         setDestination() {
             this.fields.toLat = this.click2Lat;
@@ -473,7 +397,7 @@ export default {
     },
     mounted() {
         this.initData();
-        this.initializeMaps();
+        this.initMap();
     },
     setup() {
         const { theme } = useTheme();

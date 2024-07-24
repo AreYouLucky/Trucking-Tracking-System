@@ -32,12 +32,14 @@
           </v-col>
 
           <v-col cols="12" sm="12" md="12" class="heads">
-            <a v-if="from" class="heads">Pickup Location: {{ from.provDesc }},{{ from.brgyDesc }},{{ from.citymunDesc }},{{ from.from_street }},</a>
+            <a v-if="from" class="heads">Pickup Location: {{ from.provDesc }},{{ from.brgyDesc }},{{ from.citymunDesc
+              }},{{ from.from_street }},</a>
             <a v-else class="heads">Pickup Location: no data</a>
           </v-col>
 
           <v-col cols="12" sm="12" md="12" class="heads">
-            <a v-if="from" class="heads">Delivery Location: {{ to.provDesc }},{{ to.brgyDesc }},{{ to.citymunDesc }},{{ to.to_street }},</a>
+            <a v-if="from" class="heads">Delivery Location: {{ to.provDesc }},{{ to.brgyDesc }},{{ to.citymunDesc }},{{
+              to.to_street }},</a>
             <a v-else class="heads">Delivery Location: no data</a>
           </v-col>
 
@@ -56,7 +58,6 @@
     <div id="map1" class="map-container"></div>
   </div>
 
-
   <v-dialog v-model="dialogStart" width="auto" persistent>
     <v-card color="primary">
       <v-card-text>
@@ -65,7 +66,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="secondary" variant="outlined" class="logout" @click="dialogStart = false">Close</v-btn>
-        <v-btn color="fourth" variant="outlined" class="logout" @click="sendSmsCustomer">confirm</v-btn>
+        <v-btn color="fourth" variant="outlined" class="logout" @click="sendSmsCustomer()">confirm</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -79,7 +80,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="secondary" variant="outlined" class="logout" @click="dialogMid = false">Close</v-btn>
-        <v-btn color="fourth" variant="outlined" class="logout" @click="sendSmsReciever">confirm</v-btn>
+        <v-btn color="fourth" variant="outlined" class="logout" @click="sendSmsReciever()">confirm</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -103,9 +104,7 @@
 
 <script>
 import { ref } from 'vue';
-import boxImage from './../../../img/box.png'
-import homeImage from './../../../img/home.png'
-import markImage from './../../../img/truck.png'
+import axios from 'axios';
 
 export default {
   data() {
@@ -124,14 +123,15 @@ export default {
       img: null,
       driverLoc: {},
       to: [],
-      from: []
+      from: [],
+      marker: null
     };
   },
   methods: {
     sendSmsCustomer() {
       axios.post('/sms-customer/' + this.location.delivery_id).then(
         res => {
-          console.log('sms sent to reciever!');
+          console.log('sms sent to receiver!');
           this.startDelivery();
         }
       )
@@ -171,13 +171,12 @@ export default {
       )
     },
     saveRoute() {
-      axios.post('/save-route/'+ this.location.delivery_id).then(res => {
+      axios.post('/save-route/' + this.location.delivery_id).then(res => {
         console.log('Route Successfully Saved!')
         this.finishDelivery();
         this.getLocation();
         this.uploadFile();
         this.dialogFin = false;
-
       })
     },
     onChange(e) {
@@ -185,13 +184,11 @@ export default {
     },
 
     uploadFile() {
-
       let formData = new FormData();
       formData.append('image', this.img);
       formData.append('id', this.location.delivery_id);
       formData.append('driver_id', this.location.driver_id);
       formData.append('vehicle_id', this.location.vehicle_id);
-
 
       axios.post('/delivery-proof', formData, {
         headers: {
@@ -204,7 +201,6 @@ export default {
         })
         .catch(error => {
           console.error(error);
-          // Handle error
         });
     },
     updateDriverLocation() {
@@ -234,59 +230,39 @@ export default {
       });
     },
     initializeMap() {
-      this.map = L.map('map1').setView([this.location.from_lat, this.location.from_long], 14);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors, Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a>',
-        maxZoom: 18,
-        minZoom: 5,
-      }).addTo(this.map);
-
-      var customIcon = L.icon({
-        iconUrl: boxImage,
-        iconSize: [50, 50],
-        iconAnchor: [26, 25],
-        popupAnchor: [5, -38]
-      });
-      var customIcon1 = L.icon({
-        iconUrl: homeImage,
-        iconSize: [50, 50],
-        iconAnchor: [26, 25],
-        popupAnchor: [5, -38]
+      this.map = new google.maps.Map(document.getElementById("map1"), {
+        center: { lat: parseFloat(this.location.from_lat), lng: parseFloat(this.location.from_long) },
+        zoom: 14
       });
 
-      var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap, Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a>',
-        maxZoom: 18,
-        minZoom: 5,
+      new google.maps.Marker({
+        position: { lat: parseFloat(this.location.from_lat), lng: parseFloat(this.location.from_long) },
+        map: this.map,
+        title: 'Package Location'
       });
 
-      var eri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community, Powered by <a href="https://www.graphhopper.com/">GraphHopper API</a>',
-        maxZoom: 18,
-        minZoom: 5,
+      new google.maps.Marker({
+        position: { lat: parseFloat(this.location.to_lat), lng: parseFloat(this.location.to_long) },
+        map: this.map,
+        title: 'Destination Location'
       });
-      var baseMaps = {
-        "OpenStreetMap": osm,
-        "WorldImagery": eri
-      };
-      var layerControl = L.control.layers(baseMaps).addTo(this.map);
-      L.marker([this.location.from_lat, this.location.from_long], { icon: customIcon }).addTo(this.map);
-      L.marker([this.location.to_lat, this.location.to_long], { icon: customIcon1 }).addTo(this.map);
-
     },
     watchGeolocation() {
-        navigator.geolocation.watchPosition(this.success, this.error);
+      navigator.geolocation.watchPosition(this.success, this.error);
     },
-
     success(pos) {
+      var truckSvgPath = "M23.2,12.4c-0.3-0.6-0.6-1.1-1.1-1.6c-0.5-0.5-1.1-0.8-1.6-1.1V7.6C20.5,6.2,19.4,5,18,5H4C2.6,5,1.5,6.2,1.5,7.6v6.4c0,1.4,1.1,2.6,2.5,2.6h0.3c0.4,1.2,1.6,2,2.9,2c1.3,0,2.5-0.8,2.9-2h7.1c0.4,1.2,1.6,2,2.9,2c1.3,0,2.5-0.8,2.9-2h0.3c1.4,0,2.5-1.2,2.5-2.6C23.5,12.9,23.4,12.6,23.2,12.4z M4,8.6h10V13H4V8.6z M7,16c-0.8,0-1.5-0.7-1.5-1.5S6.2,13,7,13s1.5,0.7,1.5,1.5S7.8,16,7,16z M18,16c-0.8,0-1.5-0.7-1.5-1.5S17.2,13,18,13s1.5,0.7,1.5,1.5S18.8,16,18,16z M19,11H17V8.6h1.8c0.2,0,0.4,0.1,0.6,0.2c0.2,0.2,0.3,0.4,0.3,0.7V11z";
+      var truckIcon = {
+        path: truckSvgPath,
+        fillColor: "blue",
+        fillOpacity: 0.6,
+        strokeWeight: 0,
+        rotation: 0,
+        scale: 2,  // Adjust the scale as needed
+        anchor: new google.maps.Point(10, 25)
+      };
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
-      const accuracy = pos.coords.accuracy;
-      var customIcon3 = L.icon({
-        iconUrl: markImage,
-        iconSize: [45, 30],
-        iconAnchor: [23, 30],
-      });
       this.driverLoc.latitude = lat;
       this.driverLoc.longitude = lng;
       this.driverLoc.id = this.location.delivery_id;
@@ -295,27 +271,28 @@ export default {
       this.cacheLocation();
 
       if (this.marker) {
-        this.map.removeLayer(this.marker);
+        this.marker.setMap(null);
       }
-      this.marker = L.marker([lat, lng], { icon: customIcon3 }).addTo(this.map);
-      if (this.routingControl == null) {
-        this.routingControl = L.Routing.control({
-          waypoints: [
-            L.latLng(this.driverLoc.latitude, this.driverLoc.longitude),
-            L.latLng(this.location.from_lat, this.location.from_long)
-          ],
-          router: L.Routing.graphHopper('7652a8a1-3fa4-4e32-be0d-82c191c3538a', {
-            vehicle: 'car'
-          }),
-          numberOfRoutes: 3, // Set to the desired number of alternative routes
-          lineOptions: {
-            styles: [
-              { color: 'blue', opacity: 0.5, weight: 9 },
-              { color: 'white', opacity: 0.8, weight: 6 },
-              { color: 'red', opacity: 1, weight: 2 }
-            ]
+      this.marker = new google.maps.Marker({
+        position: { lat, lng },
+        map: this.map,
+        icon: truckIcon,
+        title: 'Driver Location'
+      });
+
+      if (!this.routingControl) {
+        this.routingControl = new google.maps.DirectionsRenderer();
+        this.routingControl.setMap(this.map);
+        const request = {
+          origin: { lat: this.driverLoc.latitude, lng: this.driverLoc.longitude },
+          destination: { lat: parseFloat(this.location.from_lat), lng: parseFloat(this.location.from_long) },
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+        new google.maps.DirectionsService().route(request, (result, status) => {
+          if (status === 'OK') {
+            this.routingControl.setDirections(result);
           }
-        }).addTo(this.map);
+        });
       }
     },
     error(err) {
@@ -327,10 +304,16 @@ export default {
     },
     transferRoute() {
       if (this.routingControl) {
-        const waypoints = this.routingControl.getWaypoints();
-        waypoints[0].latLng = L.latLng(this.location.from_lat, this.location.from_long);
-        waypoints[1].latLng = L.latLng(this.location.to_lat, this.location.to_long);
-        this.routingControl.setWaypoints(waypoints);
+        const request = {
+          origin: { lat: parseFloat(this.location.from_lat), lng: parseFloat(this.location.from_long) },
+          destination: { lat: parseFloat(this.location.to_lat), lng: parseFloat(this.location.to_long) },
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+        new google.maps.DirectionsService().route(request, (result, status) => {
+          if (status === 'OK') {
+            this.routingControl.setDirections(result);
+          }
+        });
       }
     },
     initData() {
@@ -343,7 +326,6 @@ export default {
       }).catch(error => {
         console.error('Error fetching location:', error);
       });
-
     }
   },
   mounted() {
