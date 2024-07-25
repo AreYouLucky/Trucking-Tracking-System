@@ -326,7 +326,7 @@ export default {
         },
         loadMap() {
             this.map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: -34.397, lng: 150.644 },
+                center: { lat: 8.0727842, lng: 123.7416101},
                 zoom: 8,
             });
 
