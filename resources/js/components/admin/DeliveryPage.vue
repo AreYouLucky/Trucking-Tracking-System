@@ -6,9 +6,6 @@
   
   <script>
  import { ref } from 'vue';
-import boxImage from './../../../img/box.png';
-import homeImage from './../../../img/home.png';
-import markImage from './../../../img/mark.png';
 
 export default {
   data() {
@@ -41,17 +38,17 @@ export default {
         zoom: 13,
       });
 
-      const pickupMarker = new google.maps.Marker({
-        position: { lat: parseFloat(this.location[0].from_lat), lng: parseFloat(this.location[0].from_long) },
-        map: this.map,
-        title: 'Pickup Location Here!'
-      });
+      // const pickupMarker = new google.maps.Marker({
+      //   position: { lat: parseFloat(this.location[0].from_lat), lng: parseFloat(this.location[0].from_long) },
+      //   map: this.map,
+      //   title: 'Pickup Location Here!'
+      // });
 
-      const deliveryMarker = new google.maps.Marker({
-        position: { lat: parseFloat(this.location[0].to_lat), lng: parseFloat(this.location[0].to_long) },
-        map: this.map,
-        title: 'Delivery Location Here!'
-      });
+      // const deliveryMarker = new google.maps.Marker({
+      //   position: { lat: parseFloat(this.location[0].to_lat), lng: parseFloat(this.location[0].to_long) },
+      //   map: this.map,
+      //   title: 'Delivery Location Here!'
+      // });
 
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer({ map: this.map });
@@ -60,7 +57,9 @@ export default {
         {
           origin: { lat: parseFloat(this.location[0].from_lat), lng: parseFloat(this.location[0].from_long) },
           destination: { lat: parseFloat(this.location[0].to_lat), lng: parseFloat(this.location[0].to_long) },
-          travelMode: google.maps.TravelMode.DRIVING,
+          travelMode: google.maps.TravelMode.WALKING,
+          optimizeWaypoints:true,
+          provideRouteAlternatives:true,
         },
         (response, status) => {
           if (status === google.maps.DirectionsStatus.OK) {

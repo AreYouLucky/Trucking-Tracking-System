@@ -68,7 +68,7 @@
     </v-col>
     <v-col cols="12" md="12">
       <div>
-        <div id="map" style="height: 500px; width: 100%;"></div>
+        <div id="map" style="height: 800px; width: 100%;"></div>
       </div>
     </v-col>
   </v-row>
@@ -142,7 +142,7 @@ export default {
           deliveryLat,
           deliveryLng
         });
-        return; 
+        return;
       }
 
       const pickupLocation = { lat: pickupLat, lng: pickupLng };
@@ -180,18 +180,19 @@ export default {
         axios.get('/driver-location-data/' + this.driver_id)
           .then(res => {
             this.location = res.data;
-            if (this.driverMarker) {
-              this.driverMarker.setMap(null);
-            }
 
             const driverLat = parseFloat(this.location.driver_lat);
             const driverLong = parseFloat(this.location.driver_long);
 
-            this.driverMarker = new google.maps.Marker({
-              position: { lat: driverLat, lng: this.location.driver_long },
-              map: this.map,
-              title: 'Driver Location',
-            });
+            if (this.driverMarker) {
+              this.driverMarker.setPosition({ lat: driverLat, lng: driverLong });
+            } else {
+              this.driverMarker = new google.maps.Marker({
+                position: { lat: driverLat, lng: driverLong },
+                map: this.map,
+                title: 'Driver Location',
+              });
+            }
             if (this.location.is_delivered < 3) {
               setTimeout(updateDriverLocation, 1000);
             }
@@ -200,8 +201,10 @@ export default {
             console.error('Error fetching driver location:', error);
           });
       };
+
       updateDriverLocation();
     }
+
   },
   mounted() {
     const urlParts = window.location.href.split("/");

@@ -269,16 +269,16 @@ export default {
 
       this.updateDriverLocation();
       this.cacheLocation();
-
+      
       if (this.marker) {
-        this.marker.setMap(null);
+              this.driverMarker.setPosition({ lat: lat, lng: lng });
+      } else {
+        this.marker = new google.maps.Marker({
+          position: { lat: lng, lng: lng },
+          map: this.map,
+          title: 'Driver Location',
+        });
       }
-      this.marker = new google.maps.Marker({
-        position: { lat, lng },
-        map: this.map,
-        icon: truckIcon,
-        title: 'Driver Location'
-      });
 
       if (!this.routingControl) {
         this.routingControl = new google.maps.DirectionsRenderer();
