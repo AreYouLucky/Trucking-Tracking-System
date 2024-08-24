@@ -105,6 +105,7 @@
 <script>
 import { ref } from 'vue';
 import axios from 'axios';
+import { faCube, faTruckFast, faFlag } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   data() {
@@ -238,29 +239,45 @@ export default {
       new google.maps.Marker({
         position: { lat: parseFloat(this.location.from_lat), lng: parseFloat(this.location.from_long) },
         map: this.map,
-        title: 'Package Location'
+        title: 'Package Location',
+        label: 'Package',
+        icon: {
+          path: faCube.icon[4],
+          fillColor: "#ff8754",
+          fillOpacity: 1,
+          anchor: new google.maps.Point(
+            faCube.icon[0] / 2, 
+            faCube.icon[1],
+          ),
+          strokeWeight: 1,
+          strokeColor: "#ffffff",
+          scale: 0.055,
+        },
       });
 
       new google.maps.Marker({
         position: { lat: parseFloat(this.location.to_lat), lng: parseFloat(this.location.to_long) },
         map: this.map,
-        title: 'Destination Location'
+        title: 'Destination Location',
+        label: 'Destination',
+        icon: {
+          path: faFlag.icon[4],
+          fillColor: "#00b822",
+          fillOpacity: 1,
+          anchor: new google.maps.Point(
+            faFlag.icon[0] / 2, 
+            faFlag.icon[1],
+          ),
+          strokeWeight: 1,
+          strokeColor: "#ffffff",
+          scale: 0.055,
+        },
       });
     },
     watchGeolocation() {
       navigator.geolocation.watchPosition(this.success, this.error);
     },
     success(pos) {
-      var truckSvgPath = "M23.2,12.4c-0.3-0.6-0.6-1.1-1.1-1.6c-0.5-0.5-1.1-0.8-1.6-1.1V7.6C20.5,6.2,19.4,5,18,5H4C2.6,5,1.5,6.2,1.5,7.6v6.4c0,1.4,1.1,2.6,2.5,2.6h0.3c0.4,1.2,1.6,2,2.9,2c1.3,0,2.5-0.8,2.9-2h7.1c0.4,1.2,1.6,2,2.9,2c1.3,0,2.5-0.8,2.9-2h0.3c1.4,0,2.5-1.2,2.5-2.6C23.5,12.9,23.4,12.6,23.2,12.4z M4,8.6h10V13H4V8.6z M7,16c-0.8,0-1.5-0.7-1.5-1.5S6.2,13,7,13s1.5,0.7,1.5,1.5S7.8,16,7,16z M18,16c-0.8,0-1.5-0.7-1.5-1.5S17.2,13,18,13s1.5,0.7,1.5,1.5S18.8,16,18,16z M19,11H17V8.6h1.8c0.2,0,0.4,0.1,0.6,0.2c0.2,0.2,0.3,0.4,0.3,0.7V11z";
-      var truckIcon = {
-        path: truckSvgPath,
-        fillColor: "blue",
-        fillOpacity: 0.6,
-        strokeWeight: 0,
-        rotation: 0,
-        scale: 2,  // Adjust the scale as needed
-        anchor: new google.maps.Point(10, 25)
-      };
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
       this.driverLoc.latitude = lat;
@@ -270,18 +287,32 @@ export default {
       this.updateDriverLocation();
       this.cacheLocation();
       
+
       if (this.marker) {
-              this.driverMarker.setPosition({ lat: lat, lng: lng });
+              this.marker.setPosition({ lat: lat, lng: lng });
       } else {
         this.marker = new google.maps.Marker({
-          position: { lat: lng, lng: lng },
+          position: { lat: lat, lng: lng },
           map: this.map,
           title: 'Driver Location',
+          label: 'T',
+          icon: {
+          path: faTruckFast.icon[4],
+          fillColor: "#17c5ff",
+          fillOpacity: 1,
+          anchor: new google.maps.Point(
+            faTruckFast.icon[0] / 2, 
+            faTruckFast.icon[1],
+          ),
+          strokeWeight: 1,
+          strokeColor: "#ffffff",
+          scale: 0.055,
+        },
         });
       }
 
       if (!this.routingControl) {
-        this.routingControl = new google.maps.DirectionsRenderer();
+        this.routingControl = new google.maps.DirectionsRenderer({suppressMarkers: true,});
         this.routingControl.setMap(this.map);
         const request = {
           origin: { lat: this.driverLoc.latitude, lng: this.driverLoc.longitude },

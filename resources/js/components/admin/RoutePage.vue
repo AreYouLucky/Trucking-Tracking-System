@@ -5,6 +5,8 @@
   </template>
 <script>
   import { ref } from 'vue';
+import { faCube, faFlag, faTruckFast } from "@fortawesome/free-solid-svg-icons";
+
 
 export default {
   data() {
@@ -42,7 +44,7 @@ export default {
           fillOpacity: 0.35,
           map: this.map,
           center: { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) },
-          radius: 10,
+          radius: 5,
         });
       }
     },

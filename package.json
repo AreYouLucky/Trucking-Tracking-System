@@ -18,6 +18,7 @@
         "webpack": "^5.89.0"
     },
     "dependencies": {
+        "@fortawesome/free-solid-svg-icons": "^6.6.0",
         "@maptiler/geocoding-control": "^1.2.1",
         "@maptiler/sdk": "^1.2.1",
         "@sjaakp/leaflet-search": "^1.0.2",

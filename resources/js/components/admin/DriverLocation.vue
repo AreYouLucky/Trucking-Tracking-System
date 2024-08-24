@@ -76,7 +76,7 @@
 
 <script>
 import axios from 'axios';
-
+import { faCube, faFlag, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 export default {
   name: 'GoogleMap',
   data() {
@@ -154,8 +154,47 @@ export default {
       });
 
       this.directionsService = new google.maps.DirectionsService();
-      this.directionsRenderer = new google.maps.DirectionsRenderer();
+      this.directionsRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true,});
       this.directionsRenderer.setMap(this.map);
+
+      
+      new google.maps.Marker({
+        position: { lat: parseFloat(pickupLat), lng: parseFloat(pickupLng) },
+        map: this.map,
+        title: 'Package Location',
+        label: 'Package',
+        icon: {
+          path: faCube.icon[4],
+          fillColor: "#ff8754",
+          fillOpacity: 1,
+          anchor: new google.maps.Point(
+            faCube.icon[0] / 2, 
+            faCube.icon[1],
+          ),
+          strokeWeight: 1,
+          strokeColor: "#ffffff",
+          scale: 0.055,
+        },
+      });
+
+      new google.maps.Marker({
+        position: { lat: parseFloat(deliveryLat), lng: parseFloat(deliveryLng) },
+        map:this.map,
+        title: 'Destination Location',
+        label: 'Destination',
+        icon: {
+          path: faFlag.icon[4],
+          fillColor: "#00b822",
+          fillOpacity: 1,
+          anchor: new google.maps.Point(
+            faFlag.icon[0] / 2, 
+            faFlag.icon[1],
+          ),
+          strokeWeight: 1,
+          strokeColor: "#ffffff",
+          scale: 0.055,
+        },
+      });
 
       this.calculateAndDisplayRoute(pickupLocation, deliveryLocation);
     },
@@ -191,6 +230,18 @@ export default {
                 position: { lat: driverLat, lng: driverLong },
                 map: this.map,
                 title: 'Driver Location',
+                icon: {
+                  path: faTruckFast.icon[4],
+                  fillColor: "#005d9c",
+                  fillOpacity: 1,
+                  anchor: new google.maps.Point(
+                    faTruckFast.icon[0] / 2, 
+                    faTruckFast.icon[1],
+                  ),
+                  strokeWeight: 1,
+                  strokeColor: "#ffffff",
+                  scale: 0.055,
+                },
               });
             }
             if (this.location.is_delivered < 3) {

@@ -6,6 +6,7 @@
   
   <script>
  import { ref } from 'vue';
+ import { faCube, faFlag, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   data() {
@@ -51,7 +52,7 @@ export default {
       // });
 
       const directionsService = new google.maps.DirectionsService();
-      const directionsRenderer = new google.maps.DirectionsRenderer({ map: this.map });
+      const directionsRenderer = new google.maps.DirectionsRenderer({ map: this.map,  suppressMarkers: true, });
 
       directionsService.route(
         {
@@ -69,6 +70,45 @@ export default {
           }
         }
       );
+
+      new google.maps.Marker({
+        position: { lat: parseFloat(this.location[0].from_lat), lng: parseFloat(this.location[0].from_long) },
+        map: this.map,
+        title: 'Package Location',
+        label: 'Package',
+        icon: {
+          path: faCube.icon[4],
+          fillColor: "#ff8754",
+          fillOpacity: 1,
+          anchor: new google.maps.Point(
+            faCube.icon[0] / 2, 
+            faCube.icon[1],
+          ),
+          strokeWeight: 1,
+          strokeColor: "#ffffff",
+          scale: 0.055,
+        },
+      });
+
+      new google.maps.Marker({
+        position: { lat: parseFloat(this.location[0].to_lat), lng: parseFloat(this.location[0].to_long) },
+        map:this.map,
+        title: 'Destination Location',
+        label: 'Destination',
+        icon: {
+          path: faFlag.icon[4],
+          fillColor: "#00b822",
+          fillOpacity: 1,
+          anchor: new google.maps.Point(
+            faFlag.icon[0] / 2, 
+            faFlag.icon[1],
+          ),
+          strokeWeight: 1,
+          strokeColor: "#ffffff",
+          scale: 0.055,
+        },
+      });
+
     },
   },
   mounted() {
