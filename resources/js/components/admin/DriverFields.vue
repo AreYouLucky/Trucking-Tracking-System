@@ -5,8 +5,8 @@
       :search="search"
     >
     <template v-slot:header>
-        <v-toolbar class="px-3 pt-2" color="third">
-        <v-btn prepend-icon="mdi-plus-circle" @click="addDriver = true"  elevation="3">
+        <v-toolbar class="px-3" color="blue">
+        <v-btn prepend-icon="mdi-plus-circle" @click="addDriver = true"  elevation="3" variant="flat" color="white" rounded="xl">
             <b>Add Driver</b>
         </v-btn>
         <v-spacer></v-spacer>
@@ -19,6 +19,8 @@
             prepend-inner-icon="mdi-magnify"
             style="max-width: 400px;"
             variant="solo"
+            rounded="xl"
+            theme="light"
           ></v-text-field>
         </v-toolbar>
       </template>
@@ -140,6 +142,7 @@
                 <v-text-field
                   v-model="fields.fname"
                   variant="outlined"
+                   rounded="xl"
                   label="First Name"
                   required
                   :rules="[rules.required]"
@@ -150,6 +153,7 @@
                 <v-text-field
                 v-model="fields.mname"
                   variant="outlined"
+                   rounded="xl"
                   label="Middle Name"
                 ></v-text-field>
               </v-col>
@@ -157,6 +161,7 @@
                 <v-text-field
                   v-model="fields.lname"
                   variant="outlined"
+                   rounded="xl"
                   label="Last Name"
                   :rules="[rules.required]"
                   :error-messages="errors.lname ? errors.lname[0] : ''"
@@ -166,6 +171,7 @@
                 <v-text-field
                   v-model="fields.suffix"
                   variant="outlined"
+                   rounded="xl"
                   label="Suffix"
                 ></v-text-field>
               </v-col>
@@ -174,6 +180,7 @@
                 <v-select
                   v-model="fields.sex"
                   variant="outlined"
+                   rounded="xl"
                   :items="['Male','Female']"
                   label="Sex"
                   required
@@ -185,6 +192,7 @@
                 <v-text-field
                   v-model="fields.license_id"
                   variant="outlined"
+                   rounded="xl"
                   label="License ID"
                   required
                   :rules="[rules.required]"
@@ -195,6 +203,7 @@
                 <v-text-field
                 v-model="fields.contact"
                   variant="outlined"
+                   rounded="xl"
                   label="Phone Number"
                   required
                   :rules="[rules.required,rules.phone]"
@@ -210,6 +219,7 @@
                   v-model="fields.province"
                   @update:modelValue="loadCities"
                   variant="outlined"
+                   rounded="xl"
                   label="Province"
                   required
                   :rules="[rules.required]"
@@ -224,6 +234,7 @@
                   v-model="fields.city"
                   @update:modelValue="loadBarangays"
                   variant="outlined"
+                   rounded="xl"
                   label="City"
                   :rules="[rules.required]"
                   :error-messages="errors.city ? errors.city[0] : ''"
@@ -236,6 +247,7 @@
                   :items="barangays"
                   v-model="fields.barangay"
                   variant="outlined"
+                   rounded="xl"
                   label="Barangay"
                   :rules="[rules.required]"
                   :error-messages="errors.barangay ? errors.barangay[0] : ''"
@@ -245,6 +257,7 @@
                 <v-text-field
                   v-model="fields.street"
                   variant="outlined"
+                   rounded="xl"
                   label="Street"
                   :rules="[rules.required]"
                   :error-messages="errors.street ? errors.street[0] : ''"
@@ -255,6 +268,7 @@
                 <v-text-field
                   v-model="fields.username"
                   variant="outlined"
+                   rounded="xl"
                   label="Username"
                   required
                   :rules="[rules.required]"
@@ -270,6 +284,7 @@
                     :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                     :type="visible ? 'text' : 'password'"
                     variant="outlined"
+                     rounded="xl"
                     @click:append-inner="visible = !visible"
                     v-if="row===''"
                 ></v-text-field>

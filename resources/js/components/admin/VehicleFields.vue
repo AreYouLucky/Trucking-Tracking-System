@@ -6,8 +6,8 @@
       :loading ="loading"
     >
     <template v-slot:header>
-        <v-toolbar class="px-3 pt-2" color="third">
-        <v-btn prepend-icon="mdi-plus-circle" @click="addVehicle = true"  elevation="3" color="danger">
+        <v-toolbar class="px-3" color="blue">
+        <v-btn prepend-icon="mdi-plus-circle" @click="addVehicle = true"  elevation="3" color="danger" rounded="xl">
             <b>Add Vehicle</b>
         </v-btn>
         <v-spacer></v-spacer>
@@ -20,6 +20,8 @@
             prepend-inner-icon="mdi-magnify"
             style="max-width: 400px;"
             variant="solo"
+            rounded="xl"
+            theme="light"
           ></v-text-field>
         </v-toolbar>
       </template>

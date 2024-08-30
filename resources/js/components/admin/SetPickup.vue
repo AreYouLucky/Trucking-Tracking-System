@@ -1,11 +1,11 @@
 <template>
     <v-layout class="rounded rounded-md">
-        <v-app-bar color="primary" class="pa-4" density="compact">
-            <img src="../../../img/logo.png" width="90px" />
-            <h3 class="title">LARA's TRUCKING SERVICES</h3>
+        <v-app-bar color="transparent" class="pa-4">
+            <img :src="`/storage/logos/logo.png`" width="80" contain>
+            <h2>Lara's Trucking Services</h2>
         </v-app-bar>
         <v-main class="mt-5 color">
-            <v-card color="primary">
+            <v-card color="transparent">
                 <v-card-title>
                     <v-btn prepend-icon="mdi-refresh" @click="refreshData" elevation="3" color="white"
                         class="button-refresh ma-2 float-right">
@@ -191,9 +191,9 @@
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn @click="confirmSave = true" variant="tonal" size="large" prepend-icon="mdi-check-circle"
+                    <v-btn @click="confirmSave = true" variant="flat" size="large" prepend-icon="mdi-check-circle"
                         color="green">Save</v-btn>
-                    <v-btn href="/admin-dashboard" variant="tonal" size="large" prepend-icon="mdi-check-circle"
+                    <v-btn href="/admin-dashboard" variant="flat" size="large" prepend-icon="mdi-check-circle"
                         color="yellow">Go Back</v-btn>
                 </v-card-actions>
             </v-card>
@@ -206,7 +206,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="info" variant="flat" @click="confirmSave = false">Close</v-btn>
-                        <v-btn color="red" variant="outlined" @click="submitDelivery">Yes</v-btn>
+                        <v-btn color="red" variant="flat" @click="submitDelivery">Yes</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
@@ -412,11 +412,11 @@ export default {
 }
 
 .row1 {
-    background-color: rgb(0, 121, 190);
+    background-color: rgb(40, 165, 255);
 }
 
 .row2 {
-    background-color: rgb(0, 91, 194);
+    background-color: rgb(255, 255, 255);
 }
 
 * {

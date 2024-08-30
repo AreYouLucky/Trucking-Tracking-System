@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card color="primary pa-5">
+    <v-card color="black pa-5">
       <v-card-title class="heads text-center my-5">
         DELIVERY INFORMATION
       </v-card-title>
@@ -175,7 +175,6 @@ export default {
       axios.post('/save-route/' + this.location.delivery_id).then(res => {
         console.log('Route Successfully Saved!')
         this.finishDelivery();
-        this.getLocation();
         this.uploadFile();
         this.dialogFin = false;
       })

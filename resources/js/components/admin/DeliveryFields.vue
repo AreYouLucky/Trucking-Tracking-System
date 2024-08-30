@@ -11,10 +11,10 @@
   v-model:sort-by="sortBy"
 >
   <template v-slot:top>
-    <v-toolbar color="third">
+    <v-toolbar color="blue">
       <v-btn color="red" prepend-icon="mdi-trash-can" v-if="selected.length > 0" @click="deleteDialog = true" variant="outlined"> Delete</v-btn>
       <v-spacer></v-spacer>
-      <v-text-field v-model="search" clearable density="comfortable" hide-details placeholder="Search" prepend-inner-icon="mdi-magnify" style="max-width: 400px;" variant="solo" class="mr-2"
+      <v-text-field v-model="search" theme="light" rounded="xl" clearable density="comfortable" hide-details placeholder="Search" prepend-inner-icon="mdi-magnify" style="max-width: 400px;" variant="solo" class="mr-2"
         ></v-text-field>
     </v-toolbar>
   </template>

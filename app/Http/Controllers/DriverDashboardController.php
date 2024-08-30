@@ -86,6 +86,7 @@ class DriverDashboardController extends Controller
             ->update([
                 'is_delivered' => 3
             ]);
+
         return response()->json([
             'status' => 'updated'
         ], 200);
@@ -109,6 +110,14 @@ class DriverDashboardController extends Controller
             'id' => ['required'],
             'image' => ['required', 'mimes:jpeg,jpg,png,gif']
         ]);
+        Driver::where('driver_id', $req->driver_id)
+        ->update([
+            'is_available' => 1
+        ]);
+        Vehicle::where('vehicle_id', $req->vehicle_id)
+            ->update([
+                'is_available' => 1
+            ]);
         $file = $req->file('image');
 
         $file_location = '';
@@ -121,15 +130,6 @@ class DriverDashboardController extends Controller
         Delivery::where('delivery_id', $req->id)
             ->update([
                 'proof_path' => $file_location,
-            ]);
-
-        Driver::where('driver_id', $req->driver_id)
-            ->update([
-                'is_available' => 1
-            ]);
-        Vehicle::where('vehicle_id', $req->vehicle_id)
-            ->update([
-                'is_available' => 1
             ]);
 
         return response()->json([

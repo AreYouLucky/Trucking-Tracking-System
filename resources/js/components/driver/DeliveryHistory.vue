@@ -1,10 +1,10 @@
 <template>
   <v-data-table :headers="headers" :items="deliveries" :search="search" :loading="loading" v-model:sort-by="sortBy">
     <template v-slot:top>
-      <v-toolbar color="third">
+      <v-toolbar color="blue">
         <v-spacer></v-spacer>
         <v-text-field v-model="search" clearable density="comfortable" hide-details placeholder="Search"
-          prepend-inner-icon="mdi-magnify" style="max-width: 400px;" variant="solo" class="mr-2"></v-text-field>
+          prepend-inner-icon="mdi-magnify" style="max-width: 400px;" variant="solo" class="mr-2" theme="light" rounded="xl"></v-text-field>
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">

@@ -91,6 +91,25 @@ export default {
       });
 
       new google.maps.Marker({
+        position: { lat: parseFloat(this.location[0].driver_lat), lng: parseFloat(this.location[0].driver_long) },
+        map: this.map,
+        title: 'Driver Location',
+        label: 'Driver',
+        icon: {
+          path: faTruckFast.icon[4],
+          fillColor: "#17c5ff",
+          fillOpacity: 1,
+          anchor: new google.maps.Point(
+            faTruckFast.icon[0] / 2, 
+            faTruckFast.icon[1],
+          ),
+          strokeWeight: 1,
+          strokeColor: "#ffffff",
+          scale: 0.055,
+        },
+      });
+
+      new google.maps.Marker({
         position: { lat: parseFloat(this.location[0].to_lat), lng: parseFloat(this.location[0].to_long) },
         map:this.map,
         title: 'Destination Location',
