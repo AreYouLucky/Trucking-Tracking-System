@@ -5,10 +5,10 @@
             <h2>Lara's Trucking Services</h2>
         </v-app-bar>
         <v-main class="mt-10">
-            <v-container class="align-center justify-center  pa-15">
-                <v-form @submit.prevent="submitForm" class="mx-15">
-                    <v-card class="mx-auto pa-15 text-center" elevation="8" max-width="400" rounded="xl" cols="12" md="7"
-                        color="white">
+            <v-container class="align-center justify-center">
+                <v-form @submit.prevent="submitForm" class="">
+                    <v-card class="mx-auto pa-15 text-center" elevation="8" max-width="400" rounded="xl" cols="12"
+                        md="7" color="white">
                         <v-row>
                             <v-col class="d-flex justify-center align-center mb-5">
                                 <v-avatar color="blue" size="80" icon="mdi-account-circle">
@@ -26,10 +26,11 @@
                             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                             :type="visible ? 'text' : 'password'" placeholder="Enter your password"
                             prepend-inner-icon="mdi-lock-outline" variant="outlined"
-                            @click:append-inner="visible = !visible"  rounded="xl"
+                            @click:append-inner="visible = !visible" rounded="xl"
                             :error-messages="err.password ? err.password[0] : ''" required></v-text-field>
 
-                        <v-btn width="150" :loading="loading" class="my-5 rounded-xl" color="blue" size="large" type="submit">
+                        <v-btn width="150" :loading="loading" class="my-5 rounded-xl" color="blue" size="large"
+                            type="submit">
                             Log In
                         </v-btn>
                     </v-card>
@@ -95,7 +96,6 @@ export default {
 }
 </script>
 <style>
-
 .title {
     color: aliceblue;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;

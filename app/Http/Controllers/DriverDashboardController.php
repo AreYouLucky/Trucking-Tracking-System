@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Driver;
 use Illuminate\Http\Request;
 use App\Models\Delivery;
@@ -36,7 +36,7 @@ class DriverDashboardController extends Controller
         INNER JOIN provinces p ON d.to_province = p.provCode
         LEFT JOIN barangays b ON d.to_barangay = b.brgyCode
         LEFT JOIN cities cit ON d.to_city = cit.citymunCode
-        where d.delivery_id = '.$delivery->delivery_id.'
+        where d.delivery_id = ' . $delivery->delivery_id . '
        ;');
 
         $from = DB::select('
@@ -50,14 +50,14 @@ class DriverDashboardController extends Controller
         INNER JOIN provinces p ON d.from_province = p.provCode
         LEFT JOIN barangays b ON d.from_barangay = b.brgyCode
         LEFT JOIN cities cit ON d.from_city = cit.citymunCode
-        where d.delivery_id = '.$delivery->delivery_id.'
+        where d.delivery_id = ' . $delivery->delivery_id . '
        ;');
 
-       return [
-        'delivery' => $delivery,
-        'to' => $to,
-        'from' => $from
-       ];
+        return [
+            'delivery' => $delivery,
+            'to' => $to,
+            'from' => $from
+        ];
     }
     public function startDelivery($id)
     {
@@ -104,20 +104,21 @@ class DriverDashboardController extends Controller
 
     public function storeProof(Request $req)
     {
+        Driver::where('driver_id', $req->driver_id)
+            ->update([
+                'is_available' => 1
+            ]);
+        Vehicle::where('vehicle_id', $req->vehicle_id)
+            ->update([
+                'is_available' => 1
+            ]);
         $req->validate([
             'vehicle_id' => ['required'],
             'driver_id' => ['required'],
             'id' => ['required'],
             'image' => ['required', 'mimes:jpeg,jpg,png,gif']
         ]);
-        Driver::where('driver_id', $req->driver_id)
-        ->update([
-            'is_available' => 1
-        ]);
-        Vehicle::where('vehicle_id', $req->vehicle_id)
-            ->update([
-                'is_available' => 1
-            ]);
+
         $file = $req->file('image');
 
         $file_location = '';
@@ -197,22 +198,22 @@ class DriverDashboardController extends Controller
             'status' => 'Location cached successfully'
         ], 200);
     }
-    public function saveRoute($id){
+    public function saveRoute($id)
+    {
         $latitude = Cache::get('latitude');
         $longitude = Cache::get('longitude');
 
         $count = count($latitude);
-        for($i=0;$i<$count;$i++){
+        for ($i = 0; $i < $count; $i++) {
             Location::create([
-                'delivery_id'=>$id,
-                'latitude'=>$latitude[$i],
-                'longitude'=>$longitude[$i]
+                'delivery_id' => $id,
+                'latitude' => $latitude[$i],
+                'longitude' => $longitude[$i]
             ]);
         }
         return response()->json([
-            'status'=> 'Route Successfully Saved!'
-        ],200);
-
+            'status' => 'Route Successfully Saved!'
+        ], 200);
     }
 
     public function driverDeliveries()

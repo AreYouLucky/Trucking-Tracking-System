@@ -90,11 +90,10 @@
     <v-card color="warning">
       <v-card-text>
         <v-file-input label="Add Proof of Delivery" variant="outlined" prepend-icon="mdi-camera" accept="image/*"
-          v-on:change="onChange"></v-file-input>
+          v-on:change="onChange" :error-messages="errors.image ? errors.image[0] : ''"></v-file-input>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="secondary" variant="outlined" class="logout" @click="dialogFin = false">Close</v-btn>
         <v-btn color="primary" variant="outlined" class="logout" @click="saveRoute()">confirm</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
@@ -125,7 +124,8 @@ export default {
       driverLoc: {},
       to: [],
       from: [],
-      marker: null
+      marker: null,
+      errors: []
     };
   },
   methods: {
@@ -173,11 +173,13 @@ export default {
     },
     saveRoute() {
       axios.post('/save-route/' + this.location.delivery_id).then(res => {
-        console.log('Route Successfully Saved!')
-        this.finishDelivery();
         this.uploadFile();
-        this.dialogFin = false;
-      })
+
+      }).catch(
+        err => {
+          this.errors = err.data.errors
+        }
+      )
     },
     onChange(e) {
       this.img = e.target.files[0];
@@ -198,9 +200,10 @@ export default {
         .then(response => {
           console.log(response.data);
           this.finishDelivery();
+          this.dialogFin = false;
         })
         .catch(error => {
-          console.error(error);
+          this.errors = error.data.errors
         });
     },
     updateDriverLocation() {
@@ -245,7 +248,7 @@ export default {
           fillColor: "#ff8754",
           fillOpacity: 1,
           anchor: new google.maps.Point(
-            faCube.icon[0] / 2, 
+            faCube.icon[0] / 2,
             faCube.icon[1],
           ),
           strokeWeight: 1,
@@ -264,7 +267,7 @@ export default {
           fillColor: "#00b822",
           fillOpacity: 1,
           anchor: new google.maps.Point(
-            faFlag.icon[0] / 2, 
+            faFlag.icon[0] / 2,
             faFlag.icon[1],
           ),
           strokeWeight: 1,
@@ -285,10 +288,10 @@ export default {
 
       this.updateDriverLocation();
       this.cacheLocation();
-      
+
 
       if (this.marker) {
-              this.marker.setPosition({ lat: lat, lng: lng });
+        this.marker.setPosition({ lat: lat, lng: lng });
       } else {
         this.marker = new google.maps.Marker({
           position: { lat: lat, lng: lng },
@@ -296,22 +299,22 @@ export default {
           title: 'Driver Location',
           label: 'T',
           icon: {
-          path: faTruckFast.icon[4],
-          fillColor: "#17c5ff",
-          fillOpacity: 1,
-          anchor: new google.maps.Point(
-            faTruckFast.icon[0] / 2, 
-            faTruckFast.icon[1],
-          ),
-          strokeWeight: 1,
-          strokeColor: "#ffffff",
-          scale: 0.055,
-        },
+            path: faTruckFast.icon[4],
+            fillColor: "#17c5ff",
+            fillOpacity: 1,
+            anchor: new google.maps.Point(
+              faTruckFast.icon[0] / 2,
+              faTruckFast.icon[1],
+            ),
+            strokeWeight: 1,
+            strokeColor: "#ffffff",
+            scale: 0.055,
+          },
         });
       }
 
       if (!this.routingControl) {
-        this.routingControl = new google.maps.DirectionsRenderer({suppressMarkers: true,});
+        this.routingControl = new google.maps.DirectionsRenderer({ suppressMarkers: true, });
         this.routingControl.setMap(this.map);
         const request = {
           origin: { lat: this.driverLoc.latitude, lng: this.driverLoc.longitude },
