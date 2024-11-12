@@ -176,21 +176,12 @@ class DriverDashboardController extends Controller
 
 
         $longitude = Cache::get('longitude');
-
-        // Check if $longitude is not an array or null
         if (!is_array($longitude) && $longitude !== null) {
-            // Handle the case where $longitude is not an array
-            // For example, if $longitude is a scalar value, initialize it as an array
             $longitude = [$longitude];
         } elseif ($longitude === null) {
-            // If $longitude is null, initialize it as an empty array
             $longitude = [];
         }
-
-        // Append the new longitude value to $longitude
         $longitude[] = $req->longitude;
-
-        // Cache the updated $longitude array
         Cache::forever('longitude', $longitude);
 
 

@@ -212,12 +212,6 @@ export default {
         }
       )
     },
-    cacheLocation() {
-      axios.post('/cache-location', this.driverLoc).then(
-        res => {
-        }
-      )
-    },
     getLocation() {
       return new Promise((resolve, reject) => {
         axios.get('/driver-delivery').then(
@@ -287,7 +281,6 @@ export default {
       this.driverLoc.id = this.location.delivery_id;
 
       this.updateDriverLocation();
-      this.cacheLocation();
 
 
       if (this.marker) {
