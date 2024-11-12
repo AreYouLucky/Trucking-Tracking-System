@@ -103,9 +103,7 @@
 
 <script>
 import { ref } from 'vue';
-import axios from 'axios';
 import { faCube, faTruckFast, faFlag } from "@fortawesome/free-solid-svg-icons";
-
 export default {
   data() {
     return {
@@ -206,9 +204,16 @@ export default {
           this.errors = error.data.errors
         });
     },
-    updateDriverLocation() {
-      axios.post('/driver-location', this.driverLoc).then(
+    // updateDriverLocation() {
+    //   axios.post('/driver-location', this.driverLoc).then(
+    //     res => {
+    //     }
+    //   )
+    // },
+    broadcastLocation() {
+      axios.post('/broadcast-location', this.driverLoc).then(
         res => {
+
         }
       )
     },
@@ -280,7 +285,8 @@ export default {
       this.driverLoc.longitude = lng;
       this.driverLoc.id = this.location.delivery_id;
 
-      this.updateDriverLocation();
+      // this.updateDriverLocation();
+      this.broadcastLocation();
 
 
       if (this.marker) {

@@ -75,8 +75,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { faCube, faFlag, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 export default {
   name: 'GoogleMap',
   data() {
@@ -154,10 +152,10 @@ export default {
       });
 
       this.directionsService = new google.maps.DirectionsService();
-      this.directionsRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true,});
+      this.directionsRenderer = new google.maps.DirectionsRenderer({ suppressMarkers: true, });
       this.directionsRenderer.setMap(this.map);
 
-      
+
       new google.maps.Marker({
         position: { lat: parseFloat(pickupLat), lng: parseFloat(pickupLng) },
         map: this.map,
@@ -168,7 +166,7 @@ export default {
           fillColor: "#ff8754",
           fillOpacity: 1,
           anchor: new google.maps.Point(
-            faCube.icon[0] / 2, 
+            faCube.icon[0] / 2,
             faCube.icon[1],
           ),
           strokeWeight: 1,
@@ -179,7 +177,7 @@ export default {
 
       new google.maps.Marker({
         position: { lat: parseFloat(deliveryLat), lng: parseFloat(deliveryLng) },
-        map:this.map,
+        map: this.map,
         title: 'Destination Location',
         label: 'Destination',
         icon: {
@@ -187,7 +185,7 @@ export default {
           fillColor: "#00b822",
           fillOpacity: 1,
           anchor: new google.maps.Point(
-            faFlag.icon[0] / 2, 
+            faFlag.icon[0] / 2,
             faFlag.icon[1],
           ),
           strokeWeight: 1,
@@ -214,47 +212,47 @@ export default {
         }
       );
     },
-    updateLocation() {
-      const updateDriverLocation = () => {
-        axios.get('/driver-location-data/' + this.driver_id)
-          .then(res => {
-            this.location = res.data;
+    // updateLocation() {
+    //   const updateDriverLocation = () => {
+    //     axios.get('/driver-location-data/' + this.driver_id)
+    //       .then(res => {
+    //         this.location = res.data;
 
-            const driverLat = parseFloat(this.location.driver_lat);
-            const driverLong = parseFloat(this.location.driver_long);
+    //         const driverLat = parseFloat(this.location.driver_lat);
+    //         const driverLong = parseFloat(this.location.driver_long);
 
-            if (this.driverMarker) {
-              this.driverMarker.setPosition({ lat: driverLat, lng: driverLong });
-            } else {
-              this.driverMarker = new google.maps.Marker({
-                position: { lat: driverLat, lng: driverLong },
-                map: this.map,
-                title: 'Driver Location',
-                icon: {
-                  path: faTruckFast.icon[4],
-                  fillColor: "#005d9c",
-                  fillOpacity: 1,
-                  anchor: new google.maps.Point(
-                    faTruckFast.icon[0] / 2, 
-                    faTruckFast.icon[1],
-                  ),
-                  strokeWeight: 1,
-                  strokeColor: "#ffffff",
-                  scale: 0.055,
-                },
-              });
-            }
-            if (this.location.is_delivered < 3) {
-              setTimeout(updateDriverLocation, 1000);
-            }
-          })
-          .catch(error => {
-            console.error('Error fetching driver location:', error);
-          });
-      };
+    //         if (this.driverMarker) {
+    //           this.driverMarker.setPosition({ lat: driverLat, lng: driverLong });
+    //         } else {
+    //           this.driverMarker = new google.maps.Marker({
+    //             position: { lat: driverLat, lng: driverLong },
+    //             map: this.map,
+    //             title: 'Driver Location',
+    //             icon: {
+    //               path: faTruckFast.icon[4],
+    //               fillColor: "#005d9c",
+    //               fillOpacity: 1,
+    //               anchor: new google.maps.Point(
+    //                 faTruckFast.icon[0] / 2,
+    //                 faTruckFast.icon[1],
+    //               ),
+    //               strokeWeight: 1,
+    //               strokeColor: "#ffffff",
+    //               scale: 0.055,
+    //             },
+    //           });
+    //         }
+    //         if (this.location.is_delivered < 3) {
+    //           setTimeout(updateDriverLocation, 1000);
+    //         }
+    //       })
+    //       .catch(error => {
+    //         console.error('Error fetching driver location:', error);
+    //       });
+    //   };
 
-      updateDriverLocation();
-    }
+    //   updateDriverLocation();
+    // }
 
   },
   mounted() {
@@ -270,6 +268,34 @@ export default {
     }).catch(error => {
       console.error('Error fetching location data:', error);
     });
+
+    window.Echo.channel('location-updates')
+      .listen('UserLocationUpdated', (event) => {
+        this.location.latitude = parseFloat(event.latitude);
+        this.location.longitude = parseFloat(event.longitude);
+
+        if (this.driverMarker) {
+          this.driverMarker.setPosition({ lat: this.location.latitude, lng: this.location.longitude });
+        } else {
+          this.driverMarker = new google.maps.Marker({
+            position: { lat: this.location.latitude, lng: this.location.longitude },
+            map: this.map,
+            title: 'Driver Location',
+            icon: {
+              path: faTruckFast.icon[4],
+              fillColor: "#005d9c",
+              fillOpacity: 1,
+              anchor: new google.maps.Point(
+                faTruckFast.icon[0] / 2,
+                faTruckFast.icon[1],
+              ),
+              strokeWeight: 1,
+              strokeColor: "#ffffff",
+              scale: 0.055,
+            },
+          });
+        }
+      });
   }
 };
 </script>

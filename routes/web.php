@@ -20,8 +20,8 @@ Route::get('/', function () {
 });
 
 //Auth
-Route::post('/login',[App\Http\Controllers\Auth\LoginController::class,'login']);
-Route::get('/logout',[App\Http\Controllers\Auth\LoginController::class,'logout']);
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
 
 
 //ADDRESS
@@ -30,23 +30,23 @@ Route::get('/load-cities', [App\Http\Controllers\AddressController::class, 'load
 Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'loadBarangays']);
 
 //public
-Route::get('/delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getLocation']);
-Route::get('/view-delivery/{id}',[App\Http\Controllers\getLocation::class,'showID']);
-Route::get('/driver-delivery-location/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocation']);
-Route::get('/driver-location-data/{id}',[App\Http\Controllers\getLocation::class,'getDriverLocationData']);
-Route::get('/proof/{id}',[App\Http\Controllers\getLocation::class,'proof']);
-Route::get('/get-proof/{id}',[App\Http\Controllers\getLocation::class,'getProof']);
-Route::post('/confirm-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'confirmDelivery']);
-Route::get('/route/{id}',[App\Http\Controllers\getLocation::class,'route']);
-Route::get('/get-route/{id}',[App\Http\Controllers\getLocation::class,'getRoute']);
+Route::get('/delivery-location/{id}', [App\Http\Controllers\getLocation::class, 'getLocation']);
+Route::get('/view-delivery/{id}', [App\Http\Controllers\getLocation::class, 'showID']);
+Route::get('/driver-delivery-location/{id}', [App\Http\Controllers\getLocation::class, 'getDriverLocation']);
+Route::get('/driver-location-data/{id}', [App\Http\Controllers\getLocation::class, 'getDriverLocationData']);
+Route::get('/proof/{id}', [App\Http\Controllers\getLocation::class, 'proof']);
+Route::get('/get-proof/{id}', [App\Http\Controllers\getLocation::class, 'getProof']);
+Route::post('/confirm-delivery/{id}', [App\Http\Controllers\DriverDashboardController::class, 'confirmDelivery']);
+Route::get('/route/{id}', [App\Http\Controllers\getLocation::class, 'route']);
+Route::get('/get-route/{id}', [App\Http\Controllers\getLocation::class, 'getRoute']);
 
 //Sms
-Route::post('/sms-customer/{id}',[App\Http\Controllers\SmsController::class,'smsCustomer']);
-Route::post('/sms-reciever/{id}',[App\Http\Controllers\SmsController::class,'smsReciever']);
+Route::post('/sms-customer/{id}', [App\Http\Controllers\SmsController::class, 'smsCustomer']);
+Route::post('/sms-reciever/{id}', [App\Http\Controllers\SmsController::class, 'smsReciever']);
 
 
 //Administrator 
-Route::middleware(['auth','role:ADMIN'])->group(function(){
+Route::middleware(['auth', 'role:ADMIN'])->group(function () {
     Route::get('/admin-dashboard', function () {
         return view('Admin.AdminDashboard');
     });
@@ -54,51 +54,49 @@ Route::middleware(['auth','role:ADMIN'])->group(function(){
         return view('Admin.setpickup');
     });
 
-    Route::post('/add-customer',[App\Http\Controllers\CustomerController::class,'store']);
-    Route::get('/show-customers',[App\Http\Controllers\CustomerController::class,'show']);
-    Route::post('/delete-customer/{id}',[App\Http\Controllers\CustomerController::class,'destroy']);
-    Route::get('/edit-customer/{id}',[App\Http\Controllers\CustomerController::class,'edit']);
-    Route::post('/update-customer',[App\Http\Controllers\CustomerController::class,'update']);
+    Route::post('/add-customer', [App\Http\Controllers\CustomerController::class, 'store']);
+    Route::get('/show-customers', [App\Http\Controllers\CustomerController::class, 'show']);
+    Route::post('/delete-customer/{id}', [App\Http\Controllers\CustomerController::class, 'destroy']);
+    Route::get('/edit-customer/{id}', [App\Http\Controllers\CustomerController::class, 'edit']);
+    Route::post('/update-customer', [App\Http\Controllers\CustomerController::class, 'update']);
 
 
-    Route::post('/add-driver',[App\Http\Controllers\Admin\DriverController::class,'store']);
-    Route::get('/show-drivers',[App\Http\Controllers\Admin\DriverController::class,'show']);
-    Route::post('/delete-driver/{id}',[App\Http\Controllers\Admin\DriverController::class,'destroy']);
-    Route::get('/edit-driver/{id}',[App\Http\Controllers\Admin\DriverController::class,'edit']);
-    Route::post('/update-driver',[App\Http\Controllers\Admin\DriverController::class,'update']);
+    Route::post('/add-driver', [App\Http\Controllers\Admin\DriverController::class, 'store']);
+    Route::get('/show-drivers', [App\Http\Controllers\Admin\DriverController::class, 'show']);
+    Route::post('/delete-driver/{id}', [App\Http\Controllers\Admin\DriverController::class, 'destroy']);
+    Route::get('/edit-driver/{id}', [App\Http\Controllers\Admin\DriverController::class, 'edit']);
+    Route::post('/update-driver', [App\Http\Controllers\Admin\DriverController::class, 'update']);
 
-    Route::get('/show-vehicles',[App\Http\Controllers\vehicle\VehicleController::class,'show']);
-    Route::post('/add-vehicle',[App\Http\Controllers\vehicle\VehicleController::class,'store']);
-    Route::post('/delete-vehicle/{id}',[App\Http\Controllers\vehicle\VehicleController::class,'destroy']);
-    Route::get('/edit-vehicle/{id}',[App\Http\Controllers\vehicle\VehicleController::class,'edit']);
-    Route::post('/update-vehicle',[App\Http\Controllers\vehicle\VehicleController::class,'update']);
+    Route::get('/show-vehicles', [App\Http\Controllers\vehicle\VehicleController::class, 'show']);
+    Route::post('/add-vehicle', [App\Http\Controllers\vehicle\VehicleController::class, 'store']);
+    Route::post('/delete-vehicle/{id}', [App\Http\Controllers\vehicle\VehicleController::class, 'destroy']);
+    Route::get('/edit-vehicle/{id}', [App\Http\Controllers\vehicle\VehicleController::class, 'edit']);
+    Route::post('/update-vehicle', [App\Http\Controllers\vehicle\VehicleController::class, 'update']);
 
-    Route::post('/add-delivery',[App\Http\Controllers\DeliveryController::class,'store']);
-    Route::get('/load-deliveries',[App\Http\Controllers\DeliveryController::class,'loadDeliveries']);
-    Route::post('/delete-delivery',[App\Http\Controllers\DeliveryController::class,'deleteDelivery']);
-    Route::get('/edit-delivery/{id}',[App\Http\Controllers\DeliveryController::class,'editDelivery']);
-    Route::get('/get-delivery/{id}',[App\Http\Controllers\DeliveryController::class,'getDelivery']);
-    Route::post('/update-delivery',[App\Http\Controllers\DeliveryController::class,'updateDelivery']);
+    Route::post('/add-delivery', [App\Http\Controllers\DeliveryController::class, 'store']);
+    Route::get('/load-deliveries', [App\Http\Controllers\DeliveryController::class, 'loadDeliveries']);
+    Route::post('/delete-delivery', [App\Http\Controllers\DeliveryController::class, 'deleteDelivery']);
+    Route::get('/edit-delivery/{id}', [App\Http\Controllers\DeliveryController::class, 'editDelivery']);
+    Route::get('/get-delivery/{id}', [App\Http\Controllers\DeliveryController::class, 'getDelivery']);
+    Route::post('/update-delivery', [App\Http\Controllers\DeliveryController::class, 'updateDelivery']);
 
-    Route::get('/load-vehicles',[App\Http\Controllers\DeliveryController::class,'loadVehicles']);
-    Route::get('/load-customers',[App\Http\Controllers\DeliveryController::class,'loadCustomers']);
-    Route::get('/load-drivers',[App\Http\Controllers\DeliveryController::class,'loadDrivers']);
-    Route::get('/load-dashboard',[App\Http\Controllers\DashboardController::class,'getDashboard']);
-
+    Route::get('/load-vehicles', [App\Http\Controllers\DeliveryController::class, 'loadVehicles']);
+    Route::get('/load-customers', [App\Http\Controllers\DeliveryController::class, 'loadCustomers']);
+    Route::get('/load-drivers', [App\Http\Controllers\DeliveryController::class, 'loadDrivers']);
+    Route::get('/load-dashboard', [App\Http\Controllers\DashboardController::class, 'getDashboard']);
 });
 
 
 //Customers
-Route::middleware(['auth','role:CUSTOMER'])->group(function(){
+Route::middleware(['auth', 'role:CUSTOMER'])->group(function () {
     Route::get('/customer-dashboard', function () {
         return view('Customer.CustomerDashboard');
     });
-    Route::get('/load-customer-profile',[App\Http\Controllers\CustomerDashboardController::class,'getCustomer']);
-    Route::get('/customer-deliveries',[App\Http\Controllers\CustomerDashboardController::class,'customerDeliveries']);
-
+    Route::get('/load-customer-profile', [App\Http\Controllers\CustomerDashboardController::class, 'getCustomer']);
+    Route::get('/customer-deliveries', [App\Http\Controllers\CustomerDashboardController::class, 'customerDeliveries']);
 });
 //Drivers
-Route::middleware(['auth','role:DRIVER'])->group(function(){
+Route::middleware(['auth', 'role:DRIVER'])->group(function () {
     Route::get('/driver-dashboard', function () {
         return view('Driver.DriverDashboard');
     });
@@ -106,19 +104,18 @@ Route::middleware(['auth','role:DRIVER'])->group(function(){
         return view('Driver.history');
     });
 
-    Route::get('/load-driver-profile',[App\Http\Controllers\DriverDashboardController::class,'getDriver']);
-    Route::get('/driver-delivery',[App\Http\Controllers\DriverDashboardController::class,'getLocation']);
-    Route::post('/start-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'startDelivery']);
-    Route::post('/mid-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'midDelivery']);
-    Route::post('/delivery-proof',[App\Http\Controllers\DriverDashboardController::class,'storeProof']);
-    Route::post('/driver-location',[App\Http\Controllers\DriverDashboardController::class,'updateDriverloc']);
-    Route::post('/fin-delivery/{id}',[App\Http\Controllers\DriverDashboardController::class,'finDelivery']);
-    Route::get('/deliveries',[App\Http\Controllers\DriverDashboardController::class,'driverDeliveries']);
-    Route::post('/cache-location',[App\Http\Controllers\DriverDashboardController::class,'cacheDelivery']);
-    Route::post('/save-route/{id}',[App\Http\Controllers\DriverDashboardController::class,'saveRoute']);
+    Route::get('/load-driver-profile', [App\Http\Controllers\DriverDashboardController::class, 'getDriver']);
+    Route::get('/driver-delivery', [App\Http\Controllers\DriverDashboardController::class, 'getLocation']);
+    Route::post('/start-delivery/{id}', [App\Http\Controllers\DriverDashboardController::class, 'startDelivery']);
+    Route::post('/mid-delivery/{id}', [App\Http\Controllers\DriverDashboardController::class, 'midDelivery']);
+    Route::post('/delivery-proof', [App\Http\Controllers\DriverDashboardController::class, 'storeProof']);
+    Route::post('/driver-location', [App\Http\Controllers\DriverDashboardController::class, 'updateDriverloc']);
+    Route::post('/fin-delivery/{id}', [App\Http\Controllers\DriverDashboardController::class, 'finDelivery']);
+    Route::get('/deliveries', [App\Http\Controllers\DriverDashboardController::class, 'driverDeliveries']);
+    Route::post('/save-route/{id}', [App\Http\Controllers\DriverDashboardController::class, 'saveRoute']);
 
+    Route::post('/broacast-location', [App\Http\Controllers\LocationChangeNewController::class, 'saveRoute']);
 });
 //testings
-Route::get('/driver/{id}',[App\Http\Controllers\DeliveryController::class,'getDriver']);
-Route::get('/vehicle/{id}',[App\Http\Controllers\DeliveryController::class,'getVehicle']);
-
+Route::get('/driver/{id}', [App\Http\Controllers\DeliveryController::class, 'getDriver']);
+Route::get('/vehicle/{id}', [App\Http\Controllers\DeliveryController::class, 'getVehicle']);
