@@ -94,7 +94,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" variant="outlined" class="logout" @click="saveRoute()">confirm</v-btn>
+        <v-btn color="primary" variant="outlined" class="logout" @click="uploadFile()">confirm</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -166,16 +166,6 @@ export default {
           this.location = [];
           this.to = [];
           this.from = [];
-        }
-      )
-    },
-    saveRoute() {
-      axios.post('/save-route/' + this.location.delivery_id).then(res => {
-        this.uploadFile();
-
-      }).catch(
-        err => {
-          this.errors = err.data.errors
         }
       )
     },

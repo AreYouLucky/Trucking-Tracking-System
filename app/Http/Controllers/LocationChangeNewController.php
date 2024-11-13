@@ -10,16 +10,14 @@ class LocationChangeNewController extends Controller
 {
     public function updateLocation(Request $request)
     {
-        $latitude = $request->input('latitude');
-        $longitude = $request->input('longitude');
-        $id = $request->input('id');
-
-        $userId = auth()->user()->id;
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+        $userId = $request->id;
 
         broadcast(new UserLocationUpdated($latitude, $longitude, $userId));
 
         Location::create([
-            'delivery_id' => $id,
+            'delivery_id' => $request->input('id'),
             'latitude' => $latitude,
             'longitude' => $longitude,
         ]);

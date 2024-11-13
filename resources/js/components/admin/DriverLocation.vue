@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import { faCube, faTruckFast, faFlag } from "@fortawesome/free-solid-svg-icons";
 export default {
   name: 'GoogleMap',
   data() {
@@ -194,108 +195,69 @@ export default {
         },
       });
 
-      this.calculateAndDisplayRoute(pickupLocation, deliveryLocation);
     },
-    calculateAndDisplayRoute(pickupLocation, deliveryLocation) {
-      this.directionsService.route(
-        {
-          origin: pickupLocation,
-          destination: deliveryLocation,
-          travelMode: 'DRIVING',
-        },
-        (response, status) => {
-          if (status === 'OK') {
-            this.directionsRenderer.setDirections(response);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        }
-      );
-    },
-    // updateLocation() {
-    //   const updateDriverLocation = () => {
-    //     axios.get('/driver-location-data/' + this.driver_id)
-    //       .then(res => {
-    //         this.location = res.data;
+    // calculateAndDisplayRoute(pickupLocation, deliveryLocation) {
+    //   this.directionsService.route(
+    //     {
+    //       origin: pickupLocation,
+    //       destination: deliveryLocation,
+    //       travelMode: 'DRIVING',
+    //     },
+    //     (response, status) => {
+    //       if (status === 'OK') {
+    //         this.directionsRenderer.setDirections(response);
+    //       } else {
+    //         window.alert('Directions request failed due to ' + status);
+    //       }
+    //     }
+    //   );
+    // },
+    updateLocation(latitute, longitude) {
+            const driverLat = parseFloat(latitute);
+            const driverLong = parseFloat(longitude);
 
-    //         const driverLat = parseFloat(this.location.driver_lat);
-    //         const driverLong = parseFloat(this.location.driver_long);
-
-    //         if (this.driverMarker) {
-    //           this.driverMarker.setPosition({ lat: driverLat, lng: driverLong });
-    //         } else {
-    //           this.driverMarker = new google.maps.Marker({
-    //             position: { lat: driverLat, lng: driverLong },
-    //             map: this.map,
-    //             title: 'Driver Location',
-    //             icon: {
-    //               path: faTruckFast.icon[4],
-    //               fillColor: "#005d9c",
-    //               fillOpacity: 1,
-    //               anchor: new google.maps.Point(
-    //                 faTruckFast.icon[0] / 2,
-    //                 faTruckFast.icon[1],
-    //               ),
-    //               strokeWeight: 1,
-    //               strokeColor: "#ffffff",
-    //               scale: 0.055,
-    //             },
-    //           });
-    //         }
-    //         if (this.location.is_delivered < 3) {
-    //           setTimeout(updateDriverLocation, 1000);
-    //         }
-    //       })
-    //       .catch(error => {
-    //         console.error('Error fetching driver location:', error);
-    //       });
-    //   };
-
-    //   updateDriverLocation();
-    // }
+            if (this.driverMarker) {
+              this.driverMarker.setPosition({ lat: driverLat, lng: driverLong });
+            } else {
+              this.driverMarker = new google.maps.Marker({
+                position: { lat: driverLat, lng: driverLong },
+                map: this.map,
+                title: 'Driver Location',
+                icon: {
+                  path: faTruckFast.icon[4],
+                  fillColor: "#005d9c",
+                  fillOpacity: 1,
+                  anchor: new google.maps.Point(
+                    faTruckFast.icon[0] / 2,
+                    faTruckFast.icon[1],
+                  ),
+                  strokeWeight: 1,
+                  strokeColor: "#ffffff",
+                  scale: 0.055,
+                },
+              });
+            }
+    }
 
   },
   mounted() {
+
     const urlParts = window.location.href.split("/");
     this.driver_id = urlParts[urlParts.length - 1];
     this.getLocation().then(() => {
       this.loadGoogleMapsScript().then(() => {
         this.initMap();
-        this.updateLocation();
       }).catch(error => {
         console.error('Error loading Google Maps script:', error);
       });
     }).catch(error => {
       console.error('Error fetching location data:', error);
     });
+    console.log('hello')
+    window.Echo.channel('location-updates').listen('.App\\Events\\UserLocationUpdated', (event) => {
+      this.updateLocation(event.latitude, event.longitude)
+    });;
 
-    window.Echo.channel('location-updates')
-      .listen('UserLocationUpdated', (event) => {
-        this.location.latitude = parseFloat(event.latitude);
-        this.location.longitude = parseFloat(event.longitude);
-
-        if (this.driverMarker) {
-          this.driverMarker.setPosition({ lat: this.location.latitude, lng: this.location.longitude });
-        } else {
-          this.driverMarker = new google.maps.Marker({
-            position: { lat: this.location.latitude, lng: this.location.longitude },
-            map: this.map,
-            title: 'Driver Location',
-            icon: {
-              path: faTruckFast.icon[4],
-              fillColor: "#005d9c",
-              fillOpacity: 1,
-              anchor: new google.maps.Point(
-                faTruckFast.icon[0] / 2,
-                faTruckFast.icon[1],
-              ),
-              strokeWeight: 1,
-              strokeColor: "#ffffff",
-              scale: 0.055,
-            },
-          });
-        }
-      });
   }
 };
 </script>

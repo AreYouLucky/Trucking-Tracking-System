@@ -81,7 +81,6 @@ class DriverDashboardController extends Controller
     }
     public function finDelivery($id)
     {
-        Cache::flush();
         Delivery::where('delivery_id', $id)
             ->update([
                 'is_delivered' => 3
@@ -138,74 +137,74 @@ class DriverDashboardController extends Controller
         ], 200);
     }
 
-    public function updateDriverloc(Request $req)
-    {
-        $req->validate([
-            'latitude' => 'required',
-            'longitude' => 'required'
-        ]);
-        Delivery::where('delivery_id', $req->id)
-            ->update([
-                'driver_lat' => $req->latitude,
-                'driver_long' => $req->longitude,
-            ]);
-        return response()->json([
-            'status' => 'driver location updated!'
-        ], 200);
-    }
+    // public function updateDriverloc(Request $req)
+    // {
+    //     $req->validate([
+    //         'latitude' => 'required',
+    //         'longitude' => 'required'
+    //     ]);
+    //     Delivery::where('delivery_id', $req->id)
+    //         ->update([
+    //             'driver_lat' => $req->latitude,
+    //             'driver_long' => $req->longitude,
+    //         ]);
+    //     return response()->json([
+    //         'status' => 'driver location updated!'
+    //     ], 200);
+    // }
 
-    public function cacheDelivery(Request $req)
-    {
-        $req->validate([
-            'latitude' => 'required',
-            'longitude' => 'required'
-        ]);
-
-
-        $latitude = Cache::get('latitude');
-
-        if (!is_array($latitude) && $latitude !== null) {
-
-            $latitude = [$latitude];
-        } elseif ($latitude === null) {
-            $latitude = [];
-        }
-
-        $latitude[] = $req->latitude;
-        Cache::forever('latitude', $latitude);
+    // public function cacheDelivery(Request $req)
+    // {
+    //     $req->validate([
+    //         'latitude' => 'required',
+    //         'longitude' => 'required'
+    //     ]);
 
 
-        $longitude = Cache::get('longitude');
-        if (!is_array($longitude) && $longitude !== null) {
-            $longitude = [$longitude];
-        } elseif ($longitude === null) {
-            $longitude = [];
-        }
-        $longitude[] = $req->longitude;
-        Cache::forever('longitude', $longitude);
+    //     $latitude = Cache::get('latitude');
+
+    //     if (!is_array($latitude) && $latitude !== null) {
+
+    //         $latitude = [$latitude];
+    //     } elseif ($latitude === null) {
+    //         $latitude = [];
+    //     }
+
+    //     $latitude[] = $req->latitude;
+    //     Cache::forever('latitude', $latitude);
 
 
-        return response()->json([
-            'status' => 'Location cached successfully'
-        ], 200);
-    }
-    public function saveRoute($id)
-    {
-        $latitude = Cache::get('latitude');
-        $longitude = Cache::get('longitude');
+    //     $longitude = Cache::get('longitude');
+    //     if (!is_array($longitude) && $longitude !== null) {
+    //         $longitude = [$longitude];
+    //     } elseif ($longitude === null) {
+    //         $longitude = [];
+    //     }
+    //     $longitude[] = $req->longitude;
+    //     Cache::forever('longitude', $longitude);
 
-        $count = count($latitude);
-        for ($i = 0; $i < $count; $i++) {
-            Location::create([
-                'delivery_id' => $id,
-                'latitude' => $latitude[$i],
-                'longitude' => $longitude[$i]
-            ]);
-        }
-        return response()->json([
-            'status' => 'Route Successfully Saved!'
-        ], 200);
-    }
+
+    //     return response()->json([
+    //         'status' => 'Location cached successfully'
+    //     ], 200);
+    // }
+    // public function saveRoute($id)
+    // {
+    //     $latitude = Cache::get('latitude');
+    //     $longitude = Cache::get('longitude');
+
+    //     $count = count($latitude);
+    //     for ($i = 0; $i < $count; $i++) {
+    //         Location::create([
+    //             'delivery_id' => $id,
+    //             'latitude' => $latitude[$i],
+    //             'longitude' => $longitude[$i]
+    //         ]);
+    //     }
+    //     return response()->json([
+    //         'status' => 'Route Successfully Saved!'
+    //     ], 200);
+    // }
 
     public function driverDeliveries()
     {

@@ -114,8 +114,15 @@ Route::middleware(['auth', 'role:DRIVER'])->group(function () {
     Route::get('/deliveries', [App\Http\Controllers\DriverDashboardController::class, 'driverDeliveries']);
     Route::post('/save-route/{id}', [App\Http\Controllers\DriverDashboardController::class, 'saveRoute']);
 
-    Route::post('/broacast-location', [App\Http\Controllers\LocationChangeNewController::class, 'saveRoute']);
+    
 });
 //testings
 Route::get('/driver/{id}', [App\Http\Controllers\DeliveryController::class, 'getDriver']);
 Route::get('/vehicle/{id}', [App\Http\Controllers\DeliveryController::class, 'getVehicle']);
+
+Route::post('/broadcast-location', [App\Http\Controllers\LocationChangeNewController::class, 'updateLocation']);
+
+    Route::get('/test-broadcast', function() {
+        broadcast(new \App\Events\UserLocationUpdated(10.0, 10.0, 1));
+        return 'Broadcasted';
+    });
