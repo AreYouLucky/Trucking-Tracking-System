@@ -213,50 +213,52 @@ export default {
     //   );
     // },
     updateLocation(latitute, longitude) {
-            const driverLat = parseFloat(latitute);
-            const driverLong = parseFloat(longitude);
+      const driverLat = parseFloat(latitute);
+      const driverLong = parseFloat(longitude);
 
-            if (this.driverMarker) {
-              this.driverMarker.setPosition({ lat: driverLat, lng: driverLong });
-            } else {
-              this.driverMarker = new google.maps.Marker({
-                position: { lat: driverLat, lng: driverLong },
-                map: this.map,
-                title: 'Driver Location',
-                icon: {
-                  path: faTruckFast.icon[4],
-                  fillColor: "#005d9c",
-                  fillOpacity: 1,
-                  anchor: new google.maps.Point(
-                    faTruckFast.icon[0] / 2,
-                    faTruckFast.icon[1],
-                  ),
-                  strokeWeight: 1,
-                  strokeColor: "#ffffff",
-                  scale: 0.055,
-                },
-              });
-            }
+      if (this.driverMarker) {
+        this.driverMarker.setPosition({ lat: driverLat, lng: driverLong });
+      } else {
+        this.driverMarker = new google.maps.Marker({
+          position: { lat: driverLat, lng: driverLong },
+          map: this.map,
+          title: 'Driver Location',
+          icon: {
+            path: faTruckFast.icon[4],
+            fillColor: "#005d9c",
+            fillOpacity: 1,
+            anchor: new google.maps.Point(
+              faTruckFast.icon[0] / 2,
+              faTruckFast.icon[1],
+            ),
+            strokeWeight: 1,
+            strokeColor: "#ffffff",
+            scale: 0.055,
+          },
+        });
+      }
     }
 
   },
   mounted() {
-
     const urlParts = window.location.href.split("/");
     this.driver_id = urlParts[urlParts.length - 1];
     this.getLocation().then(() => {
       this.loadGoogleMapsScript().then(() => {
         this.initMap();
+        window.Echo.channel('location-updates').listen('.App\\Events\\UserLocationUpdated', (event) => {
+          console.log(event)
+          if (event.userId === this.driver.user_id) {
+            this.updateLocation(event.latitude, event.longitude)
+          }
+        });
       }).catch(error => {
         console.error('Error loading Google Maps script:', error);
       });
     }).catch(error => {
       console.error('Error fetching location data:', error);
     });
-    console.log('hello')
-    window.Echo.channel('location-updates').listen('.App\\Events\\UserLocationUpdated', (event) => {
-      this.updateLocation(event.latitude, event.longitude)
-    });;
+
 
   }
 };

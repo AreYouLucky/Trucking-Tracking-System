@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Events\UserLocationUpdated;
 use App\Models\Location;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Driver;
 
 class LocationChangeNewController extends Controller
 {
@@ -12,12 +14,12 @@ class LocationChangeNewController extends Controller
     {
         $latitude = $request->latitude;
         $longitude = $request->longitude;
-        $userId = $request->id;
+        $userId = Auth::user()->user_id;
 
-        broadcast(new UserLocationUpdated($latitude, $longitude, $userId));
+        event(new UserLocationUpdated($latitude, $longitude, $userId));
 
         Location::create([
-            'delivery_id' => $request->input('id'),
+            'delivery_id' => $request->id,
             'latitude' => $latitude,
             'longitude' => $longitude,
         ]);
