@@ -92,6 +92,7 @@ Route::middleware(['auth', 'role:CUSTOMER'])->group(function () {
     Route::get('/customer-dashboard', function () {
         return view('Customer.CustomerDashboard');
     });
+    Route::post('/add-costumer-delivery', [App\Http\Controllers\DeliveryController::class, 'saveCostumersDelivery']);
     Route::get('/load-customer-profile', [App\Http\Controllers\CustomerDashboardController::class, 'getCustomer']);
     Route::get('/customer-deliveries', [App\Http\Controllers\CustomerDashboardController::class, 'customerDeliveries']);
 });

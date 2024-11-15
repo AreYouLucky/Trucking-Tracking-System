@@ -18,6 +18,11 @@
         ></v-text-field>
     </v-toolbar>
   </template>
+  <template v-slot:item.lname="{ item }">
+      <v-btn variant="tonal" color="warning" prepend-icon="mdi-check-circle"
+        v-if="!item.lname" :href="`/edit-delivery/${item.delivery_id}`">assign driver</v-btn>
+      <span v-else>{{ item.lname }}</span>
+    </template>
   <template v-slot:item.actions="{ item }">
     <v-btn icon="mdi-eye-arrow-right" variant="text" color="primary" :href="`/view-delivery/${item.delivery_id}`" target="_blank"></v-btn>
     <v-btn icon="mdi-file-chart-check" variant="text" color="yellow" :href="`/proof/${item.delivery_id}`" target="_blank" v-if="item.is_delivered >=3"></v-btn>

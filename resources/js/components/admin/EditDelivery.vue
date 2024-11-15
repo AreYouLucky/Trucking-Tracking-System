@@ -231,6 +231,12 @@ export default {
             clickLng: null,
             errorDialog: false,
             search: '',
+            to_provinces: [],
+            to_barangays: [],
+            to_cities: [],
+            from_provinces: [],
+            from_barangays: [],
+            from_cities: [],
         };
     },
     methods: {
@@ -272,6 +278,15 @@ export default {
                 this.fields.fromLng = res.data.from_long;
                 this.fields.toLat = res.data.to_lat;
                 this.fields.toLng = res.data.to_long;
+
+                this.loadFromProvinces();
+                this.loadFromBarangays();
+                this.loadFromCities();
+                this.loadToProvinces();
+                this.loadToBarangays();
+                this.loadToCities();
+                
+
             });
         },
         loadCustomers() {

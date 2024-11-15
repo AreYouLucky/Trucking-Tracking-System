@@ -13,6 +13,12 @@
                 </v-row>
                 <v-row>
                     <v-tabs v-model="tab" direction="vertical" color="primary" class="tabs">
+                        <v-tab value="TWO" class="tab justify-center">
+                            <v-icon start>
+                                mdi-truck
+                            </v-icon>
+                            Set Delivery
+                        </v-tab>
                         <v-tab value="ONE" class="tab justify-center">
                             <v-icon start>
                                 mdi-hand-coin
@@ -22,8 +28,6 @@
                     </v-tabs>
 
                 </v-row>
-
-
             </v-card>
 
         </v-navigation-drawer>
@@ -41,7 +45,12 @@
             <v-window v-model="tab">
                 <v-window-item value="ONE">
                     <v-card class="pa-4" color="transparent" min-height="90vh">
-                        <customer-deliveries></customer-deliveries>
+                        <customer-deliveries ref="CustomerDeliveries"></customer-deliveries>
+                    </v-card>
+                </v-window-item>
+                <v-window-item value="TWO">
+                    <v-card class="pa-4" color="transparent" min-height="90vh">
+                        <customer-pickup ref="CustomerPickup"></customer-pickup>
                     </v-card>
                 </v-window-item>
             </v-window>
@@ -77,12 +86,34 @@ export default {
             user: []
         };
     },
+    watch: {
+        tab(newTab, oldTab) {
+            this.initializeComponent(newTab);
+        }
+    },
+
     methods: {
         getUser() {
             axios.get('/load-customer-profile').then(
                 res => {
                     this.user = res.data;
                 })
+        },
+        initializeComponent(tab) {
+            switch (tab) {
+                case 'ONE':
+                    this.$nextTick(() => {
+                        this.$refs.CustomerDeliveries.initData();
+                    });
+                    break;
+                case 'TWO':
+                    this.$nextTick(() => {
+                        this.$refs.CustomerPickup.initData();
+                    });
+                    break;
+                default:
+                    break;
+            }
         },
     },
     mounted() {

@@ -13,17 +13,11 @@ return new class extends Migration
             $table->id('delivery_id');
             $table->timestamps();
 
-            $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('customer_id')->on('customers')
-            ->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('customer_id')->nullable();
 
-            $table->unsignedBigInteger('driver_id');
-            $table->foreign('driver_id')->references('driver_id')->on('drivers')
-            ->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('driver_id')->nullable();
 
-            $table->unsignedBigInteger('vehicle_id');
-            $table->foreign('vehicle_id')->references('vehicle_id')->on('vehicles')
-            ->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('vehicle_id')->nullable();
 
             $table->string('reciever_name')->nullable();
             $table->string('reciever_no',12)->nullable();

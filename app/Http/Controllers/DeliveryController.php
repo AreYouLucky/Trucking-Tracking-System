@@ -8,6 +8,7 @@ use App\Models\Vehicle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Driver;
+use Illuminate\Support\Facades\Auth;
 
 class DeliveryController extends Controller
 {
@@ -33,8 +34,8 @@ class DeliveryController extends Controller
             'from_city' => ['required'],
             'from_barangay' => ['required'],
             'from_street' => ['required'],
-            'delivery_info'=> ['required'],
-            'delivery_weight'=> ['required','numeric']
+            'delivery_info' => ['required'],
+            'delivery_weight' => ['required', 'numeric']
 
         ]);
 
@@ -64,6 +65,68 @@ class DeliveryController extends Controller
             'from_street' => $req->from_street,
         ]);
 
+        Driver::where('driver_id', $req->driver_id)
+            ->update([
+                'is_available' => 0
+            ]);
+
+        Vehicle::where('vehicle_id', $req->vehicle_id)
+            ->update([
+                'is_available' => 0,
+            ]);
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+
+    public function saveCostumersDelivery(Request $req)
+    {
+        $req->validate([
+            'fromLat' => ['required', 'numeric'],
+            'fromLng' => ['required', 'numeric'],
+            'toLat' => ['required', 'numeric'],
+            'toLng' => ['required', 'numeric'],
+            'reciever' => ['required'],
+            'date' => ['required'],
+            'time' => ['required'],
+            'reciever_no' => ['required', 'regex:/^(09|\+639)\d{9}$/'],
+            'to_province' => ['required'],
+            'to_city' => ['required'],
+            'to_barangay' => ['required'],
+            'to_street' => ['required'],
+            'from_province' => ['required'],
+            'from_city' => ['required'],
+            'from_barangay' => ['required'],
+            'from_street' => ['required'],
+            'delivery_info' => ['required'],
+            'delivery_weight' => ['required', 'numeric']
+
+        ]);
+        $id = Customer::select('customer_id')->where('user_id', Auth::user()->user_id)->first();
+        Delivery::create([
+            'customer_id' => $id->customer_id,
+            'from_lat' => $req->fromLat,
+            'from_long' => $req->fromLng,
+            'to_lat' => $req->toLat,
+            'to_long' => $req->toLng,
+            'reciever_name' => $req->reciever,
+            'reciever_no' => $req->reciever_no,
+            'date' => $req->date,
+            'time' => $req->time,
+            'delivery_info' => $req->delivery_info,
+            'delivery_weight' => $req->delivery_weight,
+
+            'to_province' => $req->to_province,
+            'to_city' => $req->to_city,
+            'to_barangay' => $req->to_barangay,
+            'to_street' => $req->to_street,
+
+            'from_province' => $req->from_province,
+            'from_city' => $req->from_city,
+            'from_barangay' => $req->from_barangay,
+            'from_street' => $req->from_street,
+        ]);
         Driver::where('driver_id', $req->driver_id)
             ->update([
                 'is_available' => 0
@@ -172,26 +235,26 @@ class DeliveryController extends Controller
             'date' => ['required'],
             'time' => ['required'],
             'reciever_no' => ['required', 'regex:/^(09|\+639)\d{9}$/'],
-            'delivery_info'=> ['required'],
-            'delivery_weight'=> ['required', 'numeric']
+            'delivery_info' => ['required'],
+            'delivery_weight' => ['required', 'numeric']
         ]);
 
-        Delivery::where('delivery_id',$req->delivery_id)
-        ->update([
-            'customer_id' => $req->customer_id,
-            'vehicle_id' => $req->vehicle_id,
-            'driver_id' => $req->driver_id,
-            'from_lat' => $req->fromLat,
-            'from_long' => $req->fromLng,
-            'to_lat' => $req->toLat,
-            'to_long' => $req->toLng,
-            'reciever_name' => $req->reciever,
-            'reciever_no' => $req->reciever_no,
-            'date' => $req->date,
-            'time' => $req->time,
-            'delivery_info' => $req->delivery_info,
-            'delivery_weight' => $req->delivery_weight,
-        ]);
+        Delivery::where('delivery_id', $req->delivery_id)
+            ->update([
+                'customer_id' => $req->customer_id,
+                'vehicle_id' => $req->vehicle_id,
+                'driver_id' => $req->driver_id,
+                'from_lat' => $req->fromLat,
+                'from_long' => $req->fromLng,
+                'to_lat' => $req->toLat,
+                'to_long' => $req->toLng,
+                'reciever_name' => $req->reciever,
+                'reciever_no' => $req->reciever_no,
+                'date' => $req->date,
+                'time' => $req->time,
+                'delivery_info' => $req->delivery_info,
+                'delivery_weight' => $req->delivery_weight,
+            ]);
 
         Driver::where('driver_id', $req->driver_id)
             ->update([
@@ -224,12 +287,13 @@ class DeliveryController extends Controller
         return response()->json([
             'status' => 'deleted'
         ], 200);
-
     }
-    public function getDriver($id){
-        return Driver::where('driver_id',$id)->first();
+    public function getDriver($id)
+    {
+        return Driver::where('driver_id', $id)->first();
     }
-    public function getVehicle($id){
-        return Vehicle::where('vehicle_id',$id)->first();
+    public function getVehicle($id)
+    {
+        return Vehicle::where('vehicle_id', $id)->first();
     }
 }
